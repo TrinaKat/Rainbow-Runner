@@ -67,6 +67,7 @@ var cameraTransformMatrixLoc;
 var projectionMatrixLoc;
 var currentColourLoc;
 var enableTextureLoc;
+var texcoordLoc;
 
 // INITIALIZE ALL TRANSFORMATION MATRICES
 var modelTransformMatrix = mat4();  // identity matrix
@@ -78,6 +79,7 @@ var vPosition;
 var vBuffer;
 var vOutlineBuffer;
 var vPathBuffer;
+var vTexcoordBuffer;
 
 // INITIALIZE MISCELLANEOUS VARIABLES 
 var currentFOV = 50;   // adjust this later for narrow or width FOV
@@ -108,7 +110,6 @@ window.onload = function init()
     generatePath();
 
     // BUFFER AND ATTRIBUTES FOR THE NORMALS
-    // TODO: error about index out of range?? help
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
@@ -157,9 +158,9 @@ window.onload = function init()
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
-    // SET VARIABLES FOR TEXTURE
-    enableTextureLoc = gl.getUniformLocation(program, "enableTexture");  
-    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
+    // APPLY TEXTURES
+    // TODO: figure out how to let it apply different sorts of textures; right now it only applies textures to the rainbow road
+    applyTexture();
 
     // TODO: for testing purposes, remove after
     // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
@@ -255,7 +256,7 @@ function generatePath() {
     var pathVertices =    // store the vertices needed for the path
     [
         vec4( -canvas.width/2, 0, 0, 1.0 ),  // lower left corner
-        vec4( canvas.width, 0, 0, 1.0 ),  // lower right corner
+        vec4( canvas.width/2, 0, 0, 1.0 ),  // lower right corner
         vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),  // top left corner
         vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )  // top right corner
     ];
@@ -318,6 +319,23 @@ function applyTransformation() {
     modelTransformMatrix = mult(modelTransformMatrix, translate(5, 0, 5));
     modelTransformMatrix = mult(modelTransformMatrix, scalem(5, 5, 5));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+}
+
+// use this to apply texture to the rainbow road path
+function applyTexture() {
+    // SET VARIABLES FOR TEXTURE
+    enableTextureLoc = gl.getUniformLocation(program, "enableTexture");  
+    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
+    texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
+    gl.enableVertexAttribArray(texcoordLoc);
+    gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+    // create a buffer for texcoords
+    vTexcoordBuffer = gl.createBuffer();  
+    // gl.bindBuffer(gl.ARRAY_BUFFER, vTexcoordBuffer);
+    // // We'll supply texcoords as floats.
+    // gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+    // // TODO: implement the function below to set the texcoords
+    // setTexcoords(gl);
 }
 
 // called repeatedly to render and draw our scene
