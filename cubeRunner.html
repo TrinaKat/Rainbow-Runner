@@ -73,9 +73,17 @@ varying vec4 fColor;
 // needed for textures
 varying vec2 v_texcoord;  // passed in from the vertex shader
 uniform sampler2D u_texture;  // the texture
+uniform bool enableTexture;
 
 void main() {
-      gl_FragColor = fColor * currentColour;
+    if (enableTexture)
+    {
+      gl_FragColor = texture2D( u_texture, v_texcoord);  // apply the texture
+    }
+    else
+    {
+      gl_FragColor = fColor * currentColour;  // just set the colour (with shading)
+    }
 }
 </script>
 

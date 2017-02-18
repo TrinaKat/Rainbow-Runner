@@ -15,24 +15,6 @@ var numOutlinePoints = 24;
 var pathPoints = [];
 var numPathVertices = 6;  // only need 6 points to draw path since it is a rectangle (2 triangles)
 
-// VARIABLES NEEDED FOR PHONG LIGHTING
-// the light is in front of the cube, which is located st z = 5
-var lightPosition = vec4(10, 20, 35, 0.0 );
-var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );   // pink lighting
-// var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);    // dark blue lighting
-var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-
-// variables needed for the material of the cube
-var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
-var materialDiffuse = vec4( 1.0, 1.0, 1.0, 1.0);
-var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
-var materialShininess = 100.0;
-
-var ambientProduct, diffuseProduct, specularProduct;
-var viewerPos;
-var normalsArray = [];
-
 var vertices =    // manually plan out unit cube
 [
     vec4( 0, 0, +1, 1.0 ),   
@@ -58,11 +40,33 @@ var colors =
     [ 1.0, 1.0, 1.0, 1.0 ]  // white
 ];
 
+// VARIABLES NEEDED FOR PHONG LIGHTING
+// the light is in front of the cube, which is located st z = 5
+var lightPosition = vec4(10, 20, 35, 0.0 );
+var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );   // pink lighting
+// var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);    // dark blue lighting
+var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+
+// variables needed for the material of the cube
+var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
+var materialDiffuse = vec4( 1.0, 1.0, 1.0, 1.0);
+var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
+var materialShininess = 100.0;
+
+var ambientProduct, diffuseProduct, specularProduct;
+var viewerPos;
+var normalsArray = [];
+
+// VARIABLES NEEDED FOR TEXTURES
+var enableTexture = false;  // by default we do not use textures
+
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
 var cameraTransformMatrixLoc;
 var projectionMatrixLoc;
 var currentColourLoc;
+var enableTextureLoc;
 
 // INITIALIZE ALL TRANSFORMATION MATRICES
 var modelTransformMatrix = mat4();  // identity matrix
@@ -153,6 +157,9 @@ window.onload = function init()
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
+    // SET VARIABLES FOR TEXTURE
+    enableTextureLoc = gl.getUniformLocation(program, "enableTexture");  
+    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
 
     // TODO: for testing purposes, remove after
     // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
