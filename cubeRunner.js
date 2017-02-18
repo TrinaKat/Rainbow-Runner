@@ -12,11 +12,14 @@ var numVertices = 36;
 var outlinePoints = [];
 var numOutlinePoints = 24;
 
+var pathPoints = [];
+var numPathVertices = 6;  // only need 6 points to draw path since it is a rectangle (2 triangles)
+
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 5
 var lightPosition = vec4(10, 20, 35, 0.0 );
-// var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );
-var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);
+var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );   // pink lighting
+// var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);    // dark blue lighting
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
@@ -32,14 +35,14 @@ var normalsArray = [];
 
 var vertices =    // manually plan out unit cube
 [
-    vec4( -0.5, -0.5, +0.5, 1.0 ),   
-    vec4( -0.5, +0.5, +0.5, 1.0 ),
-    vec4( +0.5, +0.5, +0.5, 1.0 ),
-    vec4( +0.5, -0.5, +0.5, 1.0 ),
-    vec4( -0.5, -0.5, -0.5, 1.0 ),
-    vec4( -0.5, +0.5, -0.5, 1.0 ),
-    vec4( +0.5, +0.5, -0.5, 1.0 ),
-    vec4( +0.5, -0.5, -0.5, 1.0 )
+    vec4( 0, 0, +1, 1.0 ),   
+    vec4( 0, +1, +1, 1.0 ),
+    vec4( +1, +1, +1, 1.0 ),
+    vec4( +1, 0, +1, 1.0 ),
+    vec4( 0, 0, 0, 1.0 ),
+    vec4( 0, +1, 0, 1.0 ),
+    vec4( +1, +1, 0, 1.0 ),
+    vec4( +1, 0, 0, 1.0 )
 ];
 
 var colors = 
@@ -70,10 +73,13 @@ var cameraTransformMatrix = mat4();
 var vPosition;
 var vBuffer;
 var vOutlineBuffer;
+var vPathBuffer;
 
 // INITIALIZE MISCELLANEOUS VARIABLES 
 var currentFOV = 50;   // adjust this later for narrow or width FOV
 var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
+var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
+var cameraPitch = 20;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
 
 window.onload = function init()   
 {
@@ -92,9 +98,10 @@ window.onload = function init()
     program = initShaders( gl, "vertex-shader", "fragment-shader" );  // compile and link shaders, then return a pointer to the program
     gl.useProgram( program ); 
 
-    // POPULATE THE POINTS AND OUTLINE POINTS ARRAY
+    // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
     generateCube();
     generateCubeOutline();
+    generatePath();
 
     // BUFFER AND ATTRIBUTES FOR THE NORMALS
     // TODO: error about index out of range?? help
@@ -106,19 +113,10 @@ window.onload = function init()
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
 
-    // BUFFER AND ATTRIBUTE FOR THE CUBE POINTS
+    // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.DYNAMIC_DRAW );
-
-    vPosition = gl.getAttribLocation( program, "vPosition" ); 
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  
-    gl.enableVertexAttribArray( vPosition );
-
-    // BUFFER AND ATTRIBUTES FOR THE CUBE OUTLINE POINTS
     vOutlineBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer);
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.DYNAMIC_DRAW );
+    vPathBuffer = gl.createBuffer();
 
     // SET VALUES FOR UNIFORMS FOR SHADERS
     modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix"); 
@@ -135,7 +133,9 @@ window.onload = function init()
 
     // want to move camera in the +z direction since you are looking down the -z axis
     // in reality, since we are taking the inverse matrix, we are moving all the objects in the -z direction
-    cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, 0, 50)));
+    cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, 0, cameraPositionZAxis)));
+    // change the pitch of the camera so we can see the tops of the cubes
+    cameraTransformMatrix = mult(cameraTransformMatrix, inverse(rotate(-cameraPitch, vec3(1, 0, 0))));
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 
     // apply symmetric perspective projection
@@ -198,26 +198,14 @@ function quad( a, b, c, d )
      var t1 = subtract(vertices[b], vertices[a]);
      var t2 = subtract(vertices[c], vertices[b]);
      var normal = cross(t1, t2);
-     var normal = vec3(normal);
 
-     points.push(vertices[a]);
-     normalsArray.push(normal);
+     var vertexOrder = [a, b, c, a, c, d];
 
-     points.push(vertices[b]);
-     normalsArray.push(normal);
-
-     points.push(vertices[c]);
-     normalsArray.push(normal);
-
-     points.push(vertices[a]);
-     normalsArray.push(normal);
-
-     points.push(vertices[c]);
-     normalsArray.push(normal);
-
-     points.push(vertices[d]);
-     normalsArray.push(normal);
-}
+     for (var i = 0; i < 6; i++) {
+        points.push(vertices[vertexOrder[i]]);
+        normalsArray.push(normal);
+     }
+ }
 
 // generate points for the cube
 function generateCube()
@@ -254,27 +242,63 @@ function generateCubeOutline() {
     }
 }
 
+// generate vertices for the path
+function generatePath() {
+    // generate the path with z = 0 (this means that all of the cubes and other objects in the scene must be drawn with positive z-value)
+    var pathVertices =    // store the vertices needed for the path
+    [
+        vec4( -canvas.width/2, 0, 0, 1.0 ),  // lower left corner
+        vec4( canvas.width, 0, 0, 1.0 ),  // lower right corner
+        vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),  // top left corner
+        vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )  // top right corner
+    ];
+
+    var vertexOrder = [2, 0, 1, 2, 1, 3];  // the order to draw with the path vertices
+
+    for (var i = 0; i < 6; i++) {
+        pathPoints.push(pathVertices[vertexOrder[i]]);
+    }  
+}
+
 // draw the cube outline in white
 function drawOutline() {
     // bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.DYNAMIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
     gl.enableVertexAttribArray( vPosition );
     gl.uniform4fv(currentColourLoc, colors[8]);  // make the outline white 
     gl.drawArrays( gl.LINES, 0, numOutlinePoints );
 }
 
+// draw the cube with a specified colour
 function drawCube() {
     // bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.DYNAMIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
     gl.enableVertexAttribArray( vPosition );
     // change the colour for the cube
     // TODO: change it from default to cyan
     gl.uniform4fv(currentColourLoc, colors[6]); 
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
+}
+
+// draw the path for the cubes to travel on
+function drawPath() {
+    // BUFFER AND ATTRIBUTES FOR THE PATH POINTS
+    gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  
+    gl.enableVertexAttribArray( vPosition );
+    // change the colour for the path
+    // TODO: change it from default to pink
+    gl.uniform4fv(currentColourLoc, colors[7]); 
+    // reset the model transform matrix so the path is drawn at the origin
+    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
+    gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );  // draw cube using triangle strip
+    // set the model transform back to its original value
+    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
 // modify and apply the model, camera, and projection transformations
@@ -284,15 +308,19 @@ function applyTransformation() {
     modelTransformMatrix = mat4();
     // move cube away from the origin to check if perspective is correct
     // TODO: remove this
-    modelTransformMatrix = mult(modelTransformMatrix, translate(5, 5, 5));
+    modelTransformMatrix = mult(modelTransformMatrix, translate(5, 0, 5));
     modelTransformMatrix = mult(modelTransformMatrix, scalem(5, 5, 5));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
+// called repeatedly to render and draw our scene
 function render(timeStamp) 
 {
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    // draw the path
+    drawPath();
 
     // draw a single cube
     applyTransformation();
