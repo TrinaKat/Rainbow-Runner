@@ -197,6 +197,40 @@ window.onload = function init()
     // assign rainbow road texture to the path
     applyTexture("Textures/rainbow.png");
 
+    // ADD EVENT LISTENERS
+    // for ASCII character keys
+    addEventListener("keypress", function(event) {
+        switch (event.keyCode) {
+            case 99:  // ’c’ key
+                console.log("c key");
+                ++colourIndexOffset;
+                if (colourIndexOffset == 8) {
+                    colourIndexOffset = 0;
+                }
+                break;
+            case 105:  // 'i' key
+                console.log("i key");
+                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0.25*Math.sin(radians(currDegrees)), 0, -0.25*Math.cos(radians(currDegrees)))));
+                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+            case 106:  // 'j' key
+                console.log("j key");
+                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(-0.25*Math.cos(radians(currDegrees)), 0, -0.25*Math.sin(radians(currDegrees)))));
+                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+            case 107:  // 'k' key
+                console.log("k key");
+                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0.25*Math.cos(radians(currDegrees)), 0, 0.25*Math.sin(radians(currDegrees)))));
+                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+            case 109:  // 'm' key
+                console.log("m key");
+                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(-0.25*Math.sin(radians(currDegrees)), 0, 0.25*Math.cos(radians(currDegrees)))));
+                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+        }
+    });
+
     // TODO: for testing purposes, remove after
     // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
     addEventListener("keydown", function(event) {
@@ -233,6 +267,11 @@ window.onload = function init()
 
 
     render(0);
+}
+
+// returns whether value is a power of 2 or not
+function isPowerOf2(value) {
+    return (value & (value - 1)) == 0;
 }
 
 // called for each face of the cube
@@ -335,10 +374,6 @@ function drawPath() {
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    // change the colour for the path
-    // TODO: change it from default to pink
-    // gl.uniform4fv(currentColourLoc, colors[7]);
-
     // reset the model transform matrix so the path is drawn at the origin
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );  // draw cube using triangle strip
@@ -374,17 +409,13 @@ function applyTexture(imagePath) {
 function createTexture(imagePath) {
     // create a texture
     var texture = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);  //TODO KW
+    gl.activeTexture(gl.TEXTURE0);  
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     // fill the texture with a 1x1 blue pixel (before we load the texture)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
                   new Uint8Array([0, 0, 255, 255]));
-
-    // specify that we want to strech the texture in the x-direction and then repeat in the z-direction
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-
+    
     // asynchronously load an image
     var image = new Image();
     image.src = imagePath;
@@ -392,7 +423,9 @@ function createTexture(imagePath) {
         // Now that the image has loaded, make copy it to the texture.
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
-        gl.generateMipmap(gl.TEXTURE_2D);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     });
 }
 
