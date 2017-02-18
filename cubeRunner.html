@@ -1,36 +1,70 @@
 <!DOCTYPE html>
 <html>
 
+<!-- Vertex shader which provides the clipspace coordinates -->
 <script id="vertex-shader" type="x-shader/x-vertex">
 
+// attributes
 attribute vec4 vPosition;
-varying vec4 fColor;
 
-uniform vec4 currentColour;
+// uniforms
 uniform mat4 modelTransformMatrix;
 uniform mat4 cameraTransformMatrix;
-uniform mat4 perspectiveMatrix;
+uniform mat4 projectionMatrix;
+
+// needed for lighting
+attribute vec3 vNormal;  // normals for each vertex
+uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+uniform vec4 lightPosition;
+uniform float shininess;
+varying vec4 fColor;  // pass into fragment shader so we can interpolate the colour
 
 void main()
 {
-    // set the current colour
-    fColor = currentColour;
-    // apply the transformations
-    gl_Position = perspectiveMatrix * cameraTransformMatrix * modelTransformMatrix * vPosition; 
+    vec3 pos = (projectionMatrix * cameraTransformMatrix * modelTransformMatrix * vPosition).xyz;
+
+    // set the position for the light
+    vec3 light = lightPosition.xyz;
+    vec3 L = normalize( light - pos );
+
+    vec3 E = normalize( -pos );
+    vec3 H = normalize( L + E );
+
+    vec4 NN = vec4(vNormal,0);
+
+    // Transform vertex normal into eye coordinates
+    vec3 N = normalize((projectionMatrix * cameraTransformMatrix * modelTransformMatrix*NN).xyz);
+
+    // Compute terms in the illumination equation
+    vec4 ambient = ambientProduct;
+
+    float Kd = max( dot(L, N), 0.0 );
+    vec4 diffuse = Kd*diffuseProduct;
+
+    float Ks = pow( max(dot(N, H), 0.0), shininess );
+    vec4 specular = Ks * specularProduct;
+
+    if( dot(L, N) < 0.0 ) {
+    specular = vec4(0.0, 0.0, 0.0, 1.0);
+    }
+
+    gl_Position = projectionMatrix * cameraTransformMatrix * modelTransformMatrix * vPosition;
+    fColor = ambient + diffuse + specular;
+
+    fColor.a = 1.0;
 }
 </script>
 
+<!-- Fragment shader that provides the color -->
 <script id="fragment-shader" type="x-shader/x-fragment">
 
+// Set fragment shader precision to mediump
 precision mediump float;
-
+uniform vec4 currentColour;
 varying vec4 fColor;
 
-void
-main()
-{
-    // set the fragment's colour
-    gl_FragColor = fColor;
+void main() {
+      gl_FragColor = fColor * currentColour;
 }
 </script>
 
@@ -39,12 +73,8 @@ main()
 <script type="text/javascript" src="Common/MV.js"></script>
 <script type="text/javascript" src="cubeRunner.js"></script>
 
-<body>
 <canvas id="gl-canvas" width="960" height="960">
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
 
-<br/>
-
-</body>
 </html>

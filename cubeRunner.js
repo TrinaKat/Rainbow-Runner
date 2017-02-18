@@ -14,8 +14,9 @@ var numOutlinePoints = 24;
 
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 5
-var lightPosition = vec4(15, 10, 25, 0.0 );
-var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );
+var lightPosition = vec4(10, 20, 35, 0.0 );
+// var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );
+var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
@@ -57,12 +58,12 @@ var colors =
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
 var cameraTransformMatrixLoc;
-var perspectiveMatrixLoc;
+var projectionMatrixLoc;
 var currentColourLoc;
 
 // INITIALIZE ALL TRANSFORMATION MATRICES
 var modelTransformMatrix = mat4();  // identity matrix
-var perspectiveMatrix = mat4();
+var projectionMatrix = mat4();
 var cameraTransformMatrix = mat4();
 
 // SET UP BUFFER AND ATTRIBUTES
@@ -72,6 +73,7 @@ var vOutlineBuffer;
 
 // INITIALIZE MISCELLANEOUS VARIABLES 
 var currentFOV = 50;   // adjust this later for narrow or width FOV
+var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
 
 window.onload = function init()   
 {
@@ -121,7 +123,7 @@ window.onload = function init()
     // SET VALUES FOR UNIFORMS FOR SHADERS
     modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix"); 
     cameraTransformMatrixLoc = gl.getUniformLocation(program, "cameraTransformMatrix");
-    perspectiveMatrixLoc = gl.getUniformLocation(program, "perspectiveMatrix");
+    projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
     currentColourLoc = gl.getUniformLocation(program, "currentColour");
 
     // INITIALIZE THE TRANSFORMATION MATRICES    
@@ -137,8 +139,8 @@ window.onload = function init()
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 
     // apply symmetric perspective projection
-    perspectiveMatrix = perspective(currentFOV, 1, 1, 100);
-    gl.uniformMatrix4fv(perspectiveMatrixLoc, false, flatten(perspectiveMatrix));
+    projectionMatrix = perspective(currentFOV, 1, 1, 100);
+    gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 
     // SET VARIABLES FOR LIGHTING
     ambientProduct = mult(lightAmbient, materialAmbient);
@@ -150,6 +152,41 @@ window.onload = function init()
     gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
+
+
+    // TODO: for testing purposes, remove after
+    // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
+    addEventListener("keydown", function(event) {
+        switch(event.keyCode) {
+            // rotate the heading/azimuth left by 4 degrees
+            case 37:  // LEFT key 
+                // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
+                currDegrees -= 4;
+                console.log("LEFT");
+                projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
+                gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+                break;
+            // move position of the Y-axis up by 0.25 units
+            case 38:  // UP key
+                console.log("UP");
+                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, 0.25, 0)));
+                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+            // rotate the heading/azimuth right by 4 degrees
+            case 39:  // RIGHT key
+                currDegrees += 4;
+                console.log("RIGHT");
+                projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
+                gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+                break;
+            // move position of the Y-axis down by 0.25 units
+            case 40:  // DOWN key
+                console.log("DOWN");
+                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, -0.25, 0)));
+                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+        }
+    });
 
 
     render(0);
@@ -236,7 +273,7 @@ function drawCube() {
     gl.enableVertexAttribArray( vPosition );
     // change the colour for the cube
     // TODO: change it from default to cyan
-    gl.uniform4fv(currentColourLoc, colors[5]); 
+    gl.uniform4fv(currentColourLoc, colors[6]); 
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
 }
 
@@ -248,6 +285,7 @@ function applyTransformation() {
     // move cube away from the origin to check if perspective is correct
     // TODO: remove this
     modelTransformMatrix = mult(modelTransformMatrix, translate(5, 5, 5));
+    modelTransformMatrix = mult(modelTransformMatrix, scalem(5, 5, 5));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
