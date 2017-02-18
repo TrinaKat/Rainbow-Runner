@@ -64,11 +64,11 @@ var texCoords =    // mapping between the texture coordinates (range from 0 to 1
 [
     // square, so just use two triangles
     // triangle #1
-    vec2(0.0,  0.0),
-    vec2(1.0,  1.0),
     vec2(0.0,  1.0),
-    // triangle #2
     vec2(0.0,  0.0),
+    vec2(1.0,  0.0),
+    // triangle #2
+    vec2(0.0,  1.0),
     vec2(1.0,  0.0),
     vec2(1.0,  1.0)
 
@@ -415,18 +415,20 @@ function createTexture(imagePath) {
     // fill the texture with a 1x1 blue pixel (before we load the texture)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
                   new Uint8Array([0, 0, 255, 255]));
-    
+
     // asynchronously load an image
     var image = new Image();
     image.src = imagePath;
     image.addEventListener('load', function() {
         // Now that the image has loaded, make copy it to the texture.
         gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     });
+
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
 }
 
 // called repeatedly to render and draw our scene
