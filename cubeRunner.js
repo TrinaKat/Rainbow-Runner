@@ -17,7 +17,7 @@ var numPathVertices = 6;  // only need 6 points to draw path since it is a recta
 
 var vertices =    // manually plan out unit cube
 [
-    vec4( 0, 0, +1, 1.0 ),   
+    vec4( 0, 0, +1, 1.0 ),
     vec4( 0, +1, +1, 1.0 ),
     vec4( +1, +1, +1, 1.0 ),
     vec4( +1, 0, +1, 1.0 ),
@@ -27,7 +27,7 @@ var vertices =    // manually plan out unit cube
     vec4( +1, 0, 0, 1.0 )
 ];
 
-var colors = 
+var colors =
 [
     [ 1.0, 0.0, 0.0, 1.0 ],  // red
     [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
@@ -64,13 +64,36 @@ var texCoords =    // mapping between the texture coordinates (range from 0 to 1
 [
     // square, so just use two triangles
     // triangle #1
-    0.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
+    vec2(0.0,  0.0),
+    vec2(1.0,  1.0),
+    vec2(0.0,  1.0),
     // triangle #2
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
+    vec2(0.0,  0.0),
+    vec2(1.0,  0.0),
+    vec2(1.0,  1.0)
+
+    // 0.0, 0.0,
+    // 1.0, 1.0,
+    // 0.0, 1.0,
+    // 0.0, 0.0,
+    // 1.0, 0.0,
+    // 1.0, 1.0
+
+    // 0, 0,
+    // 0, 1,
+    // 1, 1,
+    // 0, 0,
+    // 1, 1,
+    // 1, 0
+
+    // [0, 1],
+    // [0, 0],
+    // [1, 0],
+    // [0, 1],
+    // [1, 0],
+    // [1, 1]
+
+    // KW TODO
 ];
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
@@ -93,28 +116,28 @@ var vOutlineBuffer;
 var vPathBuffer;
 var vTexcoordBuffer;
 
-// INITIALIZE MISCELLANEOUS VARIABLES 
+// INITIALIZE MISCELLANEOUS VARIABLES
 var currentFOV = 50;   // adjust this later for narrow or width FOV
 var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
 var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
 var cameraPitch = 20;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
 
-window.onload = function init()   
+window.onload = function init()
 {
-    // SET UP WEBGL 
+    // SET UP WEBGL
     canvas = document.getElementById( "gl-canvas" );
 
-    gl = WebGLUtils.setupWebGL( canvas );  
+    gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
-    gl.viewport( 0, 0, canvas.width, canvas.height); 
+    gl.viewport( 0, 0, canvas.width, canvas.height);
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 
     gl.enable(gl.DEPTH_TEST);
 
     // LOAD SHADERS AND INITIALIZE ATTRIBUTE BUFFERS
     program = initShaders( gl, "vertex-shader", "fragment-shader" );  // compile and link shaders, then return a pointer to the program
-    gl.useProgram( program ); 
+    gl.useProgram( program );
 
     // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
     generateCube();
@@ -136,13 +159,13 @@ window.onload = function init()
     vPathBuffer = gl.createBuffer();
 
     // SET VALUES FOR UNIFORMS FOR SHADERS
-    modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix"); 
+    modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix");
     cameraTransformMatrixLoc = gl.getUniformLocation(program, "cameraTransformMatrix");
     projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
     currentColourLoc = gl.getUniformLocation(program, "currentColour");
 
-    // INITIALIZE THE TRANSFORMATION MATRICES    
-    // gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix)); 
+    // INITIALIZE THE TRANSFORMATION MATRICES
+    // gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
     // move cube away from the origin to check if perspective is correct
     // TODO: remove this
     modelTransformMatrix = mult(modelTransformMatrix, translate(5, 5, 5));
@@ -170,12 +193,16 @@ window.onload = function init()
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
+    enableTextureLoc = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
+    // assign rainbow road texture to the path
+    applyTexture("Textures/rainbow.png");
+
     // TODO: for testing purposes, remove after
     // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
     addEventListener("keydown", function(event) {
         switch(event.keyCode) {
             // rotate the heading/azimuth left by 4 degrees
-            case 37:  // LEFT key 
+            case 37:  // LEFT key
                 // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
                 currDegrees -= 4;
                 console.log("LEFT");
@@ -273,7 +300,7 @@ function generatePath() {
 
     for (var i = 0; i < 6; i++) {
         pathPoints.push(pathVertices[vertexOrder[i]]);
-    }  
+    }
 }
 
 // draw the cube outline in white
@@ -283,7 +310,7 @@ function drawOutline() {
     gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
     gl.enableVertexAttribArray( vPosition );
-    gl.uniform4fv(currentColourLoc, colors[8]);  // make the outline white 
+    gl.uniform4fv(currentColourLoc, colors[8]);  // make the outline white
     gl.drawArrays( gl.LINES, 0, numOutlinePoints );
 }
 
@@ -296,7 +323,7 @@ function drawCube() {
     gl.enableVertexAttribArray( vPosition );
     // change the colour for the cube
     // TODO: change it from default to cyan
-    gl.uniform4fv(currentColourLoc, colors[6]); 
+    gl.uniform4fv(currentColourLoc, colors[6]);
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
 }
 
@@ -305,15 +332,12 @@ function drawPath() {
     // buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
     // change the colour for the path
     // TODO: change it from default to pink
-    // gl.uniform4fv(currentColourLoc, colors[7]); 
-
-    // assign rainbow road texture to the path
-    applyTexture("Textures/rainbow.png");
+    // gl.uniform4fv(currentColourLoc, colors[7]);
 
     // reset the model transform matrix so the path is drawn at the origin
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
@@ -336,32 +360,27 @@ function applyTransformation() {
 
 // use this to apply texture to the rainbow road path
 function applyTexture(imagePath) {
-    // enable the texture before we draw
-    enableTexture = true;
-    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
     texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
     gl.enableVertexAttribArray(texcoordLoc);
     gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
     // create a buffer for texcoords
-    vTexcoordBuffer = gl.createBuffer();  
+    vTexcoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexcoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
     // create the texture by loading an image
     createTexture(imagePath);
-    // disable the texture before we draw something else later
-    enableTexture = false;
-    gl.uniform1f(enableTextureLoc, enableTexture);
 }
 
 function createTexture(imagePath) {
     // create a texture
     var texture = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);  //TODO KW
     gl.bindTexture(gl.TEXTURE_2D, texture);
-     
+
     // fill the texture with a 1x1 blue pixel (before we load the texture)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
                   new Uint8Array([0, 0, 255, 255]));
-     
+
     // specify that we want to strech the texture in the x-direction and then repeat in the z-direction
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
@@ -375,17 +394,22 @@ function createTexture(imagePath) {
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
         gl.generateMipmap(gl.TEXTURE_2D);
     });
-
 }
 
 // called repeatedly to render and draw our scene
-function render(timeStamp) 
+function render(timeStamp)
 {
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    // enable the texture before we draw
+    enableTexture = true;
+    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
     // draw the path
     drawPath();
+    // disable the texture before we draw something else later
+    enableTexture = false;
+    gl.uniform1f(enableTextureLoc, enableTexture);
 
     // draw a single cube
     applyTransformation();
