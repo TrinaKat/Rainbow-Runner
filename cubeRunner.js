@@ -60,6 +60,18 @@ var normalsArray = [];
 
 // VARIABLES NEEDED FOR TEXTURES
 var enableTexture = false;  // by default we do not use textures
+var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
+[
+    // square, so just use two triangles
+    // triangle #1
+    0.0,  0.0,
+    1.0,  1.0,
+    0.0,  1.0,
+    // triangle #2
+    0.0,  0.0,
+    1.0,  0.0,
+    1.0,  1.0,
+];
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
@@ -157,10 +169,6 @@ window.onload = function init()
     gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
     gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
-
-    // APPLY TEXTURES
-    // TODO: figure out how to let it apply different sorts of textures; right now it only applies textures to the rainbow road
-    applyTexture();
 
     // TODO: for testing purposes, remove after
     // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
@@ -294,14 +302,19 @@ function drawCube() {
 
 // draw the path for the cubes to travel on
 function drawPath() {
-    // BUFFER AND ATTRIBUTES FOR THE PATH POINTS
+    // buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  
     gl.enableVertexAttribArray( vPosition );
+
     // change the colour for the path
     // TODO: change it from default to pink
-    gl.uniform4fv(currentColourLoc, colors[7]); 
+    // gl.uniform4fv(currentColourLoc, colors[7]); 
+
+    // assign rainbow road texture to the path
+    applyTexture("Textures/rainbow.png");
+
     // reset the model transform matrix so the path is drawn at the origin
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );  // draw cube using triangle strip
@@ -322,20 +335,47 @@ function applyTransformation() {
 }
 
 // use this to apply texture to the rainbow road path
-function applyTexture() {
-    // SET VARIABLES FOR TEXTURE
-    enableTextureLoc = gl.getUniformLocation(program, "enableTexture");  
+function applyTexture(imagePath) {
+    // enable the texture before we draw
+    enableTexture = true;
     gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
     texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
     gl.enableVertexAttribArray(texcoordLoc);
     gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
     // create a buffer for texcoords
     vTexcoordBuffer = gl.createBuffer();  
-    // gl.bindBuffer(gl.ARRAY_BUFFER, vTexcoordBuffer);
-    // // We'll supply texcoords as floats.
-    // gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-    // // TODO: implement the function below to set the texcoords
-    // setTexcoords(gl);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vTexcoordBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+    // create the texture by loading an image
+    createTexture(imagePath);
+    // disable the texture before we draw something else later
+    enableTexture = false;
+    gl.uniform1f(enableTextureLoc, enableTexture);
+}
+
+function createTexture(imagePath) {
+    // create a texture
+    var texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+     
+    // fill the texture with a 1x1 blue pixel (before we load the texture)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                  new Uint8Array([0, 0, 255, 255]));
+     
+    // specify that we want to strech the texture in the x-direction and then repeat in the z-direction
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+
+    // asynchronously load an image
+    var image = new Image();
+    image.src = imagePath;
+    image.addEventListener('load', function() {
+        // Now that the image has loaded, make copy it to the texture.
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
+        gl.generateMipmap(gl.TEXTURE_2D);
+    });
+
 }
 
 // called repeatedly to render and draw our scene
