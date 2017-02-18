@@ -90,6 +90,20 @@ window.onload = function init()
     program = initShaders( gl, "vertex-shader", "fragment-shader" );  // compile and link shaders, then return a pointer to the program
     gl.useProgram( program ); 
 
+    // POPULATE THE POINTS AND OUTLINE POINTS ARRAY
+    generateCube();
+    generateCubeOutline();
+
+    // BUFFER AND ATTRIBUTES FOR THE NORMALS
+    // TODO: error about index out of range?? help
+    var nBuffer = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
+
+    var vNormal = gl.getAttribLocation( program, "vNormal" );
+    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+
     // BUFFER AND ATTRIBUTE FOR THE CUBE POINTS
     vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
@@ -103,8 +117,6 @@ window.onload = function init()
     vOutlineBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.DYNAMIC_DRAW );
-
-    
 
     // SET VALUES FOR UNIFORMS FOR SHADERS
     modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix"); 
@@ -128,11 +140,17 @@ window.onload = function init()
     perspectiveMatrix = perspective(currentFOV, 1, 1, 100);
     gl.uniformMatrix4fv(perspectiveMatrixLoc, false, flatten(perspectiveMatrix));
 
-    // populate the points array 
-    generateCube();
+    // SET VARIABLES FOR LIGHTING
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
 
-    // populate the outline points array
-    generateCubeOutline();
+    gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct));
+    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
+    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
+    gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
+
 
     render(0);
 }
@@ -219,7 +237,18 @@ function drawCube() {
     // change the colour for the cube
     // TODO: change it from default to cyan
     gl.uniform4fv(currentColourLoc, colors[5]); 
-    gl.drawArrays( gl.TRIANGLE_STRIP, 0, numVertices );  // draw cube using triangle strip
+    gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
+}
+
+// modify and apply the model, camera, and projection transformations
+// TODO: pass in parameters??
+function applyTransformation() {
+    // reset the matrices before applying transformations
+    modelTransformMatrix = mat4();
+    // move cube away from the origin to check if perspective is correct
+    // TODO: remove this
+    modelTransformMatrix = mult(modelTransformMatrix, translate(5, 5, 5));
+    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
 function render(timeStamp) 
@@ -228,6 +257,7 @@ function render(timeStamp)
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // draw a single cube
+    applyTransformation();
     drawOutline();
     drawCube();
 
