@@ -335,7 +335,7 @@ function generatePath() {
         vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )  // top right corner
     ];
 
-    var vertexOrder = [2, 0, 1, 2, 1, 3];  // the order to draw with the path vertices
+    var vertexOrder = [0, 2, 3, 0, 3, 1];  // the order to draw with the path vertices
 
     for (var i = 0; i < 6; i++) {
         pathPoints.push(pathVertices[vertexOrder[i]]);
