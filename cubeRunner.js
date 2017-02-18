@@ -204,9 +204,9 @@ window.onload = function init()
             // rotate the heading/azimuth left by 4 degrees
             case 37:  // LEFT key
                 // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
-                currDegrees -= 4;
-                console.log("LEFT");
-                projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
+                currDegrees += 4;
+                console.log("RIGHT");
+                projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
                 break;
             // move position of the Y-axis up by 0.25 units
@@ -217,9 +217,9 @@ window.onload = function init()
                 break;
             // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
-                currDegrees += 4;
-                console.log("RIGHT");
-                projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
+                currDegrees -= 4;
+                console.log("LEFT");
+                projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
                 break;
             // move position of the Y-axis down by 0.25 units
