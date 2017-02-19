@@ -423,20 +423,22 @@ function transformCube(xPosition, zPosition) {
 function generateRandomXPositions()
 {
     // Generate a random number of cubes in the line (1-7)
-    // var numCubes = Math.floor((Math.random() * 7) + 1);
-    var numCubes = 10;    // this is just for testing
+    var numCubes = Math.floor((Math.random() * 7) + 1);
     // Section the path into equal length segments
-    var sectionPathWidth = Math.floor( (canvas.width/4) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
+    var sectionPathWidth = Math.floor( (canvas.width/12) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
 
     // Holds the unique x positions for the numCubes X positions
     var positions = [];
 
     for( var i = 0; i < numCubes; i++ )
     {
-        var randomPosition = Math.floor( Math.random() * sectionPathWidth )   // What digit of the section
-                             + i * sectionPathWidth                           // What section
-
-                             - canvas.width / 8;                              // Offset from correct pos
+        // which section of the canvas
+        var whichSection = (i * sectionPathWidth);
+        // what index in the section of the canvas
+        var indexInSection = Math.floor( Math.random() * (sectionPathWidth - 2)) + 1;
+        // initial offset on canvas 
+        var initialOffset = - canvas.width / 24; 
+        var randomPosition = whichSection + indexInSection + initialOffset;
         positions.push( randomPosition );
     }
     // Push the array of X positions in the cube line to the array of all cube line positions
