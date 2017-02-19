@@ -39,6 +39,7 @@ var numColors = 4;
 
 // Array of arrays containing starting X positions for all cubes in a line
 var allCubeLinePositions = [];
+var numCubeLines;   // the total number of active cube lines we can have at a time
 // Keep track of Z distance traveled by each line (elements correspond to those in allCubeLinePositions)
 var cubeLineDistanceTraveled = 0;
 
@@ -98,7 +99,7 @@ var vPathBuffer;
 var vTexcoordBuffer;
 
 // VARIABLE TO MOVE THE CUBES
-var stepSize = 20;
+var stepSize = 10;
 var currAmountTranslated = 0;
 var amountToMove = 0;
 
@@ -255,9 +256,14 @@ window.onload = function init()
         }
     });
 
-    // TODO: remove tester
-    generateRandomXPositions();
+    // number of cube lines that will be displayed at a given time
+    numCubeLines = (2 * cameraPositionZAxis) / stepSize;
 
+    // need to fill first numCubeLines positions of array of arrays with empty arrays so that the cube lines get indexed and move forward correctly even when we don't have all active cube lines generated
+    for (var i = 0; i < numCubeLines-1; i++) {
+        allCubeLinePositions.push([]);
+    }
+    generateRandomXPositions();
     render(0);
 }
 
@@ -395,15 +401,15 @@ function drawAndMoveAllCubes()
     {
         // move the cubes down the screen at a constant speed
         // each cube in the same row/line will have the same amount to translate in the z-axis by the camera transform 
-        cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
-        gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+        // cameraTransformMatrix = mult(translate(0, 0, amountToMove * (r)), cameraTransformMatrix);
+        // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(mult(translate(0, 0, amountToMove * (r)), cameraTransformMatrix)));
 
         for( var c = 0; c < allCubeLinePositions[r].length; c++ )
         {
             // move the cube to the correct position 
-            transformCube( allCubeLinePositions[r][c], -cameraPositionZAxis );
+            transformCube( allCubeLinePositions[r][c], -cameraPositionZAxis + (amountToMove * (numCubeLines - r)) );
             // draw the cubes and outlines
-            drawOutline();
+            // drawOutline();
             drawCube();
         }
     }
@@ -412,10 +418,8 @@ function drawAndMoveAllCubes()
 
 // modify and apply the model transform matrix for the cubes
 function transformCube(xPosition, zPosition) {
-    // reset the matrices before applying transformations
-    modelTransformMatrix = mat4();
-    // move cube away from the origin to check if perspective is correct
-    modelTransformMatrix = mult(modelTransformMatrix, translate(xPosition, 0, zPosition));
+    // move the cubes to the correct x and z axis positions
+    modelTransformMatrix = translate(xPosition, 0, zPosition);
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
@@ -498,11 +502,14 @@ function render(timeStamp)
 
     // check to see if the frontmost cube line has reached the front of the screen (will no longer be in view)
     // after this occurs, everytime the cube lines move the same distance that is in between them, they will no longer be in view and will be deleted from the array of active cube lines
-    if (cubeLineDistanceTraveled >= cameraPositionZAxis * 2) {
-        // since the cube line will longer be in view, delete it from the array of active cube lines
-        allCubeLinePositions.shift();  // remove the front-most element from the array
-        // TODO: push() a new cube line to the end of the array
-    }
+    // if (cubeLineDistanceTraveled >= cameraPositionZAxis * 2) {
+    //     // since the cube line will longer be in view, delete it from the array of active cube lines
+    //     allCubeLinePositions.shift();  // remove the front-most element from the array
+    //     // TODO: push() a new cube line to the end of the array
+    // }
+
+    // TODO: remove tester
+    console.log(allCubeLinePositions.length);
 
     // enable the texture before we draw
     enableTexture = true;
@@ -516,6 +523,10 @@ function render(timeStamp)
     // draw all of the cubes and move them forward at constant rate
     // drawAndMoveCubes();
     // TODO: remove tester
+    // generateRandomXPositions();
+
+    // TODO: does this even work???
+    allCubeLinePositions.shift();  // move all the cube position arrays down one position so that the cubes will be indexed correctly
     drawAndMoveAllCubes();
 
     // render again (repeatedly as long as program is running)
