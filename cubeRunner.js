@@ -421,10 +421,9 @@ function generateRandomXPositions()
 {
     // Generate a random number of cubes in the line (1-7)
     // var numCubes = Math.floor((Math.random() * 7) + 1);
-    var numCubes = 15;    // this is just for testing
+    var numCubes = 10;    // this is just for testing
     // Section the path into equal length segments
-    // var sectionPathWidth = Math.floor( canvas.width / numCubes );
-    var sectionPathWidth = Math.floor( (canvas.width/2) / numCubes );
+    var sectionPathWidth = Math.floor( (canvas.width/4) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
 
     // Holds the unique x positions for the numCubes X positions
     var positions = [];
@@ -433,8 +432,8 @@ function generateRandomXPositions()
     {
         var randomPosition = Math.floor( Math.random() * sectionPathWidth )   // What digit of the section
                              + i * sectionPathWidth                           // What section
-                             // - canvas.width / 2;                              // Offset from correct pos
-                             - canvas.width / 4;                              // Offset from correct pos
+
+                             - canvas.width / 8;                              // Offset from correct pos
         positions.push( randomPosition );
     }
     // Push the array of X positions in the cube line to the array of all cube line positions
