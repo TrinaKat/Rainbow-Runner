@@ -29,16 +29,13 @@ var vertices =    // manually plan out unit cube
 
 var colors =
 [
-    [ 1.0, 0.0, 0.0, 1.0 ],  // red
-    [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
-    [ 0.0, 1.0, 0.0, 1.0 ],  // green
-    [ 0.0, 0.0, 1.0, 1.0 ],  // blue
-    [ 1.0, 0.0, 1.0, 1.0 ],  // magenta
-    [ 0.0, 1.0, 1.0, 1.0 ],  // cyan
-    [ 0.0, 0.5, 0.5, 1.0 ],  // turquoise
-    [ 0.9, 0.4, 0.5, 1.0 ],  // pink
-    [ 1.0, 1.0, 1.0, 1.0 ]  // white
+    [ 1.0, 1.0, 1.0, 1.0 ],  // white
+    [0.875, 0.875, 0.875, 1.0],  // light grey #1
+    [0.75, 0.75, 0.75, 1.0],  // light grey #2
+    [0.625, 0.625, 0.625, 1.0],  // medium grey
+    [1.0, 1.0, 1.0, 1.0]   // black
 ];
+var numColors = 4;
 
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 5
@@ -71,29 +68,6 @@ var texCoords =    // mapping between the texture coordinates (range from 0 to 1
     vec2(0.0,  1.0),
     vec2(1.0,  0.0),
     vec2(1.0,  1.0)
-
-    // 0.0, 0.0,
-    // 1.0, 1.0,
-    // 0.0, 1.0,
-    // 0.0, 0.0,
-    // 1.0, 0.0,
-    // 1.0, 1.0
-
-    // 0, 0,
-    // 0, 1,
-    // 1, 1,
-    // 0, 0,
-    // 1, 1,
-    // 1, 0
-
-    // [0, 1],
-    // [0, 0],
-    // [1, 0],
-    // [0, 1],
-    // [1, 0],
-    // [1, 1]
-
-    // KW TODO
 ];
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
@@ -116,11 +90,18 @@ var vOutlineBuffer;
 var vPathBuffer;
 var vTexcoordBuffer;
 
+// VARIABLE TO MOVE THE CUBES
+var stepSize = 20;
+var currAmountTranslated = 0;
+var amountToMove = 0;
+
 // INITIALIZE MISCELLANEOUS VARIABLES
 var currentFOV = 50;   // adjust this later for narrow or width FOV
 var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
 var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
-var cameraPitch = 20;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
+var cameraPositionYAxis = 10;  // camera's initial position along the y-axis
+var cameraPitch = 10;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
+var prevTime = 0;
 
 window.onload = function init()
 {
@@ -173,7 +154,7 @@ window.onload = function init()
 
     // want to move camera in the +z direction since you are looking down the -z axis
     // in reality, since we are taking the inverse matrix, we are moving all the objects in the -z direction
-    cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, 0, cameraPositionZAxis)));
+    cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, cameraPositionYAxis, cameraPositionZAxis)));
     // change the pitch of the camera so we can see the tops of the cubes
     cameraTransformMatrix = mult(cameraTransformMatrix, inverse(rotate(-cameraPitch, vec3(1, 0, 0))));
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
@@ -329,8 +310,8 @@ function generatePath() {
     // generate the path with z = 0 (this means that all of the cubes and other objects in the scene must be drawn with positive z-value)
     var pathVertices =    // store the vertices needed for the path
     [
-        vec4( -canvas.width/2, 0, 0, 1.0 ),  // lower left corner
-        vec4( canvas.width/2, 0, 0, 1.0 ),  // lower right corner
+        vec4( -canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // lower left corner
+        vec4( canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // lower right corner
         vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),  // top left corner
         vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )  // top right corner
     ];
@@ -349,7 +330,7 @@ function drawOutline() {
     gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
     gl.enableVertexAttribArray( vPosition );
-    gl.uniform4fv(currentColourLoc, colors[8]);  // make the outline white
+    gl.uniform4fv(currentColourLoc, colors[4]);  // make the outline black
     gl.drawArrays( gl.LINES, 0, numOutlinePoints );
 }
 
@@ -362,7 +343,7 @@ function drawCube() {
     gl.enableVertexAttribArray( vPosition );
     // change the colour for the cube
     // TODO: change it from default to cyan
-    gl.uniform4fv(currentColourLoc, colors[6]);
+    gl.uniform4fv(currentColourLoc, colors[0]);
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
 }
 
@@ -381,6 +362,21 @@ function drawPath() {
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
+function drawAndMoveCubes() {
+    // draw a single cube
+    applyTransformation();
+    // translate the cubes forward
+    // apply the transformation so the cubes all move forward
+    var previousCameraTransformMatrix = cameraTransformMatrix;
+    cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
+    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+    drawOutline();
+    drawCube();
+    // reset the cubes back to where they were
+    cameraTransformMatrix = previousCameraTransformMatrix;
+    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+}
+
 // modify and apply the model, camera, and projection transformations
 // TODO: pass in parameters??
 function applyTransformation() {
@@ -388,8 +384,8 @@ function applyTransformation() {
     modelTransformMatrix = mat4();
     // move cube away from the origin to check if perspective is correct
     // TODO: remove this
-    modelTransformMatrix = mult(modelTransformMatrix, translate(5, 0, 5));
-    modelTransformMatrix = mult(modelTransformMatrix, scalem(5, 5, 5));
+    modelTransformMatrix = mult(modelTransformMatrix, translate(1, 0, -cameraPositionZAxis));
+    modelTransformMatrix = mult(modelTransformMatrix, scalem(1, 1, 1));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
@@ -437,6 +433,12 @@ function render(timeStamp)
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    // move the cubes forward at a constant speed
+    // first, get the time difference since the last call to render
+    var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
+    amountToMove = amountToMove + stepSize * (timeDiff) % cameraPositionZAxis;  // must apply modulo so that we do not overflow the variable
+    prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
+
     // enable the texture before we draw
     enableTexture = true;
     gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
@@ -446,10 +448,8 @@ function render(timeStamp)
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
 
-    // draw a single cube
-    applyTransformation();
-    drawOutline();
-    drawCube();
+    // draw all of the cubes and move them forward at constant rate
+    drawAndMoveCubes();
 
     // render again (repeatedly as long as program is running)
     requestAnimationFrame( render );
