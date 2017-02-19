@@ -387,19 +387,22 @@ function drawAndMoveCubes() {
     drawCube();
 }
 
-// THIS DOESN'T WORK BUT IS SUPPOSED TO DRAW AND MOVE ALL OF THE CUBES
+// THIS WORKS FOR ONE LINE OF CUBES
 // Draw line of cubes and transform them
 function drawAndMoveAllCubes()
 {
     for( var r = 0; r < allCubeLinePositions.length; r++ )
     {
+        // move the cubes down the screen at a constant speed
+        // each cube in the same row/line will have the same amount to translate in the z-axis by the camera transform 
+        cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
+        gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+
         for( var c = 0; c < allCubeLinePositions[r].length; c++ )
         {
             // move the cube to the correct position 
             transformCube( allCubeLinePositions[r][c], -cameraPositionZAxis );
-            // move the cubes down at a constant speed
-            cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
-            gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+            // draw the cubes and outlines
             drawOutline();
             drawCube();
         }
