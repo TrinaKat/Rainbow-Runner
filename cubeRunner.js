@@ -37,6 +37,12 @@ var colors =
 ];
 var numColors = 4;
 
+// Array of arrays containing starting X positions for all cubes in a line
+var allCubeLinePositions = [];
+// Keep track of Z distance traveled by each line (elements correspond to those in allCubeLinePositions)
+var cubeLineDistanceTraveled = 0;
+
+
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 5
 var lightPosition = vec4(10, 20, 35, 0.0 );
@@ -82,6 +88,7 @@ var texcoordLoc;
 var modelTransformMatrix = mat4();  // identity matrix
 var projectionMatrix = mat4();
 var cameraTransformMatrix = mat4();
+var pathCameraTransformMatrix = mat4();
 
 // SET UP BUFFER AND ATTRIBUTES
 var vPosition;
@@ -158,6 +165,8 @@ window.onload = function init()
     // change the pitch of the camera so we can see the tops of the cubes
     cameraTransformMatrix = mult(cameraTransformMatrix, inverse(rotate(-cameraPitch, vec3(1, 0, 0))));
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+    // save the value of the camera matrix to use when drawing the rainbow road path
+    pathCameraTransformMatrix = cameraTransformMatrix;  
 
     // apply symmetric perspective projection
     projectionMatrix = perspective(currentFOV, 1, 1, 100);
@@ -246,6 +255,8 @@ window.onload = function init()
         }
     });
 
+    // TODO: remove tester
+    generateRandomXPositions();
 
     render(0);
 }
@@ -357,36 +368,77 @@ function drawPath() {
 
     // reset the model transform matrix so the path is drawn at the origin
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
+    // reset the camera transform matrix as well (was changed to move the cubes)
+    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );  // draw cube using triangle strip
     // set the model transform back to its original value
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
+// THIS WORKS BUT ONLY DRAWS ONE CUBE
+// draw and move all cubes forward at a constant speed
 function drawAndMoveCubes() {
     // draw a single cube
-    applyTransformation();
-    // translate the cubes forward
-    // apply the transformation so the cubes all move forward
-    var previousCameraTransformMatrix = cameraTransformMatrix;
+    transformCube(1, -cameraPositionZAxis);
+    // apply the camera transformation so the cubes all move forward
     cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     drawOutline();
     drawCube();
-    // reset the cubes back to where they were
-    cameraTransformMatrix = previousCameraTransformMatrix;
-    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 }
 
-// modify and apply the model, camera, and projection transformations
-// TODO: pass in parameters??
-function applyTransformation() {
+// THIS DOESN'T WORK BUT IS SUPPOSED TO DRAW AND MOVE ALL OF THE CUBES
+// Draw line of cubes and transform them
+function drawAndMoveAllCubes()
+{
+    for( var r = 0; r < allCubeLinePositions.length; r++ )
+    {
+        for( var c = 0; c < allCubeLinePositions[r].length; c++ )
+        {
+            // move the cube to the correct position 
+            transformCube( allCubeLinePositions[r][c], -cameraPositionZAxis );
+            // move the cubes down at a constant speed
+            cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
+            gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+            drawOutline();
+            drawCube();
+        }
+    }
+}
+
+
+// modify and apply the model transform matrix for the cubes
+function transformCube(xPosition, zPosition) {
     // reset the matrices before applying transformations
     modelTransformMatrix = mat4();
     // move cube away from the origin to check if perspective is correct
-    // TODO: remove this
-    modelTransformMatrix = mult(modelTransformMatrix, translate(1, 0, -cameraPositionZAxis));
-    modelTransformMatrix = mult(modelTransformMatrix, scalem(1, 1, 1));
+    modelTransformMatrix = mult(modelTransformMatrix, translate(xPosition, 0, zPosition));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+}
+
+// Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions
+function generateRandomXPositions()
+{
+    // Generate a random number of cubes in the line (1-7)
+    // var numCubes = Math.floor((Math.random() * 7) + 1);
+    var numCubes = 15;    // this is just for testing
+    // Section the path into equal length segments
+    // var sectionPathWidth = Math.floor( canvas.width / numCubes );
+    var sectionPathWidth = Math.floor( (canvas.width/2) / numCubes );
+
+    // Holds the unique x positions for the numCubes X positions
+    var positions = [];
+
+    for( var i = 0; i < numCubes; i++ )
+    {
+        var randomPosition = Math.floor( Math.random() * sectionPathWidth )   // What digit of the section
+                             + i * sectionPathWidth                           // What section
+                             // - canvas.width / 2;                              // Offset from correct pos
+                             - canvas.width / 4;                              // Offset from correct pos
+        positions.push( randomPosition );
+    }
+    // Push the array of X positions in the cube line to the array of all cube line positions
+    allCubeLinePositions.push( positions );
 }
 
 // use this to apply texture to the rainbow road path
@@ -436,8 +488,17 @@ function render(timeStamp)
     // move the cubes forward at a constant speed
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
-    amountToMove = amountToMove + stepSize * (timeDiff) % cameraPositionZAxis;  // must apply modulo so that we do not overflow the variable
+    amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
     prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
+    cubeLineDistanceTraveled += amountToMove;
+
+    // check to see if the frontmost cube line has reached the front of the screen (will no longer be in view)
+    // after this occurs, everytime the cube lines move the same distance that is in between them, they will no longer be in view and will be deleted from the array of active cube lines
+    if (cubeLineDistanceTraveled >= cameraPositionZAxis * 2) {
+        // since the cube line will longer be in view, delete it from the array of active cube lines
+        allCubeLinePositions.shift();  // remove the front-most element from the array
+        // TODO: push() a new cube line to the end of the array
+    }
 
     // enable the texture before we draw
     enableTexture = true;
@@ -449,7 +510,9 @@ function render(timeStamp)
     gl.uniform1f(enableTextureLoc, enableTexture);
 
     // draw all of the cubes and move them forward at constant rate
-    drawAndMoveCubes();
+    // drawAndMoveCubes();
+    // TODO: remove tester
+    drawAndMoveAllCubes();
 
     // render again (repeatedly as long as program is running)
     requestAnimationFrame( render );
