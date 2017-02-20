@@ -29,10 +29,10 @@ var vertices =    // manually plan out unit cube
 
 var colors =
 [
-    [ 1.0, 1.0, 1.0, 1.0 ],  // white
+    [1.0, 1.0, 1.0, 1.0 ],  // white
     [0.7, 0.7, 0.7, 1.0],  // light grey
     [0.6, 0.6, 0.6, 1.0],   // light-medium grey
-    [0.5, 0.5, 0.5, 1.0],  // medium grey 
+    [0.5, 0.5, 0.5, 1.0],  // medium grey
     [0.4, 0.4, 0.4, 1.0],  // dark grey (for cube borders)
     [0, 0, 0, 1.0]   // black (for cube outlines)
 
@@ -40,7 +40,7 @@ var colors =
 var currColour = 0;  // use this to index through the cube colours
 var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
 var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
-
+var isForBorder = 0;
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
 var lightPosition = vec4(20, 20, -25, 0.0 );
@@ -163,7 +163,7 @@ window.onload = function init()
     cameraTransformMatrix = mult(cameraTransformMatrix, inverse(rotate(-cameraPitch, vec3(1, 0, 0))));
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     // save the value of the camera matrix to use when drawing the rainbow road path
-    pathCameraTransformMatrix = cameraTransformMatrix;  
+    pathCameraTransformMatrix = cameraTransformMatrix;
 
     // apply symmetric perspective projection
     projectionMatrix = perspective(currentFOV, 1, 1, 100);
@@ -330,8 +330,8 @@ function generateNewCubeLine()
         var whichSection = (i * sectionPathWidth);
         // what index in the section of the canvas
         var indexInSection = Math.floor( Math.random() * (sectionPathWidth - 2)) + 1;
-        // initial offset on canvas 
-        var initialOffset = - canvas.width / 24; 
+        // initial offset on canvas
+        var initialOffset = - canvas.width / 24;
         var randomPosition = whichSection + indexInSection + initialOffset;
         positions.push( randomPosition );
 
@@ -353,7 +353,15 @@ function drawOutline() {
     gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
     gl.enableVertexAttribArray( vPosition );
-    gl.uniform4fv(currentColourLoc, colors[4]);  // make the outline black
+    if (isForBorder)
+    {
+        gl.uniform4fv(currentColourLoc, colors[0]);  // make the outline while
+        isForBorder = 0;
+    }
+    else
+    {
+        gl.uniform4fv(currentColourLoc, colors[4]);  // make the outline black
+    }
     gl.drawArrays( gl.LINES, 0, numOutlinePoints );
 }
 
@@ -414,7 +422,7 @@ function drawAndMoveAllCubes()
         // iterate through all the cubes on a single cube line
         for ( var c = 0; c < allCubeLineXPositions[r].length; c++ )
         {
-            // move the cube to the correct position 
+            // move the cube to the correct position
             transformCube( allCubeLineXPositions[r][c],  allCubeLineZPositions[r] );
             // draw the cubes and outlines
             drawOutline();
@@ -430,11 +438,12 @@ function drawBorder() {
         // draw cube on left side
         transformCube( -canvas.width/12, i );
         drawOutline();  // draw the outline for the cube
-        drawCube(5);  // draw the cube as dark grey
+        drawCube(4);  // draw the cube as dark grey
         // draw cube on right side
         transformCube( canvas.width/12, i );
+        isForBorder = 1;
         drawOutline();  // draw the outline for the cube
-        drawCube(5);  // draw the cube as dark grey
+        drawCube(4);  // draw the cube as dark grey
     }
 }
 
@@ -477,7 +486,7 @@ function applyTexture(imagePath) {
 function createTexture(imagePath) {
     // create a texture
     var texture = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);  
+    gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     // fill the texture with a 1x1 blue pixel (before we load the texture)
