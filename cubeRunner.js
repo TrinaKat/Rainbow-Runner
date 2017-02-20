@@ -100,7 +100,7 @@ var cameraPitch = 5;  // camera's pitch (want scene to be rotated down along x-a
 
 // VARIABLES TO MOVE THE CUBES
 var prevTime = 0;  // so we can calculate the time difference between calls to render
-var stepSize = 20;
+var stepSize = 40;
 var currAmountTranslated = 0;
 var amountToMove = 0;
 var allCubeLineXPositions = [];  // Array of arrays containing X positions for all cubes in a line
@@ -108,6 +108,7 @@ var allCubeLineZPositions = [];  // array containing the Z position for each cub
 var numCubeLines = (2 * cameraPositionZAxis) / stepSize;   // the total number of active cube lines we have displayed at a time
 // Keep track of Z distance traveled by each line (elements correspond to those in allCubeLineXPositions)
 var cubeLineDistanceTraveled = 0;
+var isPaused = 0;  // 0: not paused so all the cubes move; 1: paused so the cubes remain stationary
 
 window.onload = function init()
 {
@@ -209,6 +210,10 @@ window.onload = function init()
                 console.log("m key");
                 cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(-0.25*Math.sin(radians(currDegrees)), 0, 0.25*Math.cos(radians(currDegrees)))));
                 gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+                break;
+            case 112:  // 'p' key
+                console.log("p key");
+                isPaused = !isPaused;
                 break;
         }
     });
@@ -329,8 +334,8 @@ function generatePath() {
 // Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions; also pushes the starting position (always -cameraZPosition since they start at the end of the screen)
 function generateNewCubeLine()
 {
-    // Generate a random number of cubes in the line (1-7)
-    var numCubes = Math.floor((Math.random() * 7) + 1);
+    // Generate a random number of cubes in the line (7-10)
+    var numCubes = 7 + Math.floor((Math.random() * 3) + 1);
     // Section the path into equal length segments
     var sectionPathWidth = Math.floor( (canvas.width/12) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
 
@@ -420,8 +425,6 @@ function drawAndMoveAllCubes()
         // iterate through all the cubes on a single cube line
         for ( var c = 0; c < allCubeLineXPositions[r].length; c++ )
         {
-            console.log( allCubeLineZPositions[r] );
-
             // move the cube to the correct position 
             transformCube( allCubeLineXPositions[r][c],  allCubeLineZPositions[r] );
             // draw the cubes and outlines
@@ -498,12 +501,18 @@ function render(timeStamp)
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // move the cubes forward at a constant speed
-    // first, get the time difference since the last call to render
-    var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
-    amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
-    prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
-    cubeLineDistanceTraveled += amountToMove;
+    if (!isPaused) {
+        // move the cubes forward at a constant speed
+        // first, get the time difference since the last call to render
+        var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
+        amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
+        prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
+        cubeLineDistanceTraveled += amountToMove;
+    }
+    else {  // if the game is paused, don't move the cubes, but make sure to keep updating thw timer
+        amountToMove = 0;
+        prevTime = timeStamp;
+    }
 
     // enable the texture before we draw
     enableTexture = true;
@@ -527,6 +536,6 @@ function render(timeStamp)
     // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
     destroyOutOfRangeCubes();
 
-    // render again (repeatedly as long as program is running)
+    // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
 }
