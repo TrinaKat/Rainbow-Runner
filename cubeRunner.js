@@ -10,7 +10,7 @@ var points = [];
 var numVertices = 36;
 
 var outlinePoints = [];
-var numOutlinePoints = 24;
+var numOutlinePoints = 6;
 
 var pathPoints = [];
 var numPathVertices = 6;  // only need 6 points to draw path since it is a rectangle (2 triangles)
