@@ -37,17 +37,10 @@ var colors =
 ];
 var numColors = 4;
 
-// Array of arrays containing starting X positions for all cubes in a line
-var allCubeLinePositions = [];
-var numCubeLines;   // the total number of active cube lines we can have at a time
-// Keep track of Z distance traveled by each line (elements correspond to those in allCubeLinePositions)
-var cubeLineDistanceTraveled = 0;
-
-
 // VARIABLES NEEDED FOR PHONG LIGHTING
-// the light is in front of the cube, which is located st z = 5
-var lightPosition = vec4(10, 20, 35, 0.0 );
-var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );   // pink lighting
+// the light is in front of the cube, which is located st z = 50
+var lightPosition = vec4(20, 20, -5, 0.0 );
+var lightAmbient = vec4(0.6, 0.6, 0.6, 1.0 );   // pink lighting
 // var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);    // dark blue lighting
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
@@ -98,18 +91,23 @@ var vOutlineBuffer;
 var vPathBuffer;
 var vTexcoordBuffer;
 
-// VARIABLE TO MOVE THE CUBES
-var stepSize = 10;
-var currAmountTranslated = 0;
-var amountToMove = 0;
-
-// INITIALIZE MISCELLANEOUS VARIABLES
+// INITIALIZE VARIABLES
 var currentFOV = 50;   // adjust this later for narrow or width FOV
 var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
 var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
-var cameraPositionYAxis = 10;  // camera's initial position along the y-axis
-var cameraPitch = 10;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
-var prevTime = 0;
+var cameraPositionYAxis = 0;  // camera's initial position along the y-axis
+var cameraPitch = 5;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
+
+// VARIABLES TO MOVE THE CUBES
+var prevTime = 0;  // so we can calculate the time difference between calls to render
+var stepSize = 20;
+var currAmountTranslated = 0;
+var amountToMove = 0;
+var allCubeLineXPositions = [];  // Array of arrays containing X positions for all cubes in a line
+var allCubeLineZPositions = [];  // array containing the Z position for each cube line
+var numCubeLines = (2 * cameraPositionZAxis) / stepSize;   // the total number of active cube lines we have displayed at a time
+// Keep track of Z distance traveled by each line (elements correspond to those in allCubeLineXPositions)
+var cubeLineDistanceTraveled = 0;
 
 window.onload = function init()
 {
@@ -152,13 +150,6 @@ window.onload = function init()
     cameraTransformMatrixLoc = gl.getUniformLocation(program, "cameraTransformMatrix");
     projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
     currentColourLoc = gl.getUniformLocation(program, "currentColour");
-
-    // INITIALIZE THE TRANSFORMATION MATRICES
-    // gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
-    // move cube away from the origin to check if perspective is correct
-    // TODO: remove this
-    modelTransformMatrix = mult(modelTransformMatrix, translate(5, 5, 5));
-    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
     // want to move camera in the +z direction since you are looking down the -z axis
     // in reality, since we are taking the inverse matrix, we are moving all the objects in the -z direction
@@ -256,14 +247,9 @@ window.onload = function init()
         }
     });
 
-    // number of cube lines that will be displayed at a given time
-    numCubeLines = (2 * cameraPositionZAxis) / stepSize;
+    // draw the first line of cubes
+    generateNewCubeLine();
 
-    // need to fill first numCubeLines positions of array of arrays with empty arrays so that the cube lines get indexed and move forward correctly even when we don't have all active cube lines generated
-    for (var i = 0; i < numCubeLines-1; i++) {
-        allCubeLinePositions.push([]);
-    }
-    generateRandomXPositions();
     render(0);
 }
 
@@ -340,6 +326,34 @@ function generatePath() {
     }
 }
 
+// Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions; also pushes the starting position (always -cameraZPosition since they start at the end of the screen)
+function generateNewCubeLine()
+{
+    // Generate a random number of cubes in the line (1-7)
+    var numCubes = Math.floor((Math.random() * 7) + 1);
+    // Section the path into equal length segments
+    var sectionPathWidth = Math.floor( (canvas.width/12) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
+
+    // Holds the unique x positions for the numCubes X positions
+    var positions = [];
+
+    for( var i = 0; i < numCubes; i++ )
+    {
+        // which section of the canvas
+        var whichSection = (i * sectionPathWidth);
+        // what index in the section of the canvas
+        var indexInSection = Math.floor( Math.random() * (sectionPathWidth - 2)) + 1;
+        // initial offset on canvas 
+        var initialOffset = - canvas.width / 24; 
+        var randomPosition = whichSection + indexInSection + initialOffset;
+        positions.push( randomPosition );
+    }
+
+    // Push the array of X positions in the cube line to the array of all cube line positions
+    allCubeLineXPositions.push( positions );
+    allCubeLineZPositions.push( -cameraPositionZAxis );
+}
+
 // draw the cube outline in white
 function drawOutline() {
     // bind the current buffer that we want to draw (the one with the points)
@@ -397,19 +411,21 @@ function drawAndMoveCubes() {
 // Draw line of cubes and transform them
 function drawAndMoveAllCubes()
 {
-    for( var r = 0; r < allCubeLinePositions.length; r++ )
+    // iterate through each row of cubes (one cube line at a time)
+    for ( var r = 0; r < allCubeLineXPositions.length; r++ )
     {
-        // move the cubes down the screen at a constant speed
-        // each cube in the same row/line will have the same amount to translate in the z-axis by the camera transform 
-        // cameraTransformMatrix = mult(translate(0, 0, amountToMove * (r)), cameraTransformMatrix);
-        // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(mult(translate(0, 0, amountToMove * (r)), cameraTransformMatrix)));
+        // get the new z position for this row of cubes by adding amountToMove to the original z position
+         allCubeLineZPositions[r] = allCubeLineZPositions[r] + amountToMove;
 
-        for( var c = 0; c < allCubeLinePositions[r].length; c++ )
+        // iterate through all the cubes on a single cube line
+        for ( var c = 0; c < allCubeLineXPositions[r].length; c++ )
         {
+            console.log( allCubeLineZPositions[r] );
+
             // move the cube to the correct position 
-            transformCube( allCubeLinePositions[r][c], -cameraPositionZAxis + (amountToMove * (numCubeLines - r)) );
+            transformCube( allCubeLineXPositions[r][c],  allCubeLineZPositions[r] );
             // draw the cubes and outlines
-            // drawOutline();
+            drawOutline();
             drawCube();
         }
     }
@@ -423,30 +439,19 @@ function transformCube(xPosition, zPosition) {
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
-// Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions
-function generateRandomXPositions()
-{
-    // Generate a random number of cubes in the line (1-7)
-    var numCubes = Math.floor((Math.random() * 7) + 1);
-    // Section the path into equal length segments
-    var sectionPathWidth = Math.floor( (canvas.width/12) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
-
-    // Holds the unique x positions for the numCubes X positions
-    var positions = [];
-
-    for( var i = 0; i < numCubes; i++ )
-    {
-        // which section of the canvas
-        var whichSection = (i * sectionPathWidth);
-        // what index in the section of the canvas
-        var indexInSection = Math.floor( Math.random() * (sectionPathWidth - 2)) + 1;
-        // initial offset on canvas 
-        var initialOffset = - canvas.width / 24; 
-        var randomPosition = whichSection + indexInSection + initialOffset;
-        positions.push( randomPosition );
+function destroyOutOfRangeCubes() {
+    for ( var i = 0; i < allCubeLineZPositions.length; i++) {
+        // check to see if the z position is past that of the user
+        if (allCubeLineZPositions[i] > cameraPositionZAxis) {
+            // delete the cube's data from both arrays
+            allCubeLineZPositions.shift();
+            allCubeLineXPositions.shift();
+            // move the iterator back one so you don't miss the next element
+            i--;
+        }
+        else
+            break;  // since the z values decrease as you go through the array (later cube lines have smaller z values), then if the z position is not past the user for this cube line, then the rest of the cube lines will not be past the user either
     }
-    // Push the array of X positions in the cube line to the array of all cube line positions
-    allCubeLinePositions.push( positions );
 }
 
 // use this to apply texture to the rainbow road path
@@ -500,17 +505,6 @@ function render(timeStamp)
     prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
     cubeLineDistanceTraveled += amountToMove;
 
-    // check to see if the frontmost cube line has reached the front of the screen (will no longer be in view)
-    // after this occurs, everytime the cube lines move the same distance that is in between them, they will no longer be in view and will be deleted from the array of active cube lines
-    // if (cubeLineDistanceTraveled >= cameraPositionZAxis * 2) {
-    //     // since the cube line will longer be in view, delete it from the array of active cube lines
-    //     allCubeLinePositions.shift();  // remove the front-most element from the array
-    //     // TODO: push() a new cube line to the end of the array
-    // }
-
-    // TODO: remove tester
-    console.log(allCubeLinePositions.length);
-
     // enable the texture before we draw
     enableTexture = true;
     gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
@@ -520,14 +514,18 @@ function render(timeStamp)
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
 
-    // draw all of the cubes and move them forward at constant rate
-    // drawAndMoveCubes();
-    // TODO: remove tester
-    // generateRandomXPositions();
+    // check to see if you have moved the current cube line far anough and you should generate a new cube line
+    // 5 means that we want to have a 5 unit separation between each cube line
+    if (cubeLineDistanceTraveled >= 5) {
+        generateNewCubeLine();
+        cubeLineDistanceTraveled = 0;  // reset the value
+    }
 
-    // TODO: does this even work???
-    allCubeLinePositions.shift();  // move all the cube position arrays down one position so that the cubes will be indexed correctly
+    // draw all of the cubes and move them forward at constant rate
     drawAndMoveAllCubes();
+
+    // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
+    destroyOutOfRangeCubes();
 
     // render again (repeatedly as long as program is running)
     requestAnimationFrame( render );
