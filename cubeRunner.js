@@ -30,16 +30,19 @@ var vertices =    // manually plan out unit cube
 var colors =
 [
     [ 1.0, 1.0, 1.0, 1.0 ],  // white
-    [0.875, 0.875, 0.875, 1.0],  // light grey #1
-    [0.75, 0.75, 0.75, 1.0],  // light grey #2
-    [0.625, 0.625, 0.625, 1.0],  // medium grey
-    [1.0, 1.0, 1.0, 1.0]   // black
+    [0.7, 0.7, 0.7, 1.0],  // light grey
+    [0.6, 0.6, 0.6, 1.0],   // light-medium grey
+    [0.5, 0.5, 0.5, 1.0],  // medium grey 
+    [0, 0, 0, 1.0]   // black
 ];
-var numColors = 4;
+var numColours = 5;
+var currColour = 0;  // use this to index through the cube colours
+var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
+var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
 
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
-var lightPosition = vec4(20, 20, -5, 0.0 );
+var lightPosition = vec4(20, 20, -25, 0.0 );
 var lightAmbient = vec4(0.6, 0.6, 0.6, 1.0 );   // pink lighting
 // var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);    // dark blue lighting
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
@@ -184,36 +187,13 @@ window.onload = function init()
     // for ASCII character keys
     addEventListener("keypress", function(event) {
         switch (event.keyCode) {
-            case 99:  // ’c’ key
-                console.log("c key");
-                ++colourIndexOffset;
-                if (colourIndexOffset == 8) {
-                    colourIndexOffset = 0;
-                }
-                break;
-            case 105:  // 'i' key
-                console.log("i key");
-                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0.25*Math.sin(radians(currDegrees)), 0, -0.25*Math.cos(radians(currDegrees)))));
-                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-                break;
-            case 106:  // 'j' key
-                console.log("j key");
-                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(-0.25*Math.cos(radians(currDegrees)), 0, -0.25*Math.sin(radians(currDegrees)))));
-                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-                break;
-            case 107:  // 'k' key
-                console.log("k key");
-                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0.25*Math.cos(radians(currDegrees)), 0, 0.25*Math.sin(radians(currDegrees)))));
-                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-                break;
-            case 109:  // 'm' key
-                console.log("m key");
-                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(-0.25*Math.sin(radians(currDegrees)), 0, 0.25*Math.cos(radians(currDegrees)))));
-                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-                break;
             case 112:  // 'p' key
                 console.log("p key");
                 isPaused = !isPaused;
+                break;
+            case 119:  // 'w' key
+                console.log("w key");
+                isAllWhite = !isAllWhite;
                 break;
         }
     });
@@ -341,6 +321,7 @@ function generateNewCubeLine()
 
     // Holds the unique x positions for the numCubes X positions
     var positions = [];
+    var colours = [];
 
     for( var i = 0; i < numCubes; i++ )
     {
@@ -352,11 +333,16 @@ function generateNewCubeLine()
         var initialOffset = - canvas.width / 24; 
         var randomPosition = whichSection + indexInSection + initialOffset;
         positions.push( randomPosition );
+
+        // pick a random colour for the cube
+        var cubeColour = Math.floor((Math.random() * (numColours-1)));
+        colours.push(cubeColour);
     }
 
     // Push the array of X positions in the cube line to the array of all cube line positions
     allCubeLineXPositions.push( positions );
     allCubeLineZPositions.push( -cameraPositionZAxis );
+    allCubeColours.push(colours);
 }
 
 // draw the cube outline in white
@@ -371,15 +357,17 @@ function drawOutline() {
 }
 
 // draw the cube with a specified colour
-function drawCube() {
+function drawCube(colourIndex) {
     // bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
     gl.enableVertexAttribArray( vPosition );
-    // change the colour for the cube
-    // TODO: change it from default to cyan
-    gl.uniform4fv(currentColourLoc, colors[0]);
+    // change the colour for the cube (want to index between 0 and 3)
+    if (!isAllWhite)
+        gl.uniform4fv(currentColourLoc, colors[colourIndex]);
+    else
+        gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
 }
 
@@ -429,11 +417,11 @@ function drawAndMoveAllCubes()
             transformCube( allCubeLineXPositions[r][c],  allCubeLineZPositions[r] );
             // draw the cubes and outlines
             drawOutline();
-            drawCube();
+            // set the colour for the cube
+            drawCube(allCubeColours[r][c]);
         }
     }
 }
-
 
 // modify and apply the model transform matrix for the cubes
 function transformCube(xPosition, zPosition) {
@@ -449,6 +437,7 @@ function destroyOutOfRangeCubes() {
             // delete the cube's data from both arrays
             allCubeLineZPositions.shift();
             allCubeLineXPositions.shift();
+            allCubeColours.shift();
             // move the iterator back one so you don't miss the next element
             i--;
         }
