@@ -33,9 +33,10 @@ var colors =
     [0.7, 0.7, 0.7, 1.0],  // light grey
     [0.6, 0.6, 0.6, 1.0],   // light-medium grey
     [0.5, 0.5, 0.5, 1.0],  // medium grey 
-    [0, 0, 0, 1.0]   // black
+    [0.4, 0.4, 0.4, 1.0],  // dark grey (for cube borders)
+    [0, 0, 0, 1.0]   // black (for cube outlines)
+
 ];
-var numColours = 5;
 var currColour = 0;  // use this to index through the cube colours
 var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
 var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
@@ -311,7 +312,7 @@ function generatePath() {
     }
 }
 
-// Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions; also pushes the starting position (always -cameraZPosition since they start at the end of the screen)
+// Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions; also pushes the starting position (always -cameraPositionZAxis since they start at the end of the screen)
 function generateNewCubeLine()
 {
     // Generate a random number of cubes in the line (7-10)
@@ -334,8 +335,8 @@ function generateNewCubeLine()
         var randomPosition = whichSection + indexInSection + initialOffset;
         positions.push( randomPosition );
 
-        // pick a random colour for the cube
-        var cubeColour = Math.floor((Math.random() * (numColours-1)));
+        // pick a random colour for the cube (index between 0 and 3)
+        var cubeColour = Math.floor((Math.random() * (4)));
         colours.push(cubeColour);
     }
 
@@ -420,6 +421,20 @@ function drawAndMoveAllCubes()
             // set the colour for the cube
             drawCube(allCubeColours[r][c]);
         }
+    }
+}
+
+function drawBorder() {
+    // iterate through the whole length of the canvas and draw borders made of cubes on the sides
+    for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++) {
+        // draw cube on left side
+        transformCube( -canvas.width/12, i );
+        drawOutline();  // draw the outline for the cube
+        drawCube(5);  // draw the cube as dark grey
+        // draw cube on right side
+        transformCube( canvas.width/12, i );
+        drawOutline();  // draw the outline for the cube
+        drawCube(5);  // draw the cube as dark grey
     }
 }
 
@@ -511,6 +526,9 @@ function render(timeStamp)
     // disable the texture before we draw something else later
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
+
+    // draw the cube border on both sides
+    drawBorder();
 
     // check to see if you have moved the current cube line far anough and you should generate a new cube line
     // 5 means that we want to have a 5 unit separation between each cube line
