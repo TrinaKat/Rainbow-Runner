@@ -54,6 +54,7 @@ function drawBorder()
     for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++) {
         // Draw cube on left side
         transformCube( -canvas.width/12, i );
+        isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
         drawCube(4);  // draw the cube as dark grey
 
