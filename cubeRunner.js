@@ -294,24 +294,6 @@ function generateCubeOutline() {
     }
 }
 
-// generate vertices for the path
-function generatePath() {
-    // generate the path with z = 0 (this means that all of the cubes and other objects in the scene must be drawn with positive z-value)
-    var pathVertices =    // store the vertices needed for the path
-    [
-        vec4( -canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // lower left corner
-        vec4( canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // lower right corner
-        vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),  // top left corner
-        vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )  // top right corner
-    ];
-
-    var vertexOrder = [0, 2, 3, 0, 3, 1];  // the order to draw with the path vertices
-
-    for (var i = 0; i < 6; i++) {
-        pathPoints.push(pathVertices[vertexOrder[i]]);
-    }
-}
-
 // Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions; also pushes the starting position (always -cameraPositionZAxis since they start at the end of the screen)
 function generateNewCubeLine()
 {
@@ -378,23 +360,6 @@ function drawCube(colourIndex) {
     else
         gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );  // draw cube using triangle strip
-}
-
-// draw the path for the cubes to travel on
-function drawPath() {
-    // buffer and attributes for the path points
-    gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
-
-    // reset the model transform matrix so the path is drawn at the origin
-    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
-    // reset the camera transform matrix as well (was changed to move the cubes)
-    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
-    gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );  // draw cube using triangle strip
-    // set the model transform back to its original value
-    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
 // THIS WORKS BUT ONLY DRAWS ONE CUBE
@@ -468,44 +433,6 @@ function destroyOutOfRangeCubes() {
         else
             break;  // since the z values decrease as you go through the array (later cube lines have smaller z values), then if the z position is not past the user for this cube line, then the rest of the cube lines will not be past the user either
     }
-}
-
-// use this to apply texture to the rainbow road path
-function applyTexture(imagePath) {
-    texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
-    gl.enableVertexAttribArray(texcoordLoc);
-    gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-    // create a buffer for texcoords
-    vTexcoordBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vTexcoordBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
-    // create the texture by loading an image
-    createTexture(imagePath);
-}
-
-function createTexture(imagePath) {
-    // create a texture
-    var texture = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-
-    // fill the texture with a 1x1 blue pixel (before we load the texture)
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                  new Uint8Array([0, 0, 255, 255]));
-
-    // asynchronously load an image
-    var image = new Image();
-    image.src = imagePath;
-    image.addEventListener('load', function() {
-        // Now that the image has loaded, make copy it to the texture.
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    });
-
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
 }
 
 // called repeatedly to render and draw our scene
