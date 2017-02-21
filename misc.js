@@ -36,6 +36,12 @@ function drawOutline()
     // vPosition will always be bound to vBuffer now
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
+
+    texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
+    gl.enableVertexAttribArray(texcoordLoc);
+    gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+
     if (isForBorder)
     {
         gl.uniform4fv(currentColourLoc, colors[0]);  // Make the outline white
@@ -53,13 +59,13 @@ function drawBorder()
     // Iterate through the whole length of the canvas and draw borders made of cubes on the sides
     for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++) {
         // Draw cube on left side
-        transformCube( -canvas.width/12, i );
+        transformCube( -canvas.width/23, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
         drawCube(4);  // draw the cube as dark grey
 
         // Draw cube on right side
-        transformCube( canvas.width/12, i );
+        transformCube( canvas.width/23, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
         drawCube(4);  // draw the cube as dark grey
