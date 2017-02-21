@@ -10,7 +10,7 @@ var points = [];
 var numVertices = 36;
 
 var outlinePoints = [];
-var numOutlinePoints = 6;
+var numOutlinePoints = 24;
 
 var pathPoints = [];
 var numPathVertices = 6;  // only need 6 points to draw path since it is a rectangle (2 triangles)
@@ -60,6 +60,7 @@ var viewerPos;
 var normalsArray = [];
 
 // VARIABLES NEEDED FOR TEXTURES
+var texture;
 var enableTexture = false;  // by default we do not use textures
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
@@ -88,6 +89,7 @@ var projectionMatrixLoc;
 var currentColourLoc;
 var enableTextureLoc;
 var texcoordLoc;
+var textureLoc;
 
 // INITIALIZE ALL TRANSFORMATION MATRICES
 var modelTransformMatrix = mat4();  // identity matrix
@@ -152,6 +154,10 @@ window.onload = function init()
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
 
+    vPosition = gl.getAttribLocation( program, "vPosition" );
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vPosition );
+
     // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
     vOutlineBuffer = gl.createBuffer();
@@ -188,6 +194,7 @@ window.onload = function init()
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
     enableTextureLoc = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
+    textureLoc = gl.getUniformLocation(program, "u_texture");
     // assign rainbow road texture to the path
     applyTexture("Textures/rainbow.png");
 
@@ -270,14 +277,8 @@ function render(timeStamp)
         prevTime = timeStamp;
     }
 
-    // enable the texture before we draw
-    enableTexture = true;
-    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
     // draw the path
     drawPath();
-    // disable the texture before we draw something else later
-    enableTexture = false;
-    gl.uniform1f(enableTextureLoc, enableTexture);
 
     // draw the cube border on both sides
     drawBorder();

@@ -32,7 +32,18 @@ function drawPath() {
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
     // Reset the camera transform matrix as well (was changed to move the cubes)
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+
+    // enable the texture before we draw
+    enableTexture = true;
+    gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );
     // Set the model transform back to its original value
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+
+     // disable the texture before we draw something else later
+    enableTexture = false;
+    gl.uniform1f(enableTextureLoc, enableTexture);
+    gl.bindTexture(gl.TEXTURE_2D, null);
 }

@@ -19,10 +19,10 @@ function applyTexture(imagePath)
 function createTexture(imagePath)
 {
     // Create a texture
-    var texture = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);
+    texture = gl.createTexture();
+    // gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_FLIP_X_WEBGL, true);
 
     // Fill the texture with a 1x1 blue pixel
     // Before we load the image so use blue image so we can start rendering immediately
@@ -42,5 +42,5 @@ function createTexture(imagePath)
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     });
 
-    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
+    gl.uniform1i(textureLoc, 0);
 }
