@@ -64,16 +64,6 @@ var texture;
 var enableTexture = false;  // by default we do not use textures
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
-    // square, so just use two triangles
-    // // triangle #1
-    // vec2(0.0,  1.0),
-    // vec2(0.0,  0.0),
-    // vec2(1.0,  0.0),
-    // // triangle #2
-    // vec2(0.0,  1.0),
-    // vec2(1.0,  0.0),
-    // vec2(1.0,  1.0)
-
     vec2(0, 3), //1
     vec2(0, 0), //0
     vec2(3, 0), //3
@@ -251,11 +241,6 @@ window.onload = function init()
     generateNewCubeLine();
 
     render(0);
-}
-
-// returns whether value is a power of 2 or not
-function isPowerOf2(value) {
-    return (value & (value - 1)) == 0;
 }
 
 // called repeatedly to render and draw our scene
