@@ -6,14 +6,14 @@ function generatePath() {
     // Store the vertices needed for the path
     var pathVertices =
     [
-        vec4( -canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // lower left corner
-        vec4( canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // lower right corner
-        vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),  // top left corner
-        vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )  // top right corner
+        vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),   // near left corner   // 0
+        vec4( -canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // far left corner    // 1
+        vec4( canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),   // far right corner   // 2
+        vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )     // near right corner  // 3
     ];
 
     // The order to draw with the path vertices
-    var vertexOrder = [0, 2, 3, 0, 3, 1];
+    var vertexOrder = [1, 0, 3, 1, 3, 2];
 
     for (var i = 0; i < 6; i++) {
         pathPoints.push(pathVertices[vertexOrder[i]]);
@@ -21,7 +21,7 @@ function generatePath() {
 }
 
 // Draw the path for the cubes to travel on
-function drawPath() {
+function drawPath(scrollAmount) {
     // Buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
@@ -36,14 +36,17 @@ function drawPath() {
     // enable the texture before we draw
     enableTexture = true;
     gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
+
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );
+
     // Set the model transform back to its original value
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
      // disable the texture before we draw something else later
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
+
     gl.bindTexture(gl.TEXTURE_2D, null);
 }
