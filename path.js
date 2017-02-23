@@ -21,7 +21,7 @@ function generatePath() {
 }
 
 // Draw the path for the cubes to travel on
-function drawPath(scrollAmount) {
+function drawPath() {
     // Buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );

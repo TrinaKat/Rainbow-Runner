@@ -71,9 +71,13 @@ function drawCube(colourIndex)
     gl.enableVertexAttribArray( vPosition );
     // Change the colour for the cube (want to index between 0 and 3)
     if (!isAllWhite)
+    {
         gl.uniform4fv(currentColourLoc, colors[colourIndex]);
+    }
     else
+    {
         gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
+    }
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );
 }
 

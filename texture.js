@@ -4,8 +4,8 @@
 function applyTexture(imagePath)
 {
     // Create a buffer for texcoords
-    vTexcoordBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vTexcoordBuffer);
+    vTexCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
     texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
@@ -22,7 +22,7 @@ function createTexture(imagePath)
     texture = gl.createTexture();
     // gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.pixelStorei(gl.UNPACK_FLIP_X_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
     // Fill the texture with a 1x1 blue pixel
     // Before we load the image so use blue image so we can start rendering immediately

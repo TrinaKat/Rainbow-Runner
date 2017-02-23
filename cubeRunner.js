@@ -35,8 +35,19 @@ var colors =
     [0.5, 0.5, 0.5, 1.0],  // medium grey
     [0.4, 0.4, 0.4, 1.0],  // dark grey (for cube borders)
     [0, 0, 0, 1.0]   // black (for cube outlines)
-
 ];
+
+var rainbowColors =
+[
+    [ 1.0, 0.0, 0.0, 1.0 ],  // red
+    [ 1.0, 0.5, 0.0, 1.0 ],  // orange
+    [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
+    [ 0.0, 1.0, 0.0, 1.0 ],  // green
+    [ 0.0, 0.0, 1.0, 1.0 ],  // blue
+    [ 0.6, 0.0, 0.6, 1.0 ],  // purple
+    [ 1.0, 0.1, 0.5, 1.0 ]   // pink
+];
+
 var currColour = 0;  // use this to index through the cube colours
 var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
 var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
@@ -71,6 +82,15 @@ var texCoords =    // mapping between the texture coordinates (range from 0 to 1
     vec2(3, 0), //3
     vec2(3, 3)  //2
 ];
+var resetTexCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
+[
+    vec2(0, 3), //1
+    vec2(0, 0), //0
+    vec2(3, 0), //3
+    vec2(0, 3), //1
+    vec2(3, 0), //3
+    vec2(3, 3)  //2
+];
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
@@ -92,7 +112,7 @@ var vPosition;
 var vBuffer;
 var vOutlineBuffer;
 var vPathBuffer;
-var vTexcoordBuffer;
+var vTexCoordBuffer;
 
 // INITIALIZE VARIABLES
 var currentFOV = 50;   // adjust this later for narrow or width FOV
@@ -185,8 +205,11 @@ window.onload = function init()
 
     enableTextureLoc = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
     textureLoc = gl.getUniformLocation(program, "u_texture");
+
     // assign rainbow road texture to the path
     applyTexture("Textures/rainbow.png");
+    // applyTexture("Textures/pastels.jpg");
+    // applyTexture("Textures/white.jpg");
 
     // ADD EVENT LISTENERS
     // for ASCII character keys
@@ -249,10 +272,12 @@ function render(timeStamp)
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    // first, get the time difference since the last call to render
+    var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
+
+
     if (!isPaused) {
         // move the cubes forward at a constant speed
-        // first, get the time difference since the last call to render
-        var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
         amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
         prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
         cubeLineDistanceTraveled += amountToMove;
