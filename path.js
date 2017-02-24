@@ -38,26 +38,27 @@ function drawPath(scrollAmount) {
     gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
 
     // Add scrolling rainbow road texture
-     if (!isPaused) {
-        // Don't grow forever
-        if( texCoords[0][1] > 60 )
-        {
-            texCoords = [];
-            for( var i = 0; i < 6; i++ )
-            {
-                texCoords.push(resetTexCoords[i]);
-            }
-        }
+    //  if (!isPaused) {
+    //     // Don't grow forever
+    //     if( texCoords[0][1] > 60 )
+    //     {
+    //         texCoords = [];
+    //         for( var i = 0; i < 6; i++ )
+    //         {
+    //             texCoords.push(resetTexCoords[i]);
+    //         }
+    //     }
 
-        for( var v = 0; v < 6; v++ )
-        {
-            texCoords[ v ] = add( texCoords[ v ], vec2( 0, scrollAmount ));
-        }
-    }
+    //     for( var v = 0; v < 6; v++ )
+    //     {
+    //         texCoords[ v ] = add( texCoords[ v ], vec2( 0, scrollAmount ));
+    //     }
+    // }
 
     // Bind the appropriate buffers and attributes for the texture
+    // TODO choose flipped or normal texcoords
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
 
     gl.enableVertexAttribArray(texcoordLoc);
     gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
