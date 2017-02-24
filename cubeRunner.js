@@ -29,12 +29,12 @@ var vertices =    // manually plan out unit cube
 
 var colors =
 [
-    [1.0, 1.0, 1.0, 1.0 ],  // white
-    [0.7, 0.7, 0.7, 1.0],  // light grey
-    [0.6, 0.6, 0.6, 1.0],   // light-medium grey
-    [0.5, 0.5, 0.5, 1.0],  // medium grey
-    [0.4, 0.4, 0.4, 1.0],  // dark grey (for cube borders)
-    [0, 0, 0, 1.0]   // black (for cube outlines)
+    [1.0, 1.0, 1.0, 1.0 ],  // 0 white
+    [0.7, 0.7, 0.7, 1.0],   // 1 light grey
+    [0.6, 0.6, 0.6, 1.0],   // 2 light-medium grey
+    [0.5, 0.5, 0.5, 1.0],   // 3 medium grey
+    [0.4, 0.4, 0.4, 1.0],   // 4 dark grey (for cube borders)
+    [0, 0, 0, 1.0]          // 5 black (for cube outlines)
 ];
 
 var rainbowColors =
@@ -164,6 +164,9 @@ window.onload = function init()
     generateCube();
     generateCubeOutline();
     generatePath();
+
+    // TODO PLAYER
+    generatePlayer();
 
     // BUFFER AND ATTRIBUTES FOR THE NORMALS
     var nBuffer = gl.createBuffer();
@@ -323,6 +326,9 @@ function render(timeStamp)
 
     // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
     destroyOutOfRangeCubes();
+
+    // TODO PLAYER
+    drawPlayer();
 
     // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
