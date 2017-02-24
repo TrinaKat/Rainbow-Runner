@@ -21,7 +21,7 @@ function generatePath() {
 }
 
 // Draw the path for the cubes to travel on
-function drawPath() {
+function drawPath(scrollAmount) {
     // Buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
@@ -36,6 +36,24 @@ function drawPath() {
     // Enable the texture before we draw
     enableTexture = true;
     gl.uniform1f(enableTextureLoc, enableTexture);  // tell the shader whether or not we want to enable textures
+
+    // Add scrolling rainbow road texture
+     if (!isPaused) {
+        // Don't grow forever
+        if( texCoords[0][1] > 60 )
+        {
+            texCoords = [];
+            for( var i = 0; i < 6; i++ )
+            {
+                texCoords.push(resetTexCoords[i]);
+            }
+        }
+
+        for( var v = 0; v < 6; v++ )
+        {
+            texCoords[ v ] = add( texCoords[ v ], vec2( 0, scrollAmount ));
+        }
+    }
 
     // Bind the appropriate buffers and attributes for the texture
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);

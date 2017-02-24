@@ -52,6 +52,7 @@ var currColour = 0;  // use this to index through the cube colours
 var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
 var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
 var isForBorder = 0;
+var isRainbow = 0;
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
 var lightPosition = vec4(20, 20, -25, 0.0 );
@@ -75,22 +76,31 @@ var texture;
 var enableTexture = false;  // by default we do not use textures
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
-    vec2(0, 3), //1
+    vec2(0, 2), //1
     vec2(0, 0), //0
-    vec2(3, 0), //3
-    vec2(0, 3), //1
-    vec2(3, 0), //3
-    vec2(3, 3)  //2
+    vec2(2, 0), //3
+    vec2(0, 2), //1
+    vec2(2, 0), //3
+    vec2(2, 2)  //2
 ];
 var resetTexCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
-    vec2(0, 3), //1
+    vec2(0, 2), //1
     vec2(0, 0), //0
-    vec2(3, 0), //3
-    vec2(0, 3), //1
-    vec2(3, 0), //3
-    vec2(3, 3)  //2
+    vec2(2, 0), //3
+    vec2(0, 2), //1
+    vec2(2, 0), //3
+    vec2(2, 2)  //2
 ];
+var flippedTexCoords =  //210203
+[
+    vec2(21, 21), //2
+    vec2(0, 21), //1
+    vec2(0, 0), //0
+    vec2(21, 21), //2
+    vec2(0, 0), //0
+    vec2(21, 0)  //3
+]
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
@@ -208,8 +218,10 @@ window.onload = function init()
 
     // assign rainbow road texture to the path
     applyTexture("Textures/rainbow.png");
+
+    // KEEP THESE FOR TESTING/OTHER STUFF
+    // applyTexture("Textures/rainbowBlend.png");
     // applyTexture("Textures/pastels.jpg");
-    // applyTexture("Textures/white.jpg");
 
     // ADD EVENT LISTENERS
     // for ASCII character keys
@@ -223,6 +235,10 @@ window.onload = function init()
                 console.log("w key");
                 isAllWhite = !isAllWhite;
                 break;
+            // case 114:  // 'r' key
+            //     console.log("r key");
+            //     isRainbow = !isRainbow;
+            //     break;
         }
     });
 
@@ -275,7 +291,6 @@ function render(timeStamp)
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
 
-
     if (!isPaused) {
         // move the cubes forward at a constant speed
         amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
@@ -287,8 +302,11 @@ function render(timeStamp)
         prevTime = timeStamp;
     }
 
-    // draw the path
-    drawPath();
+    // Draw the path
+    // Step size of 1 unit, moves at a constant rate
+    drawPath(timeDiff);
+    // TODO REMOVE keep path from scrolling
+    // drawPath(0);
 
     // draw the cube border on both sides
     drawBorder();
