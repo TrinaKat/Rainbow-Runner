@@ -73,7 +73,9 @@ var normalsArray = [];
 
 // VARIABLES NEEDED FOR TEXTURES
 var texture;
+var textureFlipped;
 var enableTexture = false;  // by default we do not use textures
+var isFlipped = false;
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
     vec2(0, 2), //1
@@ -220,7 +222,9 @@ window.onload = function init()
     textureLoc = gl.getUniformLocation(program, "u_texture");
 
     // assign rainbow road texture to the path
-    applyTexture("Textures/rainbow.png");
+    // applyTexture("Textures/rainbow.png");
+    createTexture("Textures/rainbow.png");
+    createFlippedTexture("Textures/rainbow.png");
 
     // KEEP THESE FOR TESTING/OTHER STUFF
     // applyTexture("Textures/rainbowBlend.png");
@@ -237,6 +241,10 @@ window.onload = function init()
             case 119:  // 'w' key
                 console.log("w key");
                 isAllWhite = !isAllWhite;
+                break;
+            case 102:
+                console.log("f key");
+                isFlipped = !isFlipped;
                 break;
             // case 114:  // 'r' key
             //     console.log("r key");
