@@ -33,7 +33,7 @@ function generateNewCubeLine()
     // Generate a random number of cubes in the line (7-10)
     var numCubes = 7 + Math.floor((Math.random() * 3) + 1);
     // Section the path into equal length segments
-    var sectionPathWidth = Math.floor( (canvas.width/12) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
+    var sectionPathWidth = Math.floor( (canvas.width/11) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
 
     // Holds the unique x positions for the numCubes X positions
     var positions = [];
@@ -46,7 +46,7 @@ function generateNewCubeLine()
         // What index in the section of the canvas
         var indexInSection = Math.floor( Math.random() * (sectionPathWidth - 2)) + 1;
         // Initial offset on canvas
-        var initialOffset = - canvas.width / 24;
+        var initialOffset = - canvas.width / 22;
         var randomPosition = whichSection + indexInSection + initialOffset;
         positions.push( randomPosition );
 
