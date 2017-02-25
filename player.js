@@ -11,8 +11,8 @@ var playerVertices =
   [
     vec4( -0.5, 0.5, 1.0, 1.0 ),  // 0 Near left
     vec4(  0.5, 0.5, 1.0, 1.0 ),  // 1 Near right
-    vec4(  0.0, 0.5, 0.0, 1.0 ),  // 2 Far point
-    vec4(  0.0, 0.7, 0.9, 1.0 )   // 3 Center
+    vec4(  0.0, 0.7, 0.0, 1.0 ),  // 2 Far point
+    vec4(  0.0, 0.8, 0.9, 1.0 )   // 3 Center
   ];
 
 function generatePlayer()
