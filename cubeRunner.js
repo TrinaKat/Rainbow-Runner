@@ -75,7 +75,7 @@ var normalsArray = [];
 var texture;
 var textureFlipped;
 var enableTexture = false;  // by default we do not use textures
-var isFlipped = false;
+var isFlipped = true;
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
     vec2(0, 2), //1
@@ -144,6 +144,9 @@ var numCubeLines = (2 * cameraPositionZAxis) / stepSize;   // the total number o
 // Keep track of Z distance traveled by each line (elements correspond to those in allCubeLineXPositions)
 var cubeLineDistanceTraveled = 0;
 var isPaused = 0;  // 0: not paused so all the cubes move; 1: paused so the cubes remain stationary
+
+// TODO SOUND
+var isMusic = true;
 
 window.onload = function init()
 {
@@ -242,14 +245,42 @@ window.onload = function init()
                 console.log("w key");
                 isAllWhite = !isAllWhite;
                 break;
-            case 102:
+            case 102:  // 'f' key
                 console.log("f key");
                 isFlipped = !isFlipped;
                 break;
-            // case 114:  // 'r' key
-            //     console.log("r key");
-            //     isRainbow = !isRainbow;
-            //     break;
+            case 115:  // 's' key
+                console.log("s key");
+                document.getElementById('happySound').play();
+                break;
+            case 109:  // 'm' key
+                console.log("m key");
+                if( !isMusic )
+                {
+                    document.getElementById('themeSong').play();
+                }
+                else
+                {
+                    document.getElementById('themeSong').pause();
+                }
+                isMusic = !isMusic;
+                break;
+            case 113:  // 'q' key
+                console.log("q key");
+                document.getElementById('quitSound').play();
+                // TODO RESET
+                break;
+            case 114:  // 'r' key
+                console.log("r key");
+                document.getElementById('frackOffSound').play();
+                // TODO
+                break;
+            case 99:   // 'c' key
+                console.log("c key");
+                document.getElementById('crashSound').play();
+                // TODO
+                break;
+
         }
     });
 
