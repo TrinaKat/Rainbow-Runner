@@ -401,6 +401,7 @@ function render(timeStamp)
     {
         isPaused = true;
         explodeCube( timeDiff );
+        document.getElementById('crashSound').play();
     }
 
     // Draw the path
