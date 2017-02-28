@@ -53,6 +53,7 @@ var allCubeColours = [];  // array of array to store the colours for every cube 
 var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
 var isForBorder = 0;
 var isRainbow = 0;
+var isExploded = 0;
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
 var lightPosition = vec4(20, 20, -25, 0.0 );
@@ -145,8 +146,12 @@ var numCubeLines = (2 * cameraPositionZAxis) / stepSize;   // the total number o
 var cubeLineDistanceTraveled = 0;
 var isPaused = 0;  // 0: not paused so all the cubes move; 1: paused so the cubes remain stationary
 
+// NAVIGATION
+var rotDegrees = 0;
+
 // TODO SOUND
-var isMusic = true;
+var isMusic = false;    //TODO make true when on autoplay
+var isFun = false;
 
 window.onload = function init()
 {
@@ -257,10 +262,18 @@ window.onload = function init()
                 console.log("m key");
                 if( !isMusic )
                 {
-                    document.getElementById('themeSong').play();
+                    if( isFun )
+                    {
+                        document.getElementById('funSong').play();
+                    }
+                    else
+                    {
+                        document.getElementById('themeSong').play();
+                    }
                 }
                 else
                 {
+                    document.getElementById('funSong').pause();
                     document.getElementById('themeSong').pause();
                 }
                 isMusic = !isMusic;
@@ -280,7 +293,27 @@ window.onload = function init()
                 document.getElementById('crashSound').play();
                 // TODO
                 break;
-
+            case 122:   // 'z' key
+                console.log("z key");
+                isFun = !isFun;
+                if( isMusic )
+                {
+                    if( isFun )
+                    {
+                        document.getElementById('themeSong').pause();
+                        document.getElementById('funSong').play();
+                    }
+                    else
+                    {
+                        document.getElementById('funSong').pause();
+                        document.getElementById('themeSong').play();
+                    }
+                }
+                break;
+            case 101:   // 'e' key
+                console.log("e key");
+                isExploded = !isExploded;
+                break;
         }
     });
 
@@ -288,32 +321,48 @@ window.onload = function init()
     // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
     addEventListener("keydown", function(event) {
         switch(event.keyCode) {
-            // rotate the heading/azimuth left by 4 degrees
-            case 37:  // LEFT key
+            // TODO REMOVE only for testing
+            case 188:   // ',' key aka <
                 // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
                 currDegrees += 4;
-                console.log("RIGHT");
+                console.log("<");
                 projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
                 break;
-            // move position of the Y-axis up by 0.25 units
-            case 38:  // UP key
-                console.log("UP");
-                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, 0.25, 0)));
-                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-                break;
-            // rotate the heading/azimuth right by 4 degrees
-            case 39:  // RIGHT key
+            case 190:   // '.' key aka >
                 currDegrees -= 4;
-                console.log("LEFT");
+                console.log(">");
                 projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
                 break;
-            // move position of the Y-axis down by 0.25 units
-            case 40:  // DOWN key
-                console.log("DOWN");
-                cameraTransformMatrix = mult(cameraTransformMatrix, inverse(translate(0, -0.25, 0)));
-                gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+
+            // KEEP FOR GAME NAVIGATION
+            case 37:  // LEFT key
+                console.log("LEFT");
+                // if( rotDegrees < 15 )
+                // {
+                //     rotDegrees += 3;
+                // }
+                rotDegrees += 3;
+                if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                {
+                    projectionMatrix = mult( projectionMatrix, rotate( -3, vec3( 0, 0, 1 )));
+                    gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+                }
+                break;
+            // rotate the heading/azimuth right by 4 degrees
+            case 39:  // RIGHT key
+                console.log("RIGHT");
+                // if( rotDegrees > -15 )
+                // {
+                //     rotDegrees -= 3;
+                // }
+                rotDegrees -= 3;
+                if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                {
+                    projectionMatrix = mult( projectionMatrix, rotate( 3, vec3( 0, 0, 1 )));
+                    gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+                }
                 break;
         }
     });
@@ -344,6 +393,16 @@ function render(timeStamp)
         prevTime = timeStamp;
     }
 
+    // TODO PLAYER
+    drawPlayer();
+
+    // TODO exploding cube upon collision
+    if( isExploded )
+    {
+        isPaused = true;
+        explodeCube( timeDiff );
+    }
+
     // Draw the path
     // Step size of 1 unit, moves at a constant rate
     drawPath(timeDiff);
@@ -365,9 +424,6 @@ function render(timeStamp)
 
     // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
     destroyOutOfRangeCubes();
-
-    // TODO PLAYER
-    drawPlayer();
 
     // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
