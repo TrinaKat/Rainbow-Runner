@@ -28,10 +28,8 @@ function drawPath(scrollAmount) {
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    // Reset the model transform matrix so the path is drawn at the origin
-    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mat4()));
     // Reset the camera transform matrix as well (was changed to move the cubes)
-    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+    // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
     // Enable the texture before we draw
     enableTexture = true;
@@ -86,6 +84,12 @@ function drawPath(scrollAmount) {
         gl.bindTexture(gl.TEXTURE_2D, textureFlipped);
         gl.uniform1i(textureLoc, 1);
     }
+
+    // Reset the model transform matrix so the path is drawn at the origin
+    modelTransformMatrix = mat4();
+    // Add in rotation due to left/right keypress
+    // modelTransformMatrix = mult( modelTransformMatrix, rotate( rotDegrees, vec3( 0, 0, 1 )));
+    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
 
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );
