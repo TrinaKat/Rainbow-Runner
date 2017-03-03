@@ -119,6 +119,7 @@ var modelTransformMatrix = mat4();  // identity matrix
 var projectionMatrix = mat4();
 var cameraTransformMatrix = mat4();
 var pathCameraTransformMatrix = mat4();
+var playerProjectionMatrix = mat4();
 
 // SET UP BUFFER AND ATTRIBUTES
 var vPosition;
@@ -213,6 +214,8 @@ window.onload = function init()
 
     // apply symmetric perspective projection
     projectionMatrix = perspective(currentFOV, 1, 1, 100);
+    // save the projection matrix for the player (since the player will remain in the same place on the screen the whole game)
+    playerProjectionMatrix = projectionMatrix;
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 
     // SET VARIABLES FOR LIGHTING
@@ -339,30 +342,39 @@ window.onload = function init()
             // KEEP FOR GAME NAVIGATION
             case 37:  // LEFT key
                 console.log("LEFT");
-                // if( rotDegrees < 15 )
-                // {
-                //     rotDegrees += 3;
-                // }
-                rotDegrees += 3;
-                if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                // only rotate if you haven't rotated too much in that direction
+                if( rotDegrees < 15 )
                 {
-                    projectionMatrix = mult( projectionMatrix, rotate( -3, vec3( 0, 0, 1 )));
-                    gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+                    rotDegrees += 3;
+                    if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                    {
+                        projectionMatrix = mult( projectionMatrix, rotate( -3, vec3( 0, 0, 1 )));
+                        gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+                    }
+
+                    // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
                 }
+                // move the cubes over in the direction indicated
+                cameraTransformMatrix = mult(translate(1, 0, 0), cameraTransformMatrix);
+                gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                 break;
             // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
                 console.log("RIGHT");
-                // if( rotDegrees > -15 )
-                // {
-                //     rotDegrees -= 3;
-                // }
-                rotDegrees -= 3;
-                if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                if( rotDegrees > -15 )
                 {
-                    projectionMatrix = mult( projectionMatrix, rotate( 3, vec3( 0, 0, 1 )));
-                    gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+                    rotDegrees -= 3;
+                    if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                    {
+                        projectionMatrix = mult( projectionMatrix, rotate( 3, vec3( 0, 0, 1 )));
+                        gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+                    }
+                    
+                    // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
                 }
+                cameraTransformMatrix = mult(translate(-1, 0, 0), cameraTransformMatrix);
+                gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
+
                 break;
         }
     });
@@ -393,9 +405,6 @@ function render(timeStamp)
         prevTime = timeStamp;
     }
 
-    // TODO PLAYER
-    drawPlayer();
-
     // TODO exploding cube upon collision
     if( isExploded )
     {
@@ -403,6 +412,10 @@ function render(timeStamp)
         explodeCube( timeDiff );
         document.getElementById('crashSound').play();
     }
+
+
+    // TODO PLAYER
+    drawPlayer();
 
     // Draw the path
     // Step size of 1 unit, moves at a constant rate
