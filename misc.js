@@ -65,7 +65,7 @@ function drawBorder()
         drawCube(4);  // draw the cube as dark grey
 
         // Draw cube on right side
-        transformCube( 39, i );
+        transformCube( 40, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
         drawCube(4);  // draw the cube as dark grey
