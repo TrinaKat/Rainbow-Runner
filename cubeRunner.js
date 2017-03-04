@@ -347,46 +347,14 @@ window.onload = function init()
             // KEEP FOR GAME NAVIGATION
             case 37:  // LEFT key
                 console.log("LEFT");
-                // only rotate if you haven't rotated too much in that direction
-                if( rotDegrees <= 21 )
-                {
-                    rotDegrees += 3;
-                    if(( rotDegrees >= -21 ) && ( rotDegrees <= 21 ))
-                    {
-                        projectionMatrix = mult( projectionMatrix, rotate( -3, vec3( 0, 0, 1 )));
-                        gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
-                    }
-
-                    // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
-                }
-                // move the cubes over in the direction indicated
-                translateAmount += Math.cos(radians(rotDegrees));
-                if( translateAmount < 43 && translateAmount > -37 )
-                {
-                    cameraTransformMatrix = mult(translate( Math.cos(radians(rotDegrees)), 0, 0), cameraTransformMatrix);
-                    gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
-                }
+                cameraTransformMatrix = mult(translate( 1, 0, 0), cameraTransformMatrix);
+                gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                 break;
             // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
                 console.log("RIGHT");
-                if( rotDegrees >= -21 )
-                {
-                    rotDegrees -= 3;
-                    if(( rotDegrees >= -21 ) && ( rotDegrees <= 21 ))
-                    {
-                        projectionMatrix = mult( projectionMatrix, rotate( 3, vec3( 0, 0, 1 )));
-                        gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
-                    }
-
-                    // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
-                }
-                translateAmount -= Math.cos(radians(rotDegrees));
-                if( translateAmount < 43 && translateAmount > -37 )
-                {
-                    cameraTransformMatrix = mult(translate( -Math.cos(radians(rotDegrees)), 0, 0), cameraTransformMatrix);
-                    gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
-                }
+                cameraTransformMatrix = mult(translate( -1, 0, 0), cameraTransformMatrix);
+                gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                 break;
         }
     });
@@ -429,22 +397,6 @@ function render(timeStamp)
             explodeSound = true;
         }
     }
-
-    // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
-    // Should rotate right
-    // if( rotDegrees > 0 )
-    // {
-    //     rotDegrees -= 0.1;
-    //     projectionMatrix = mult( projectionMatrix, rotate( 0.1, vec3( 0, 0, 1 )));
-    //     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
-    // }
-    // // Should rotate left
-    // else if( rotDegrees < 0 )
-    // {
-    //     rotDegrees += 0.1;
-    //     projectionMatrix = mult( projectionMatrix, rotate( -0.1, vec3( 0, 0, 1 )));
-    //     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
-    // }
 
     // TODO PLAYER
     drawPlayer();
