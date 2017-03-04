@@ -163,24 +163,28 @@ function playerCollisionDetection() {
           // TODO
           console.log("front collision");
           isPaused = 1;
+          isExploded = 1;
         }
         // check if the back face intersects
         else if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i])) {
           // TODO
           console.log("back collision");
           isPaused = 1;
+          isExploded = 1;
         }
         // check if the left face intersects
         else if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i])) {
           // TODO
           console.log("left collision");
           isPaused = 1;
+          isExploded = 1;
         }
         // check if the right face intersects
         else if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
           // TODO
           console.log("right collision");
           isPaused = 1;
+          isExploded = 1;
         }
       }
     }

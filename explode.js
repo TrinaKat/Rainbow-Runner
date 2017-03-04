@@ -52,7 +52,7 @@ function transformExplodeCube( xPosition, yPosition, zPosition, scaleVal )
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 
-function explodeCube( timeDiff )
+function explodeCube( timeDiff, x )
 {
   // If larger than 1.5, then stop drawing
   if( Math.abs( explodePositions_x[0] ) < 1.5 )
@@ -66,7 +66,7 @@ function explodeCube( timeDiff )
       explodePositions_y[i] = explodePositions_y[i] + 2.0 * timeDiff * Math.sin( radians( angle ));
 
       // Move the cube to the correct position
-      transformExplodeCube( explodePositions_x[i], explodePositions_y[i], explodePositions_z[i], 0.2 );
+      transformExplodeCube( explodePositions_x[i] + x, explodePositions_y[i], explodePositions_z[i], 0.2 );
 
       // Draw the cubes and outlines
       drawOutline();
@@ -82,7 +82,7 @@ function explodeCube( timeDiff )
       explodePositions2_y[it] = explodePositions2_y[it] + 1.3 * timeDiff * Math.sin( radians( angle2 ));
 
       // Move the cube to the correct position
-      transformExplodeCube( explodePositions2_x[it], explodePositions2_y[it], explodePositions2_z[it], 0.14 );
+      transformExplodeCube( explodePositions2_x[it] + x, explodePositions2_y[it], explodePositions2_z[it], 0.14 );
 
       // Draw the cubes and outlines
       drawOutline();
@@ -98,7 +98,7 @@ function explodeCube( timeDiff )
       explodePositions3_y[iter] = explodePositions3_y[iter] + 0.6 * timeDiff * Math.sin( radians( angle3 ));
 
       // Move the cube to the correct position
-      transformExplodeCube( explodePositions3_x[iter], explodePositions3_y[iter], explodePositions3_z[iter], 0.08 );
+      transformExplodeCube( explodePositions3_x[iter] + x, explodePositions3_y[iter], explodePositions3_z[iter], 0.08 );
 
       // Draw the cubes and outlines
       drawOutline();

@@ -392,7 +392,7 @@ function render(timeStamp)
     if( isExploded )
     {
         isPaused = true;
-        explodeCube( timeDiff );
+        explodeCube( timeDiff, playerXPos );
         if( !explodeSound )
         {
             document.getElementById('crashSound').play();
