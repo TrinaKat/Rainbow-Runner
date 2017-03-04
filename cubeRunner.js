@@ -156,8 +156,10 @@ var isMusic = true;    //TODO make true when on autoplay
 var isFun = false;
 var explodeSound = false;
 
-// SCORE
+// SCORE & 2D CANVAS
+var ctx ;
 var score = 0;
+var highScore = 0;
 
 window.onload = function init()
 {
@@ -166,6 +168,12 @@ window.onload = function init()
 
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
+
+    // look up the text canvas.
+    var textCanvas = document.getElementById( "text" );
+
+    // make a 2D context for it
+    ctx = textCanvas.getContext( "2d" );
 
     gl.viewport( 0, 0, canvas.width, canvas.height);
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
@@ -373,6 +381,9 @@ function render(timeStamp)
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+    // Clear the 2D canvas that has the text
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
     score += timeDiff;  // TODO floor round this
@@ -382,6 +393,9 @@ function render(timeStamp)
         amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
         prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
         cubeLineDistanceTraveled += amountToMove;
+
+        // incrementing the score if the cube is running / not paused
+        score += timeDiff;
     }
     else {  // if the game is paused, don't move the cubes, but make sure to keep updating thw timer
         amountToMove = 0;
@@ -397,6 +411,10 @@ function render(timeStamp)
         {
             document.getElementById('crashSound').play();
             explodeSound = true;
+        }
+        if( Math.floor( score ) > highScore )
+        {
+            highScore = Math.floor( score );
         }
     }
 
@@ -427,6 +445,13 @@ function render(timeStamp)
 
     // check to see if the player has collided with any cubes --> game over
     playerCollisionDetection();
+
+    //placing the text on the canvas
+    ctx.font = "bold 24px Courier"
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Score: " + Math.floor( score ), 50, 50);
+    ctx.fillText("High Score: " + highScore, 725, 50);
+
 
     // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
