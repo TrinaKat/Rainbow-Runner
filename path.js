@@ -1,15 +1,17 @@
 // Path
 
+var pathWidth = 40;
+
 // Generate vertices for the path
 function generatePath() {
     // Generate the path with z: { -cameraPositionZaxis, cameraPositionZaxis }
     // Store the vertices needed for the path
     var pathVertices =
     [
-        vec4( -40, 0, cameraPositionZAxis, 1.0 ),   // near left corner   // 0
-        vec4( -40, 0, -cameraPositionZAxis, 1.0 ),  // far left corner    // 1
-        vec4( 40, 0, -cameraPositionZAxis, 1.0 ),   // far right corner   // 2
-        vec4( 40, 0, cameraPositionZAxis, 1.0 )     // near right corner  // 3
+        vec4( -1 * pathWidth, 0, cameraPositionZAxis, 1.0 ),   // near left corner   // 0
+        vec4( -1 * pathWidth, 0, -cameraPositionZAxis, 1.0 ),  // far left corner    // 1
+        vec4( pathWidth, 0, -cameraPositionZAxis, 1.0 ),   // far right corner   // 2
+        vec4( pathWidth, 0, cameraPositionZAxis, 1.0 )     // near right corner  // 3
     ];
 
     // The order to draw with the path vertices
@@ -90,7 +92,6 @@ function drawPath(scrollAmount) {
     // Add in rotation due to left/right keypress
     // modelTransformMatrix = mult( modelTransformMatrix, rotate( rotDegrees, vec3( 0, 0, 1 )));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
-
 
     gl.drawArrays( gl.TRIANGLES, 0, numPathVertices );
 

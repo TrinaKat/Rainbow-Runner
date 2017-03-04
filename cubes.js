@@ -47,7 +47,7 @@ function generateNewCubeLine()
         // What index in the section of the canvas
         var indexInSection = Math.floor( Math.random() * (sectionPathWidth - 2)) + 1;
         // Initial offset on canvas
-        var initialOffset = -40;
+        var initialOffset = -1 * pathWidth;
         var randomPosition = whichSection + indexInSection + initialOffset;
         positions.push( randomPosition );
 
