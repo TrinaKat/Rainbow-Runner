@@ -97,12 +97,12 @@ var resetTexCoords =    // mapping between the texture coordinates (range from 0
 ];
 var flippedTexCoords =  //210203
 [
-    vec2(21, 21), //2
-    vec2(0, 21), //1
+    vec2(3, 3), //2
+    vec2(0, 3), //1
     vec2(0, 0), //0
-    vec2(21, 21), //2
+    vec2(3, 3), //2
     vec2(0, 0), //0
-    vec2(21, 0)  //3
+    vec2(3, 0)  //3
 ]
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS

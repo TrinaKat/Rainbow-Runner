@@ -6,10 +6,10 @@ function generatePath() {
     // Store the vertices needed for the path
     var pathVertices =
     [
-        vec4( -canvas.width/2, 0, cameraPositionZAxis, 1.0 ),   // near left corner   // 0
-        vec4( -canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),  // far left corner    // 1
-        vec4( canvas.width/2, 0, -cameraPositionZAxis, 1.0 ),   // far right corner   // 2
-        vec4( canvas.width/2, 0, cameraPositionZAxis, 1.0 )     // near right corner  // 3
+        vec4( -40, 0, cameraPositionZAxis, 1.0 ),   // near left corner   // 0
+        vec4( -40, 0, -cameraPositionZAxis, 1.0 ),  // far left corner    // 1
+        vec4( 39, 0, -cameraPositionZAxis, 1.0 ),   // far right corner   // 2
+        vec4( 39, 0, cameraPositionZAxis, 1.0 )     // near right corner  // 3
     ];
 
     // The order to draw with the path vertices
