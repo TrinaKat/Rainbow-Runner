@@ -152,7 +152,7 @@ var rotDegrees = 0;
 var translateAmount = 0;
 
 // TODO SOUND
-var isMusic = false;    //TODO make true when on autoplay
+var isMusic = true;    //TODO make true when on autoplay
 var isFun = false;
 var explodeSound = false;
 
