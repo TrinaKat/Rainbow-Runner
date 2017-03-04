@@ -149,10 +149,15 @@ var isPaused = 0;  // 0: not paused so all the cubes move; 1: paused so the cube
 
 // NAVIGATION
 var rotDegrees = 0;
+var translateAmount = 0;
 
 // TODO SOUND
 var isMusic = false;    //TODO make true when on autoplay
 var isFun = false;
+var explodeSound = false;
+
+// SCORE
+var score = 0;
 
 window.onload = function init()
 {
@@ -343,10 +348,10 @@ window.onload = function init()
             case 37:  // LEFT key
                 console.log("LEFT");
                 // only rotate if you haven't rotated too much in that direction
-                if( rotDegrees < 15 )
+                if( rotDegrees <= 21 )
                 {
                     rotDegrees += 3;
-                    if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                    if(( rotDegrees >= -21 ) && ( rotDegrees <= 21 ))
                     {
                         projectionMatrix = mult( projectionMatrix, rotate( -3, vec3( 0, 0, 1 )));
                         gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
@@ -355,26 +360,33 @@ window.onload = function init()
                     // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
                 }
                 // move the cubes over in the direction indicated
-                cameraTransformMatrix = mult(translate(1, 0, 0), cameraTransformMatrix);
-                gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
+                translateAmount += Math.cos(radians(rotDegrees));
+                if( translateAmount < 43 && translateAmount > -37 )
+                {
+                    cameraTransformMatrix = mult(translate( Math.cos(radians(rotDegrees)), 0, 0), cameraTransformMatrix);
+                    gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
+                }
                 break;
             // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
                 console.log("RIGHT");
-                if( rotDegrees > -15 )
+                if( rotDegrees >= -21 )
                 {
                     rotDegrees -= 3;
-                    if(( rotDegrees >= -15 ) && ( rotDegrees <= 15 ))
+                    if(( rotDegrees >= -21 ) && ( rotDegrees <= 21 ))
                     {
                         projectionMatrix = mult( projectionMatrix, rotate( 3, vec3( 0, 0, 1 )));
                         gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
                     }
-                    
+
                     // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
                 }
-                cameraTransformMatrix = mult(translate(-1, 0, 0), cameraTransformMatrix);
-                gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
-
+                translateAmount -= Math.cos(radians(rotDegrees));
+                if( translateAmount < 43 && translateAmount > -37 )
+                {
+                    cameraTransformMatrix = mult(translate( -Math.cos(radians(rotDegrees)), 0, 0), cameraTransformMatrix);
+                    gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
+                }
                 break;
         }
     });
@@ -393,6 +405,7 @@ function render(timeStamp)
 
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
+    score += timeDiff;  // TODO floor round this
 
     if (!isPaused) {
         // move the cubes forward at a constant speed
@@ -410,9 +423,28 @@ function render(timeStamp)
     {
         isPaused = true;
         explodeCube( timeDiff );
-        document.getElementById('crashSound').play();
+        if( !explodeSound )
+        {
+            document.getElementById('crashSound').play();
+            explodeSound = true;
+        }
     }
 
+    // TODO: start setting back to equilibrium (rotation = 0) like in cuberunner game
+    // Should rotate right
+    // if( rotDegrees > 0 )
+    // {
+    //     rotDegrees -= 0.1;
+    //     projectionMatrix = mult( projectionMatrix, rotate( 0.1, vec3( 0, 0, 1 )));
+    //     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+    // }
+    // // Should rotate left
+    // else if( rotDegrees < 0 )
+    // {
+    //     rotDegrees += 0.1;
+    //     projectionMatrix = mult( projectionMatrix, rotate( -0.1, vec3( 0, 0, 1 )));
+    //     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten( projectionMatrix ));
+    // }
 
     // TODO PLAYER
     drawPlayer();
