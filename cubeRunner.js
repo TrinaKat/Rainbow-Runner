@@ -386,7 +386,6 @@ function render(timeStamp)
 
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
-    score += timeDiff;  // TODO floor round this
 
     if (!isPaused) {
         // move the cubes forward at a constant speed
