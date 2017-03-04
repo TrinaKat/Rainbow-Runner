@@ -141,6 +141,13 @@ function playerCollisionDetection() {
   var playerLeftXPos = playerXPos - 0.5;
   var playerRightXPos = playerXPos + 0.5;
   var playerBaseZPos = playerTipZPos + 1;
+  
+  // check if the player has hit the borders
+  if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
+      console.log("border collision");
+      isExploded = 1;
+  }
+
   // need to check all of the cubes that are now in the same z position range as the player and check if they overlap with the player
   for (var i = 0; i < allCubeLineZPositions.length; i++) {
     // the cube is in the z position range of the player
