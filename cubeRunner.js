@@ -349,12 +349,14 @@ window.onload = function init()
                 console.log("LEFT");
                 cameraTransformMatrix = mult(translate( 1, 0, 0), cameraTransformMatrix);
                 gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
+                playerXPos += -1;
                 break;
             // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
                 console.log("RIGHT");
                 cameraTransformMatrix = mult(translate( -1, 0, 0), cameraTransformMatrix);
                 gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
+                playerXPos += 1;
                 break;
         }
     });
@@ -422,6 +424,9 @@ function render(timeStamp)
 
     // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
     destroyOutOfRangeCubes();
+
+    // check to see if the player has collided with any cubes --> game over
+    playerCollisionDetection();
 
     // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
