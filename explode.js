@@ -106,4 +106,46 @@ function explodeCube( timeDiff, x )
       drawCube(3);
     }
   }
+  else
+  {
+    isExploded = false;
+
+    explodePositions_x =
+    [ -0.5, -0.3, -0.4, -0.2, 0.1, 0.3, 0.1, 0.2, 0.4 ];
+
+    explodePositions_y =
+    [ 0.5, 0.7, 0.9, 0.6, 1.2, 0.7, 0.5, 0.6, 0.9 ];
+
+    explodePositions_z =
+    [ 0.0, -0.2, -0.5, -0.7, -0.3, -0.8, -0.1, -0.4, -0.7 ];
+
+    explodeAngle =
+    [ 210, 160, 120, 80, 40, 30, -20, -10, 20 ];
+
+    // Middle Layer
+    explodePositions2_x =
+    [ -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4 ];
+
+    explodePositions2_y =
+    [ 0.2, 0.3, 0.4, 0.5, 0.6, 0.5, 0.4, 0.3, 0.2 ];
+
+    explodePositions2_z =
+    [ 0.0, -0.2, -0.5, -0.7, -0.3, -0.8, -0.1, -0.4, -0.7 ];
+
+    explodeAngle2 =
+    [ 210, 160, 120, 80, 60, 40, 20, -10, -30 ];
+
+    // Innermost Layer
+    explodePositions3_x =
+    [ -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4 ];
+
+    explodePositions3_y =
+    [ 0.2, 0.3, 0.4, 0.5, 0.6, 0.5, 0.4, 0.3, 0.2 ];
+
+    explodePositions3_z =
+    [ -0.7, -0.4, -0.1, -0.7, -0.3, -0.8, -0.5, -0.2, 0.0 ];
+
+    explodeAngle3 =
+    [ 210, 160, 120, 80, 60, 40, 20, -10, -30 ];
+  }
 }
