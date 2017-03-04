@@ -34,7 +34,8 @@ var colors =
     [0.6, 0.6, 0.6, 1.0],   // 2 light-medium grey
     [0.5, 0.5, 0.5, 1.0],   // 3 medium grey
     [0.4, 0.4, 0.4, 1.0],   // 4 dark grey (for cube borders)
-    [0, 0, 0, 1.0]          // 5 black (for cube outlines)
+    [0, 0, 0, 1.0],         // 5 black (for cube outlines)
+    [1, 0.9, 0, 1.0]        // 6 yellow for the star
 ];
 
 var rainbowColors =
@@ -123,6 +124,7 @@ var playerProjectionMatrix = mat4();
 
 // SET UP BUFFER AND ATTRIBUTES
 var vPosition;
+var vNormal;
 var vBuffer;
 var vOutlineBuffer;
 var vPathBuffer;
@@ -193,12 +195,15 @@ window.onload = function init()
     // TODO PLAYER
     generatePlayer();
 
+    // STAR
+    generateStar();
+
     // BUFFER AND ATTRIBUTES FOR THE NORMALS
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
 
-    var vNormal = gl.getAttribLocation( program, "vNormal" );
+    vNormal = gl.getAttribLocation( program, "vNormal" );
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
 
@@ -438,6 +443,8 @@ function render(timeStamp)
 
     // TODO PLAYER
     drawPlayer();
+
+    drawStar();
 
     // Draw the path
     // Step size of 1 unit, moves at a constant rate

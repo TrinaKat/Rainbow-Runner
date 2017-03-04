@@ -6,9 +6,9 @@ var playerPoints = [];
 var playerOutline = [];
 var numPlayerVertices = 12;
 
-// save player's position 
+// save player's position
 var playerXPos = 0;  // the position of the center of the player along the x-axis
-var playerTipZPos;  // the position of the base edge of the player along the z-axis 
+var playerTipZPos;  // the position of the base edge of the player along the z-axis
 var playerEdgeSlope = (1)/0.5;  // based on the player vertices below (for the side edges)
 
 var playerVertices =
@@ -21,6 +21,22 @@ var playerVertices =
 
 function generatePlayer()
 {
+  // Player
+  playerBuffer = gl.createBuffer();
+  gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(playerPoints), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
+
+  // Player Outline
+  playerOutlineBuffer = gl.createBuffer();
+  gl.bindBuffer( gl.ARRAY_BUFFER, playerOutlineBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(playerOutline), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
+
   // Generate player body
   var vertexOrder = [ 0, 1, 2, 0, 3, 2, 2, 3, 1, 0, 1, 3 ];
 
@@ -39,15 +55,14 @@ function generatePlayer()
 
 function drawPlayer()
 {
-    // get the player's base edge's position in the z-axis (need to add one since located at z = +1 from the origin)
-    playerTipZPos = cameraPositionZAxis - 10;  
-    // Bind the current buffer that we want to draw (the one with the points)
-    playerBuffer = gl.createBuffer();
+    // Bind the current buffer to draw
     gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(playerPoints), gl.STATIC_DRAW );
-
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
+
+    // get the player's base edge's position in the z-axis (need to add one since located at z = +1 from the origin)
+    playerTipZPos = cameraPositionZAxis - 10;
+
     // Change the colour for the cube (want to index between 0 and 3)
     gl.uniform4fv(currentColourLoc, colors[3]);
 
@@ -70,23 +85,21 @@ function drawPlayer()
 function drawPlayerOutline()
 {
   // Bind the current buffer that we want to draw (the one with the points)
-    playerOutlineBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, playerOutlineBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(playerOutline), gl.STATIC_DRAW );
+  gl.bindBuffer( gl.ARRAY_BUFFER, playerOutlineBuffer );
+  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
+  gl.disableVertexAttribArray (vNormal);
 
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
-    // Change the colour for the cube (want to index between 0 and 3)
+  // Change the colour for the cube (want to index between 0 and 3)
+  gl.uniform4fv(currentColourLoc, colors[5]);
 
-    gl.uniform4fv(currentColourLoc, colors[5]);
+  modelTransformMatrix = translate(0, 0, cameraPositionZAxis - 10);
+  gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
-    modelTransformMatrix = translate(0, 0, cameraPositionZAxis - 10);
-    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+   // reset the projection matrix for the player so it doesn't move on the screen even if the cubes do
+  gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
 
-     // reset the projection matrix for the player so it doesn't move on the screen even if the cubes do
-    gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
-
-    gl.drawArrays( gl.LINES, 0, numPlayerVertices );
+  gl.drawArrays( gl.LINES, 0, numPlayerVertices );
 }
 
 // check if the two lines intersect
@@ -123,13 +136,13 @@ function checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, se
   // checking either the left or right side of the cube
   else {
       // check and see for which z-value the player edge equations intersect the cube lines
-      // z = mx + b so just plug in the values and find what z is 
+      // z = mx + b so just plug in the values and find what z is
       var z1 = playerEdgeSlope * secondLineValue + bLeft;
       var z2 = -1 * playerEdgeSlope * secondLineValue + bRight;
       if ((z1 >= backCubeZPosition && z1 <= frontCubeZPosition) || (z2 >= backCubeZPosition && z2 <= frontCubeZPosition)) {
         return 1;
     }
-  } 
+  }
   return 0;
 }
 
@@ -141,7 +154,7 @@ function playerCollisionDetection() {
   var playerLeftXPos = playerXPos - 0.5;
   var playerRightXPos = playerXPos + 0.5;
   var playerBaseZPos = playerTipZPos + 1;
-  
+
   // check if the player has hit the borders
   if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
       console.log("border collision");
@@ -159,7 +172,7 @@ function playerCollisionDetection() {
       // check if the x position is in between the front side edges of the player given the exact z-value (use the slope and some math)
       for (var j = 0; j < allXPositions.length; j++) {
         // the left x-position of the cube is allXPositions[j] and the right x-position of the cube is allXPositions[j] + 1
-        // check if any of the sides of the square (the top/bottom face of the cube) intersect with the front two edges of the player 
+        // check if any of the sides of the square (the top/bottom face of the cube) intersect with the front two edges of the player
 
         // the cube is out of range for x values, so ignore it
         if (allXPositions[j] + 1 < playerLeftXPos || allXPositions[j] > playerRightXPos)
