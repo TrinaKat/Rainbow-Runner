@@ -160,6 +160,7 @@ var explodeSound = false;
 var ctx ;
 var score = 0;
 var highScore = 0;
+var difficulty = 5;
 
 window.onload = function init()
 {
@@ -329,6 +330,18 @@ window.onload = function init()
             case 101:   // 'e' key
                 console.log("e key");
                 isExploded = !isExploded;
+                break;
+            case 49:    // '1'
+                console.log("Difficulty 1");
+                difficulty = 5;
+                break;
+            case 50:    // '2'
+                console.log("Difficulty 2");
+                difficulty = 7;
+                break;
+            case 51:    // '3'
+                console.log("Difficulty 3");
+                difficulty = 10;
                 break;
         }
     });

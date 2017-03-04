@@ -31,8 +31,8 @@ function quad( a, b, c, d )
 function generateNewCubeLine()
 {
     // TODO CHANGE DIFFICULTIES
-    // Generate a random number of cubes in the line (7-10)
-    var numCubes = 7 + Math.floor((Math.random() * 3) + 1);
+    // Generate a random number of cubes in the line (5-10)
+    var numCubes = difficulty + Math.floor((Math.random() * 3) + 1);
     // Section the path into equal length segments
     var sectionPathWidth = Math.floor( (canvas.width/11) / numCubes );  // we only want to use one quarter of the canvas width so that the cubes are generated near the middle of the screen
 
