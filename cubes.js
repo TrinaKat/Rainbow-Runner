@@ -82,19 +82,6 @@ function drawCube(colourIndex)
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );
 }
 
-// THIS WORKS BUT ONLY DRAWS ONE CUBE
-// draw and move all cubes forward at a constant speed
-function drawAndMoveCubes()
-{
-    // draw a single cube
-    transformCube(1, 0, -cameraPositionZAxis);
-    // apply the camera transformation so the cubes all move forward
-    cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
-    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-    drawOutline();
-    drawCube();
-}
-
 // Draw lines of cubes and transform them
 function drawAndMoveAllCubes()
 {

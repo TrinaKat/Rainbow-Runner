@@ -8,6 +8,8 @@ function setupMarioEnvironment() {
 
 	// TODO: assign the mario ground texture to the path (ground.png)
 
-	
-	
+	// TODO: change the borders to green pipes
+
+	// TODO: make some of the cubes 
+
 }

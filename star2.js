@@ -242,7 +242,7 @@ function drawSide()
 function drawStar()
 {
   // Increment rotation of star
-  angle += 0.5//0.2;
+  angle += 0.5;//0.2;
   // Keep angle from growing forever
   angle = angle % 360;
 
