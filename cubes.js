@@ -123,6 +123,10 @@ function drawAndMoveAllCubes()
 
             // Set the colour for the cube
             drawCube(allCubeColours[r][c]);
+
+            // disable the texture before we draw something else later
+            enableTexture = false;
+            gl.uniform1f(enableTextureLoc, enableTexture);
         }
     }
 }

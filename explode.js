@@ -82,7 +82,15 @@ function explodeCube( timeDiff, x )
       // Draw the cubes and outlines
       drawOutline();
       // Set the colour for the cube
+      if (isMarioMode)
+      {
+          applyBrickTexture();
+      }
+
       drawCube(cubeColourIndices[0]);
+      // disable the texture before we draw something else later
+        enableTexture = false;
+        gl.uniform1f(enableTextureLoc, enableTexture);
     }
     // Middle layer of medium cubes
     for( var it = 0; it < explodePositions2_x.length; it++ )
@@ -97,8 +105,15 @@ function explodeCube( timeDiff, x )
 
       // Draw the cubes and outlines
       drawOutline();
-      // Set the colour for the cube
+      if (isMarioMode)
+      {
+          applyBrickTexture();
+      }
+
       drawCube(cubeColourIndices[1]);
+      // disable the texture before we draw something else later
+      enableTexture = false;
+      gl.uniform1f(enableTextureLoc, enableTexture);
     }
     // Innermost layer of small cubes
     for( var iter = 0; iter < explodePositions3_x.length; iter++ )
@@ -113,8 +128,15 @@ function explodeCube( timeDiff, x )
 
       // Draw the cubes and outlines
       drawOutline();
-      // Set the colour for the cube
+      if (isMarioMode)
+      {
+          applyBrickTexture();
+      }
+
       drawCube(cubeColourIndices[2]);
+      // disable the texture before we draw something else later
+      enableTexture = false;
+      gl.uniform1f(enableTextureLoc, enableTexture);
     }
   }
   else

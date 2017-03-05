@@ -487,10 +487,6 @@ function render(timeStamp)
     // TODO exploding cube upon collision
     if( isExploded )
     {
-        if (isMarioMode) {
-            // applyBrickTexture();     // TODO: why does this look jank?
-        }
-
         if (!isInvincible || hasHitBorder ) {   // if invincible, don't pause after hitting a cube
             isPaused = true;
             if( Math.floor( score ) > highScore )
