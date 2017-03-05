@@ -170,7 +170,7 @@ var score = 0;
 var highScore = 0;
 var difficulty = 5;
 
-// GAMEPLAY AND SCREEN MODES
+// SCREEN MODES
 var isStartScreen = 1;  // game starts with start screen; TODO
 var isPauseScreen = 0;  // screen that displays when you pause; TOOD
 var isEndScreen = 0;  // screen that displays for game over or when you quit from the pause screen; TODO
@@ -283,6 +283,7 @@ window.onload = function init()
             case 105:  // 'i' key
                 console.log("i key");
                 isInvincible = !isInvincible;
+                // invincibilityTimer = 5;  // set the invincibility timer
                 break;
             case 112:  // 'p' key
                 console.log("p key");
@@ -430,11 +431,6 @@ function render(timeStamp)
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    // set up Mario gameplay mode
-    if (isMarioMode) {
-        setupMarioEnvironment();
-    }
-
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
 
@@ -450,6 +446,20 @@ function render(timeStamp)
     else {  // if the game is paused, don't move the cubes, but make sure to keep updating thw timer
         amountToMove = 0;
         prevTime = timeStamp;
+    }
+
+    // set up Mario gameplay mode
+    if (isMarioMode) {
+        setupMarioEnvironment();
+    }
+
+    // check if in invicibility mode
+    if (isInvincible) {
+        invincibilityTimer -= timeDiff;  // count down until return back to regular Mario mode
+        if (invincibilityTimer < 0) {
+            isInvincible = 0;
+            invincibilityTimer = 5;
+        }
     }
 
     // TODO exploding cube upon collision
