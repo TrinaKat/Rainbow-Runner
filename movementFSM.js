@@ -1,10 +1,10 @@
 class MovementFSM {
 	constructor() {
 		// Constants
-		this.initAccelSpeed = 0.01;
+		this.initAccelSpeed = 0.012;
 		this.accelRate = 0.01;
 		this.framesToMax = 6;
-		this.framesToDeaccel = 4;
+		this.deaccelRate = .04;
 		this.maxMoveSpeed = this.initAccelSpeed + this.framesToMax * this.accelRate;
 
 		this.moveEnum = {
@@ -14,6 +14,7 @@ class MovementFSM {
 		};
 		this.moveDir = this.moveEnum.NONE;
 		this.lateralSpeed = 0;	// magnitude, not a vector
+		this.prevMaxLateralSpeed = 0;
 
 		this.stateEnum = {
 			NOT_TURNING: 0,
@@ -40,24 +41,45 @@ class MovementFSM {
 
 	update(right, left) {
 		// Our actual FSM
-
+		if (!right && !left) {
+			// Released all movement keys, deaccelerate
+			this.prevMaxLateralSpeed = this.lateralSpeed;
+			switch(this.curState) {
+				case this.stateEnum.ACCEL_RIGHT:
+				case this.stateEnum.MOVE_RIGHT:
+					this.curState = this.stateEnum.DEACCEL_RIGHT;
+					break;
+				case this.stateEnum.ACCEL_LEFT:
+				case this.stateEnum.MOVE_LEFT:
+					this.curState = this.stateEnum.DEACCEL_LEFT;
+					break;
+				default:
+					break;
+			}
+		}
 		switch(this.curState) {
 		case this.stateEnum.NOT_TURNING:
 			if (right && !left) {
 				this.lateralSpeed = this.initAccelSpeed;
-				this.moveDir = this.moveEnum.RIGHT;
 				this.curState = this.stateEnum.ACCEL_RIGHT;
 			}
 			else if (left && !right) {
 				this.lateralSpeed = this.initAccelSpeed;
-				this.moveDir = this.moveEnum.LEFT;
 				this.curState = this.stateEnum.ACCEL_LEFT;
 			}
 			break;
 		
 		case this.stateEnum.ACCEL_RIGHT:
-			if (!right || left) {
-				this.resetMovement();
+			this.moveDir = this.moveEnum.RIGHT;
+
+			if (!right && !left) {
+				// Released all movement keys, deaccelerate
+				this.prevMaxLateralSpeed = this.lateralSpeed;
+				this.curState = this.stateEnum.DEACCEL_RIGHT;
+			}
+			else if (left) {
+				this.lateralSpeed = this.initAccelSpeed;
+				this.curState = this.stateEnum.ACCEL_LEFT;
 			}
 			else if (this.lateralSpeed == this.maxMoveSpeed) {
 				this.curState = this.stateEnum.MOVE_RIGHT;
@@ -72,8 +94,10 @@ class MovementFSM {
 				this.resetMovement();
 			}
 			break;
-		
+
 		case this.stateEnum.ACCEL_LEFT:
+			this.moveDir = this.moveEnum.LEFT;
+
 			if (!left || right) {
 				this.resetMovement();
 			}
@@ -87,6 +111,36 @@ class MovementFSM {
 
 		case this.stateEnum.MOVE_LEFT:
 			if (!left || right) {
+				this.resetMovement();
+			}
+			break;
+
+		case this.stateEnum.DEACCEL_RIGHT:
+			if (left) {
+				this.lateralSpeed = this.initAccelSpeed;
+				this.curState = this.stateEnum.ACCEL_LEFT;
+			}
+			else if (right) {
+				this.curState = this.stateEnum.ACCEL_RIGHT;
+			}
+
+			this.lateralSpeed -= this.deaccelRate;
+			if (this.lateralSpeed <= 0) {
+				this.resetMovement();
+			}
+			break;
+
+		case this.stateEnum.DEACCEL_LEFT:
+			if (right) {
+				this.lateralSpeed = this.initAccelSpeed;
+				this.curState = this.stateEnum.ACCEL_RIGHT;
+			}
+			else if (left) {
+				this.curState = this.stateEnum.ACCEL_LEFT;
+			}
+
+			this.lateralSpeed -= this.deaccelRate;
+			if (this.lateralSpeed <= 0) {
 				this.resetMovement();
 			}
 			break;
