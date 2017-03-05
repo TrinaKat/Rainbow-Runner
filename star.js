@@ -19,8 +19,8 @@ var numStarVertices = 60;
 var angle = 0;
 
 var starVertices = [
-  // front side
-  //Indise layer
+  //Front side
+  //Inside layer
   vec4(0.0, 0.0, 0.5, 1.0),    // center.   0
   vec4(cos(54),sin(54),0.5,1.0),   //top right    1
   vec4(cos(126), sin(126),0.5,1.0), // top left 2
@@ -93,7 +93,7 @@ function generateStar ()
   {
     starPoints.push (starVertices[starVerticeOrder[i]]);
   }
-  // gl.disableVertexAttribArray (vNormal);
+  gl.disableVertexAttribArray (vNormal);
 }
 
 function drawStar()
@@ -104,7 +104,7 @@ function drawStar()
   gl.bufferData(gl.ARRAY_BUFFER, flatten(starPoints),gl.STATIC_DRAW);
   gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0,0);
   gl.enableVertexAttribArray(vPosition);
-  // gl.disableVertexAttribArray(vNormal);
+  gl.disableVertexAttribArray(vNormal);
   gl.disableVertexAttribArray(texcoordLoc);
 
 
@@ -116,11 +116,4 @@ function drawStar()
   gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
   gl.drawArrays(gl.TRIANGLES, 0, numStarVertices);
-
-  //modelTransformMatrix = mult(modelTransformMatrix, translate(0, -3, 0));
-
-  //modelTransformMatrix = mult(modelTransformMatrix, rotate(72, 0, 0, cameraPositionZAxis-10));
-  //gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
-
-  //gl.drawArrays(gl.TRIANGLES, 0, numStarVertices);
 }
