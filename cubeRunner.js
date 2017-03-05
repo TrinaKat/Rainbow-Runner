@@ -55,6 +55,7 @@ var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cube
 var isForBorder = 0;
 var isRainbow = 0;
 var isExploded = 0;
+
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
 var lightPosition = vec4(20, 20, -25, 0.0 );
@@ -166,6 +167,11 @@ var score = 0;
 var highScore = 0;
 var difficulty = 5;
 
+// GAMEPLAY AND SCREEN MODES
+var isStartScreen = 1;  // game starts with start screen; TODO
+var isPauseScreen = 0;  // screen that displays when you pause; TOOD
+var isEndScreen = 0;  // screen that displays for game over or when you quit from the pause screen; TODO
+
 window.onload = function init()
 {
     // SET UP WEBGL
@@ -266,6 +272,10 @@ window.onload = function init()
     // for ASCII character keys
     addEventListener("keypress", function(event) {
         switch (event.keyCode) {
+            case 103:  // 'g' key
+                console.log("g key");
+                isMarioMode = !isMarioMode;
+                break;
             case 112:  // 'p' key
                 console.log("p key");
                 isPaused = !isPaused;
@@ -411,6 +421,11 @@ function render(timeStamp)
 
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    // set up Mario gameplay mode
+    if (isMarioMode) {
+        setupMarioEnvironment();
+    }
 
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
