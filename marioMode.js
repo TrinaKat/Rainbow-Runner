@@ -5,6 +5,7 @@ var isMarioMode = 0;  // by default the game is not in Mario mode
 var isInvincible = 0;  // see if the player has entered invincible mode
 var maxInvincibleTime = 5;
 var invincibilityTimer = maxInvincibleTime;  // player has 5 seconds to be in invincible mode
+var invincibleColourFlash = 0;
 
 function setupMarioEnvironment() {
 	// make the background for the world sky blue

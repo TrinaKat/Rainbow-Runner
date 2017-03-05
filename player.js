@@ -68,8 +68,16 @@ function drawPlayer()
     // get the player's base edge's position in the z-axis (need to add one since located at z = +1 from the origin)
     playerTipZPos = cameraPositionZAxis - 10;
 
+    // change the player's colour if it is invincible
     if (isInvincible) {
       gl.uniform4fv(currentColourLoc, colors[7]);
+      if (invincibilityTimer < 1.5) {
+        // flash the colour of the player
+        if (invincibleColourFlash) {
+          gl.uniform4fv(currentColourLoc, colors[0]);
+        }
+        invincibleColourFlash = !invincibleColourFlash;
+      }
     }
     else {
       gl.uniform4fv(currentColourLoc, colors[3]);

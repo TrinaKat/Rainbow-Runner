@@ -38,7 +38,8 @@ var colors =
     [1, 0.9, 0, 1.0],       // 6 yellow for the star
     [0, 0.76, 0.76, 1.0],   // 7 cyan to indicate this is a special Mario question cube
     [ 1.0, 0.5, 0.0, 1.0 ], // 8 orange (needed for exploding cube)
-    [ 1.0, 0.976, 0.51, 1.0 ]  // 9 light yellow (needed for exploding cube)
+    [ 1.0, 0.976, 0.51, 1.0 ],  // 9 light yellow (needed for exploding cube)
+    [ 0, 0.5, 0,5, 1.0 ]    // 10 teal (to flash the player in invincible mode)
 ];
 
 var rainbowColors =
@@ -478,6 +479,10 @@ function render(timeStamp)
     // TODO exploding cube upon collision
     if( isExploded )
     {
+        if (isMarioMode) {
+            // applyBrickTexture();     // TODO: why does this look jank?
+        }
+
         if (!isInvincible) {   // if invincible, don't pause after hitting a cube
             isPaused = true;
         }
