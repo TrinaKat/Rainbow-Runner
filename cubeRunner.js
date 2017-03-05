@@ -81,7 +81,7 @@ var normalsArray = [];
 var texture;
 var textureFlipped;
 var enableTexture = false;  // by default we do not use textures
-var isFlipped = true;
+var isFlipped = false;  // so have path scrolling by default
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
     vec2(0, 2), //1
