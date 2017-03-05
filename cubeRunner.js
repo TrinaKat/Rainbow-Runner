@@ -36,7 +36,9 @@ var colors =
     [0.4, 0.4, 0.4, 1.0],   // 4 dark grey (for cube borders)
     [0, 0, 0, 1.0],         // 5 black (for cube outlines)
     [1, 0.9, 0, 1.0],       // 6 yellow for the star
-    [0, 0.76, 0.76, 1.0]    // 7 cyan to indicate this is a special Mario question cube
+    [0, 0.76, 0.76, 1.0],   // 7 cyan to indicate this is a special Mario question cube
+    [ 1.0, 0.5, 0.0, 1.0 ], // 8 orange (needed for exploding cube)
+    [ 1.0, 0.976, 0.51, 1.0 ]  // 9 light yellow (needed for exploding cube)
 ];
 
 var rainbowColors =

@@ -54,6 +54,15 @@ function transformExplodeCube( xPosition, yPosition, zPosition, scaleVal )
 
 function explodeCube( timeDiff, x )
 {
+
+  // set the colour scheme for the exploding cubes
+  if (isInvincible) {
+    var cubeColourIndices = [9, 6, 8];  // orange and yellow colour scheme
+  }
+  else {
+    var cubeColourIndices = [5, 4, 3];  // black and white colour scheme
+  }
+
   // If larger than 1.5, then stop drawing
   if( Math.abs( explodePositions_x[0] ) < 1.5 )
   {
@@ -71,7 +80,7 @@ function explodeCube( timeDiff, x )
       // Draw the cubes and outlines
       drawOutline();
       // Set the colour for the cube
-      drawCube(5);
+      drawCube(cubeColourIndices[0]);
     }
     // Middle layer of medium cubes
     for( var it = 0; it < explodePositions2_x.length; it++ )
@@ -87,7 +96,7 @@ function explodeCube( timeDiff, x )
       // Draw the cubes and outlines
       drawOutline();
       // Set the colour for the cube
-      drawCube(4);
+      drawCube(cubeColourIndices[1]);
     }
     // Innermost layer of small cubes
     for( var iter = 0; iter < explodePositions3_x.length; iter++ )
@@ -103,7 +112,7 @@ function explodeCube( timeDiff, x )
       // Draw the cubes and outlines
       drawOutline();
       // Set the colour for the cube
-      drawCube(3);
+      drawCube(cubeColourIndices[2]);
     }
   }
   else
