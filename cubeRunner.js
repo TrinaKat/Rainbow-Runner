@@ -263,13 +263,22 @@ window.onload = function init()
     textureLoc = gl.getUniformLocation(program, "u_texture");
 
     // assign rainbow road texture to the path
-    // applyTexture("Textures/rainbow.png");
     createTexture("Textures/rainbow.png");
     createFlippedTexture("Textures/rainbow.png");
 
-    // KEEP THESE FOR TESTING/OTHER STUFF
-    // applyTexture("Textures/rainbowBlend.png");
-    // applyTexture("Textures/pastels.jpg");
+    // Mario Textures
+    generateStarEyesSquare();
+    populateCubeTexCoords();
+    createBrickTexture();
+    createQuestionTexture();
+    createPipeTexture();
+    createDirtTexture();
+    createCoinTexture();
+    createStarEyesTexture();
+
+    // TODO REMOVE??? DOES IT BLEND?
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.BLEND);
 
     // ADD EVENT LISTENERS
     // for ASCII character keys
@@ -471,7 +480,7 @@ function render(timeStamp)
     }
 
     // TODO REMOVE testing textures for mario
-    //drawMarioCubes();
+    drawMarioCubes();
 
     // PLAYER
     drawPlayer();

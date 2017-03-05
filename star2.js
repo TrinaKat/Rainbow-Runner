@@ -21,40 +21,40 @@ var starVertices =
   // Front
 
   // Points
-  vec4(  0.0,    1.0,    0.0, 1.0 ),  // 0 Top Point
-  vec4( -1.0,    0.2734, 0.0, 1.0 ),  // 1 Upper Left
-  vec4( -0.625, -0.8984, 0.0, 1.0 ),  // 2 Lower Left
-  vec4(  0.625, -0.8984, 0.0, 1.0 ),  // 3 Lower Right
-  vec4(  1.0,    0.2734, 0.0, 1.0 ),  // 4 Upper Right
+  vec4(  0.0,    1.0,    0.15, 1.0 ),  // 0 Top Point
+  vec4( -1.0,    0.2734, 0.15, 1.0 ),  // 1 Upper Left
+  vec4( -0.625, -0.8984, 0.15, 1.0 ),  // 2 Lower Left
+  vec4(  0.625, -0.8984, 0.15, 1.0 ),  // 3 Lower Right
+  vec4(  1.0,    0.2734, 0.15, 1.0 ),  // 4 Upper Right
 
   // Pentagon
-  vec4( -0.3359,  0.4062, 0.0, 1.0 ),  // 5 Upper Left
-  vec4( -0.5469, -0.2187, 0.0, 1.0 ),  // 6 Lower Left
-  vec4(  0.0,    -0.6094, 0.0, 1.0 ),  // 7 Bottom Point
-  vec4(  0.5469, -0.2187, 0.0, 1.0 ),  // 8 Lower Right
-  vec4(  0.3359,  0.4062, 0.0, 1.0 ),  // 9 Upper Right
+  vec4( -0.3359,  0.4062, 0.15, 1.0 ),  // 5 Upper Left
+  vec4( -0.5469, -0.2187, 0.15, 1.0 ),  // 6 Lower Left
+  vec4(  0.0,    -0.6094, 0.15, 1.0 ),  // 7 Bottom Point
+  vec4(  0.5469, -0.2187, 0.15, 1.0 ),  // 8 Lower Right
+  vec4(  0.3359,  0.4062, 0.15, 1.0 ),  // 9 Upper Right
 
   // Adds 3D
-  vec4( 0.0, 0.0, 0.2, 1.0 ),  // 10 Center Point Forwards
+  vec4( 0.0, 0.0, 0.35, 1.0 ),  // 10 Center Point Forwards
 
   // Back
 
   // Points
-  vec4(  0.0,    1.0,    -0.3, 1.0 ),  // 11 Top Point
-  vec4( -1.0,    0.2734, -0.3, 1.0 ),  // 12 Upper Left
-  vec4( -0.625, -0.8984, -0.3, 1.0 ),  // 13 Lower Left
-  vec4(  0.625, -0.8984, -0.3, 1.0 ),  // 14 Lower Right
-  vec4(  1.0,    0.2734, -0.3, 1.0 ),  // 15 Upper Right
+  vec4(  0.0,    1.0,    -0.15, 1.0 ),  // 11 Top Point
+  vec4( -1.0,    0.2734, -0.15, 1.0 ),  // 12 Upper Left
+  vec4( -0.625, -0.8984, -0.15, 1.0 ),  // 13 Lower Left
+  vec4(  0.625, -0.8984, -0.15, 1.0 ),  // 14 Lower Right
+  vec4(  1.0,    0.2734, -0.15, 1.0 ),  // 15 Upper Right
 
   // Pentagon
-  vec4( -0.3359,  0.4062, -0.3, 1.0 ),  // 16 Upper Left
-  vec4( -0.5469, -0.2187, -0.3, 1.0 ),  // 17 Lower Left
-  vec4(  0.0,    -0.6094, -0.3, 1.0 ),  // 18 Bottom Point
-  vec4(  0.5469, -0.2187, -0.3, 1.0 ),  // 19 Lower Right
-  vec4(  0.3359,  0.4062, -0.3, 1.0 ),  // 20 Upper Right
+  vec4( -0.3359,  0.4062, -0.15, 1.0 ),  // 16 Upper Left
+  vec4( -0.5469, -0.2187, -0.15, 1.0 ),  // 17 Lower Left
+  vec4(  0.0,    -0.6094, -0.15, 1.0 ),  // 18 Bottom Point
+  vec4(  0.5469, -0.2187, -0.15, 1.0 ),  // 19 Lower Right
+  vec4(  0.3359,  0.4062, -0.15, 1.0 ),  // 20 Upper Right
 
   // Adds 3D
-  vec4( 0.0, 0.0, -0.5, 1.0 )   // 21 Center Point Backwards
+  vec4( 0.0, 0.0, -0.35, 1.0 )   // 21 Center Point Backwards
 ];
 
 var frontVertexOrder =
