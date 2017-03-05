@@ -246,9 +246,15 @@ function drawStar()
   // Keep angle from growing forever
   angle = angle % 360;
 
+  // reset the camera transform matrix as well (was changed to move the cubes and player)
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+
   drawFront();
   drawBack();
   drawSide();
+
+  // set the camera transform matrix to the actual translated state
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 }
 
 // TODO FIX THIS

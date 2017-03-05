@@ -88,7 +88,6 @@ function generateStar ()
   gl.bindBuffer (gl.ARRAY_BUFFER,starBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(starPoints),gl.STATIC_DRAW);
 
-
   for (var i = 0; i < numStarVertices; i ++)
   {
     starPoints.push (starVertices[starVerticeOrder[i]]);
@@ -107,6 +106,8 @@ function drawStar()
   gl.disableVertexAttribArray(vNormal);
   gl.disableVertexAttribArray(texcoordLoc);
 
+  // reset the camera transform matrix as well (was changed to move the cubes and player)
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
   gl.uniform4fv(currentColourLoc, colors[6]);
   modelTransformMatrix = mat4();
