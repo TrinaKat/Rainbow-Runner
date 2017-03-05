@@ -68,8 +68,12 @@ function drawPlayer()
     // get the player's base edge's position in the z-axis (need to add one since located at z = +1 from the origin)
     playerTipZPos = cameraPositionZAxis - 10;
 
-    // Change the colour for the cube (want to index between 0 and 3)
-    gl.uniform4fv(currentColourLoc, colors[3]);
+    if (isInvincible) {
+      gl.uniform4fv(currentColourLoc, colors[7]);
+    }
+    else {
+      gl.uniform4fv(currentColourLoc, colors[3]);
+    }
 
     modelTransformMatrix = translate(0, 0, playerTipZPos);
 

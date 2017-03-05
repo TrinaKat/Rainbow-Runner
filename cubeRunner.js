@@ -206,7 +206,7 @@ window.onload = function init()
     generateCubeOutline();
     generatePath();
 
-    // TODO PLAYER
+    // PLAYER
     generatePlayer();
 
     // STAR

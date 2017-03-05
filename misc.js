@@ -56,15 +56,14 @@ function drawOutline()
 
 function drawBorder()
 {
+    // want the border to look like pipes if inside Mario mode
+    if (isMarioMode) {
+        // TODO: fix why does the pipe look funky?
+        applyPipeTexture();
+    }
+    
     // Iterate through the whole length of the canvas and draw borders made of cubes on the sides
     for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++) {
-
-        // want the border to look like pipes if inside Mario mode
-        if (isMarioMode) {
-            // TODO: fix why does the pipe look funky?
-            applyPipeTexture();
-        }
-
         // Draw cube on left side
         transformCube( -1 * (pathWidth + 1), 0, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black

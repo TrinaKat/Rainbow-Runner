@@ -1,7 +1,5 @@
 // Explode
 
-var isExplodingCubes = 0;
-
 // Outermost Layer
 var explodePositions_x =
 [ -0.5, -0.3, -0.4, -0.2, 0.1, 0.3, 0.1, 0.2, 0.4 ];
@@ -56,9 +54,6 @@ function transformExplodeCube( xPosition, yPosition, zPosition, scaleVal )
 
 function explodeCube( timeDiff, x )
 {
-  // indicate that we are drawing cubes for the explosion
-  isExplodingCubes = 1;
-
   // set the colour scheme for the exploding cubes
   if (isInvincible) {
     // // Disable the texture before we draw something else later
@@ -164,7 +159,4 @@ function explodeCube( timeDiff, x )
     explodeAngle3 =
     [ 210, 160, 120, 80, 60, 40, 20, -10, -30 ];
   }
-
-  // reset back to non-exploding cubes
-  isExplodingCubes = 0;
 }
