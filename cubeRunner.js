@@ -495,9 +495,6 @@ function render(timeStamp)
     // TODO REMOVE testing textures for mario
     drawMarioCubes();
 
-    // PLAYER
-    drawPlayer();
-
     drawStar();
 
     // Draw the path
@@ -524,6 +521,9 @@ function render(timeStamp)
 
     // check to see if the player has collided with any cubes --> game over
     playerCollisionDetection();
+
+    // Draw player last because we want transparent shadows
+    drawPlayer();
 
     //placing the text on the canvas
     ctx.font = "bold 24px Courier"
