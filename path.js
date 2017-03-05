@@ -59,7 +59,6 @@ function drawPath(scrollAmount) {
         }
 
         // Bind the appropriate buffers and attributes for the texture
-        // TODO choose flipped or normal texcoords
         gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
@@ -74,7 +73,6 @@ function drawPath(scrollAmount) {
     else
     {
         // Bind the appropriate buffers and attributes for the texture
-        // TODO choose flipped or normal texcoords
         gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
 

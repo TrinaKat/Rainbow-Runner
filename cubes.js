@@ -87,7 +87,7 @@ function drawCube(colourIndex)
 function drawAndMoveCubes()
 {
     // draw a single cube
-    transformCube(1, -cameraPositionZAxis);
+    transformCube(1, 0, -cameraPositionZAxis);
     // apply the camera transformation so the cubes all move forward
     cameraTransformMatrix = mult(translate(0, 0, amountToMove), cameraTransformMatrix);
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
@@ -108,7 +108,7 @@ function drawAndMoveAllCubes()
         for ( var c = 0; c < allCubeLineXPositions[r].length; c++ )
         {
             // Move the cube to the correct position
-            transformCube( allCubeLineXPositions[r][c],  allCubeLineZPositions[r] );
+            transformCube( allCubeLineXPositions[r][c], 0, allCubeLineZPositions[r] );
             // Draw the cubes and outlines
             drawOutline();
             // Set the colour for the cube
@@ -118,10 +118,10 @@ function drawAndMoveAllCubes()
 }
 
 // Modify and apply the model transform matrix for the cubes
-function transformCube(xPosition, zPosition)
+function transformCube(xPosition, yPosition, zPosition)
 {
     // Move the cubes to the correct x and z axis positions
-    modelTransformMatrix = translate(xPosition, 0, zPosition);
+    modelTransformMatrix = translate(xPosition, yPosition, zPosition);
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 }
 

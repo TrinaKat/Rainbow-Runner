@@ -59,13 +59,13 @@ function drawBorder()
     // Iterate through the whole length of the canvas and draw borders made of cubes on the sides
     for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++) {
         // Draw cube on left side
-        transformCube( -1 * (pathWidth + 1), i );
+        transformCube( -1 * (pathWidth + 1), 0, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
         drawCube(4);  // draw the cube as dark grey
 
         // Draw cube on right side
-        transformCube( pathWidth, i );
+        transformCube( pathWidth, 0, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
         drawCube(4);  // draw the cube as dark grey
