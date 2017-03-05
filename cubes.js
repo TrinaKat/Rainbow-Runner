@@ -59,7 +59,7 @@ function generateNewCubeLine()
         if (isMarioMode) {
             // decide which cube will be special question mark cube using modulo
             if (randomPosition % (13 + Math.floor(Math.random() * 10)) == 0) {
-                cubeColour = 7;
+                cubeColour = marioQuestionCubeColourIndex;
             }
         }
 
@@ -80,14 +80,26 @@ function drawCube(colourIndex)
     gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
-    // Change the colour for the cube (want to index between 0 and 3)
-    if (!isAllWhite)
-    {
-        gl.uniform4fv(currentColourLoc, colors[colourIndex]);
+
+    // in Mario mode
+    if (isMarioMode) {
+        if (colourIndex == marioQuestionCubeColourIndex) {
+            applyQuestionTexture();
+        }
+        else {
+        applyBrickTexture();
+        }
     }
-    else
-    {
-        gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
+    else {
+        // Change the colour for the cube (want to index between 0 and 3)
+        if (!isAllWhite)
+        {
+            gl.uniform4fv(currentColourLoc, colors[colourIndex]);
+        }
+        else
+        {
+            gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
+        }
     }
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );
 }

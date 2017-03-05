@@ -1,5 +1,6 @@
 // Mario Gameplay Mode
 
+var marioQuestionCubeColourIndex = 7;  // flag to indicate whether to draw the cube using question texture
 var isMarioMode = 0;  // by default the game is not in Mario mode
 var isInvincible = 0;  // see if the player has entered invincible mode
 var invincibilityTimer = 5;  // player has 5 seconds to be in invincible mode

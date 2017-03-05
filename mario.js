@@ -1,7 +1,5 @@
 // Mario
 
-var isMario = false;
-
 var cubeTexCoordBuffer;
 var cubeTexCoords = [];
 
