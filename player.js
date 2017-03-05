@@ -59,7 +59,7 @@ function drawPlayer()
     // Disable the texture before we draw something else later
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
-  
+
     // Bind the current buffer to draw
     gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
@@ -202,7 +202,11 @@ function playerCollisionDetection() {
   // check if the player has hit the borders
   if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
       console.log("border collision");
-      isExploded = 1;
+      if( !hasHitBorder)
+      {
+        isExploded = 1;
+      }
+      hasHitBorder = 1;
   }
 
   // need to check all of the cubes that are now in the same z position range as the player and check if they overlap with the player
@@ -223,7 +227,7 @@ function playerCollisionDetection() {
           continue;
 
         // check if any of the faces intersect
-        if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) || 
+        if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) ||
           checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
           checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
           checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {

@@ -59,6 +59,7 @@ var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cube
 var isForBorder = 0;
 var isRainbow = 0;
 var isExploded = 0;
+var hasHitBorder = 0;
 
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
@@ -490,7 +491,7 @@ function render(timeStamp)
             // applyBrickTexture();     // TODO: why does this look jank?
         }
 
-        if (!isInvincible) {   // if invincible, don't pause after hitting a cube
+        if (!isInvincible || hasHitBorder ) {   // if invincible, don't pause after hitting a cube
             isPaused = true;
             if( Math.floor( score ) > highScore )
             {
