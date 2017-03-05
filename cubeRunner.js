@@ -35,7 +35,8 @@ var colors =
     [0.5, 0.5, 0.5, 1.0],   // 3 medium grey
     [0.4, 0.4, 0.4, 1.0],   // 4 dark grey (for cube borders)
     [0, 0, 0, 1.0],         // 5 black (for cube outlines)
-    [1, 0.9, 0, 1.0]        // 6 yellow for the star
+    [1, 0.9, 0, 1.0],       // 6 yellow for the star
+    [0, 0.76, 0.76, 1.0]    // 7 cyan to indicate this is a special Mario question cube
 ];
 
 var rainbowColors =
@@ -276,6 +277,11 @@ window.onload = function init()
                 console.log("g key");
                 isMarioMode = !isMarioMode;
                 break;
+            // TODO REMOVE THIS IS JUST FOR TESTING INVINCIBLE MODE
+            case 105:  // 'i' key
+                console.log("i key");
+                isInvincible = !isInvincible;
+                break;
             case 112:  // 'p' key
                 console.log("p key");
                 isPaused = !isPaused;
@@ -447,7 +453,9 @@ function render(timeStamp)
     // TODO exploding cube upon collision
     if( isExploded )
     {
-        isPaused = true;
+        if (!isInvincible) {
+            isPaused = true;
+        }
         explodeCube( timeDiff, playerXPos );
         if( !explodeSound )
         {

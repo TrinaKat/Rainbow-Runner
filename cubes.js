@@ -49,10 +49,20 @@ function generateNewCubeLine()
         // Initial offset on canvas
         var initialOffset = -1 * pathWidth;
         var randomPosition = whichSection + indexInSection + initialOffset;
+
         positions.push( randomPosition );
 
         // Pick a random colour for the cube (index between 0 and 3)
         var cubeColour = Math.floor((Math.random() * (4)));
+
+        // change the colour and make this a special Mario question mark cube
+        if (isMarioMode) {
+            // decide which cube will be special question mark cube using modulo
+            if (randomPosition % (13 + Math.floor(Math.random() * 10)) == 0) {
+                cubeColour = 7;
+            }
+        }
+
         colours.push(cubeColour);
     }
 
