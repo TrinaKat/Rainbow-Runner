@@ -21,6 +21,21 @@ var playerVertices =
 
 function generatePlayer()
 {
+  // Generate player body
+  var vertexOrder = [ 0, 1, 2, 0, 3, 2, 2, 3, 1, 0, 1, 3 ];
+
+  for (var i = 0; i < 12; i++)
+  {
+      playerPoints.push(playerVertices[vertexOrder[i]]);
+  }
+
+  // Generate player outline
+  var outlineOrder = [ 0, 1, 1, 2, 2, 0, 0, 3, 1, 3, 2, 3 ];
+  for (var i = 0; i < 12; i++)
+  {
+      playerOutline.push(playerVertices[outlineOrder[i]]);
+  }
+
   // Player
   playerBuffer = gl.createBuffer();
   gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
@@ -37,20 +52,6 @@ function generatePlayer()
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
-  // Generate player body
-  var vertexOrder = [ 0, 1, 2, 0, 3, 2, 2, 3, 1, 0, 1, 3 ];
-
-  for (var i = 0; i < 12; i++)
-  {
-      playerPoints.push(playerVertices[vertexOrder[i]]);
-  }
-
-  // Generate player outline
-  var outlineOrder = [ 0, 1, 1, 2, 2, 0, 0, 3, 1, 3, 2, 3 ];
-  for (var i = 0; i < 12; i++)
-  {
-      playerOutline.push(playerVertices[outlineOrder[i]]);
-  }
 }
 
 function drawPlayer()
@@ -88,7 +89,6 @@ function drawPlayerOutline()
   gl.bindBuffer( gl.ARRAY_BUFFER, playerOutlineBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
-  gl.disableVertexAttribArray (vNormal);
 
   // Change the colour for the cube (want to index between 0 and 3)
   gl.uniform4fv(currentColourLoc, colors[5]);
@@ -100,6 +100,8 @@ function drawPlayerOutline()
   gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
 
   gl.drawArrays( gl.LINES, 0, numPlayerVertices );
+
+  gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 }
 
 // check if the two lines intersect
