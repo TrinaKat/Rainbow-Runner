@@ -174,6 +174,7 @@ var difficulty = 5;
 var isStartScreen = 1;  // game starts with start screen; TODO
 var isPauseScreen = 0;  // screen that displays when you pause; TOOD
 var isEndScreen = 0;  // screen that displays for game over or when you quit from the pause screen; TODO
+var startScreen;
 
 window.onload = function init()
 {
@@ -188,6 +189,8 @@ window.onload = function init()
 
     // make a 2D context for it
     ctx = textCanvas.getContext( "2d" );
+
+    // TODO: make the start screen
 
     gl.viewport( 0, 0, canvas.width, canvas.height);
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
@@ -518,6 +521,7 @@ function render(timeStamp)
     ctx.fillStyle = "#ffffff";
     ctx.fillText("Score: " + Math.floor( score ), 50, 50);
     ctx.fillText("High Score: " + highScore, 725, 50);
+
 
 
     // render again (repeatedly as long as program is running or the game isn't paused)
