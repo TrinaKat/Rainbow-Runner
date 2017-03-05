@@ -58,31 +58,14 @@ function drawPath(scrollAmount) {
             }
         }
 
-        // Bind the appropriate buffers and attributes for the texture
-        gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
-
-        gl.enableVertexAttribArray(texcoordLoc);
-        gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-        // Bind the texture
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.uniform1i(textureLoc, 0);
+        applyRainbowTexture();
     }
     else
     {
-        // Bind the appropriate buffers and attributes for the texture
-        gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
+        applyFlippedRainbowTexture();
 
-        gl.enableVertexAttribArray(texcoordLoc);
-        gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-        // Bind the texture
-        gl.activeTexture(gl.TEXTURE1);
-        gl.bindTexture(gl.TEXTURE_2D, textureFlipped);
-        gl.uniform1i(textureLoc, 1);
+        // TODO MARIO DIRT TEXTURE (probably should repeat more)
+        // applyDirtTexture();
     }
 
     // Reset the model transform matrix so the path is drawn at the origin

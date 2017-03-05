@@ -40,8 +40,6 @@ function createTexture(imagePath)
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     });
 
-    gl.uniform1i(textureLoc, 0);
-
     applyTexture();
 }
 
@@ -70,8 +68,6 @@ function createFlippedTexture(imagePath)
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     });
-
-    gl.uniform1i(textureLoc, 1);
 
     applyFlippedTexture();
 }

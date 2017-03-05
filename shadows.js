@@ -10,7 +10,7 @@ function createShadows(vertices, lightSource, ontoY) {
 		x = vertices[i][0] - (vertices[i][1] / lightSource[1]);
 
 		// Raise the y a little above
-		y = ontoY+0.01; 	
+		y = ontoY+0.01;
 		z = vertices[i][2] - (vertices[i][1] / lightSource[1]);
 		w = 1;
 
@@ -23,7 +23,7 @@ function createShadows(vertices, lightSource, ontoY) {
 function drawPlayerShadows(transformedPlayerPoints) {
 	var	shadowPoints = createShadows(transformedPlayerPoints, lightPosition, 0);
 
-	var shadowColor = vec4(0, 0, 0, 1);
+	var shadowColor = vec4(0.1, 0.1, 0.1, 1);
 
 	// Load shadow points into buffer
 	shadowBuffer = gl.createBuffer();
