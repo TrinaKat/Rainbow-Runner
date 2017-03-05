@@ -21,9 +21,15 @@ function createShadows(vertices, lightSource, ontoY) {
 }
 
 function drawPlayerShadows(transformedPlayerPoints) {
+	// We want the shadow to be transparent, need to fix things up
+	gl.enable(gl.BLEND);
+	gl.disable(gl.DEPTH_TEST);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+	gl.depthMask(false);
+
 	var	shadowPoints = createShadows(transformedPlayerPoints, lightPosition, 0);
 
-	var shadowColor = vec4(0.1, 0.1, 0.1, 1);
+	var shadowColor = vec4(0, 0, 0, 0.7);
 
 	// Load shadow points into buffer
 	shadowBuffer = gl.createBuffer();
@@ -46,4 +52,8 @@ function drawPlayerShadows(transformedPlayerPoints) {
     // Reset camera and projection matrices
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+
+    gl.depthMask(true);
+    gl.disable(gl.BLEND);
+    gl.enable(gl.DEPTH_TEST);
 }
