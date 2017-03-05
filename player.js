@@ -56,6 +56,10 @@ function generatePlayer()
 
 function drawPlayer()
 {
+    // Disable the texture before we draw something else later
+    enableTexture = false;
+    gl.uniform1f(enableTextureLoc, enableTexture);
+  
     // Bind the current buffer to draw
     gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
@@ -206,34 +210,20 @@ function playerCollisionDetection() {
         if (allXPositions[j] + 1 < playerLeftXPos || allXPositions[j] > playerRightXPos)
           continue;
 
-        // check if the front face intersects
-        if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i])) {
-          // TODO
-          console.log("front collision");
+        // check if any of the faces intersect
+        if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) || 
+          checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
+          checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
+          checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
+          console.log("collision");
           isExploded = 1;
           // make the cube disappear since we have collided with it
           allCubeLineXPositions[i].splice(j, 1);
-        }
-        // check if the back face intersects
-        else if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i])) {
-          // TODO
-          console.log("back collision");
-          isExploded = 1;
-          allCubeLineXPositions[i].splice(j, 1);
-        }
-        // check if the left face intersects
-        else if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i])) {
-          // TODO
-          console.log("left collision");
-          isExploded = 1;
-          allCubeLineXPositions[i].splice(j, 1);
-        }
-        // check if the right face intersects
-        else if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
-          // TODO
-          console.log("right collision");
-          isExploded = 1;
-          allCubeLineXPositions[i].splice(j, 1);
+          // check to see if you collided with an question mark cube
+          if (allCubeColours[i][j] == marioQuestionCubeColourIndex) {
+            isInvincible = 1;
+            invincibilityTimer = maxInvincibleTime;
+          }
         }
       }
     }

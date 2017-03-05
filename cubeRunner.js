@@ -276,6 +276,7 @@ window.onload = function init()
     createQuestionTexture();
     createPipeTexture();
     createDirtTexture();
+    createGrassTexture();
     createCoinTexture();
     createStarEyesTexture();
 
@@ -470,14 +471,14 @@ function render(timeStamp)
         invincibilityTimer -= timeDiff;  // count down until return back to regular Mario mode
         if (invincibilityTimer < 0) {
             isInvincible = 0;
-            invincibilityTimer = 5;
+            invincibilityTimer = maxInvincibleTime;  // reset the invincibility mode timer
         }
     }
 
     // TODO exploding cube upon collision
     if( isExploded )
     {
-        if (!isInvincible) {
+        if (!isInvincible) {   // if invincible, don't pause after hitting a cube
             isPaused = true;
         }
         explodeCube( timeDiff, playerXPos );

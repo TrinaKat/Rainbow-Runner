@@ -58,14 +58,17 @@ function drawPath(scrollAmount) {
             }
         }
 
-        applyRainbowTexture();
+        if (isMarioMode)
+            applyGrassTexture();
+        else
+            applyRainbowTexture();
     }
     else
     {
-        applyFlippedRainbowTexture();
-
-        // TODO MARIO DIRT TEXTURE (probably should repeat more)
-        // applyDirtTexture();
+        if (isMarioMode)
+            applyGrassTexture();
+        else
+            applyFlippedRainbowTexture();
     }
 
     // Reset the model transform matrix so the path is drawn at the origin

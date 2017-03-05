@@ -81,26 +81,16 @@ function drawCube(colourIndex)
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    // in Mario mode
-    if (isMarioMode) {
-        if (colourIndex == marioQuestionCubeColourIndex) {
-            applyQuestionTexture();
-        }
-        else {
-        applyBrickTexture();
-        }
+    // Change the colour for the cube (want to index between 0 and 3)
+    if (!isAllWhite)
+    {
+        gl.uniform4fv(currentColourLoc, colors[colourIndex]);
     }
-    else {
-        // Change the colour for the cube (want to index between 0 and 3)
-        if (!isAllWhite)
-        {
-            gl.uniform4fv(currentColourLoc, colors[colourIndex]);
-        }
-        else
-        {
-            gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
-        }
+    else
+    {
+        gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
     }
+
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );
 }
 
@@ -120,6 +110,17 @@ function drawAndMoveAllCubes()
             transformCube( allCubeLineXPositions[r][c], 0, allCubeLineZPositions[r] );
             // Draw the cubes and outlines
             drawOutline();
+
+            // in Mario mode
+            if (isMarioMode) {
+                if (allCubeColours[r][c] == marioQuestionCubeColourIndex) {
+                    applyQuestionTexture();
+                }
+                else {
+                    applyBrickTexture();
+                }
+            }
+
             // Set the colour for the cube
             drawCube(allCubeColours[r][c]);
         }
