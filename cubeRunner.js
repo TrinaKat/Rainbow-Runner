@@ -373,22 +373,22 @@ window.onload = function init()
             // KEEP FOR GAME NAVIGATION
             case 37:  // LEFT key
                 console.log("LEFT");
-                if( !isPaused )
-                {
+                // if( !isPaused )
+                // {
                     cameraTransformMatrix = mult(translate( 1, 0, 0), cameraTransformMatrix);
                     gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                     playerXPos += -1;
-                }
+                // }
                 break;
             // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
                 console.log("RIGHT");
-                if( !isPaused )
-                {
+                // if( !isPaused )
+                // {
                     cameraTransformMatrix = mult(translate( -1, 0, 0), cameraTransformMatrix);
                     gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                     playerXPos += 1;
-                }
+                // }
                 break;
         }
     });
