@@ -465,8 +465,13 @@ function render(timeStamp)
     }
 
     // set up Mario gameplay mode
-    if (isMarioMode) {
+    if (isMarioMode)
+    {
         setupMarioEnvironment();
+    }
+    else
+    {
+        gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
     }
 
     // check if in invicibility mode
@@ -487,16 +492,16 @@ function render(timeStamp)
 
         if (!isInvincible) {   // if invincible, don't pause after hitting a cube
             isPaused = true;
+            if( Math.floor( score ) > highScore )
+            {
+                highScore = Math.floor( score );
+            }
         }
         explodeCube( timeDiff, playerXPos );
         if( !explodeSound )
         {
             document.getElementById('crashSound').play();
             explodeSound = true;
-        }
-        if( Math.floor( score ) > highScore )
-        {
-            highScore = Math.floor( score );
         }
     }
 
