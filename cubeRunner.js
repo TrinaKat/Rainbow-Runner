@@ -159,6 +159,12 @@ var translateAmount = 0;
 var playerTilt = 0;  // no tilt by default
 var amountToTilt = 5;
 
+// Stuff for navigation FSM
+var rightKeyDown = false;
+var leftKeyDown = false;
+
+var movementFSM = new MovementFSM();
+
 // TODO SOUND
 var isMusic = true;    //TODO make true when on autoplay
 var isFun = false;
@@ -406,26 +412,22 @@ window.onload = function init()
 
             // KEEP FOR GAME NAVIGATION
             case 37:  // LEFT key
-                console.log("LEFT");
-                // if( !isPaused )
-                // {
-                    cameraTransformMatrix = mult(translate( 1, 0, 0), cameraTransformMatrix);
-                    gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
-                    playerXPos += -1;
-                    playerTilt = -1;
-                // }
+                leftKeyDown = true;
                 break;
-            // rotate the heading/azimuth right by 4 degrees
             case 39:  // RIGHT key
-                console.log("RIGHT");
-                // if( !isPaused )
-                // {
-                    cameraTransformMatrix = mult(translate( -1, 0, 0), cameraTransformMatrix);
-                    gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
-                    playerXPos += 1;
-                    playerTilt = 1;
-                // }
+                rightKeyDown = true;
                 break;
+        }
+    });
+
+    addEventListener("keyup", function(event) {
+        switch(event.keyCode) {
+        case 37: // LEFT key
+            leftKeyDown = false;
+            break;
+        case 39: // RIGHT key
+            rightKeyDown = false;
+            break;
         }
     });
 
@@ -491,6 +493,23 @@ function render(timeStamp)
         {
             highScore = Math.floor( score );
         }
+    }
+
+    // Update lateral movement
+    movementFSM.update(rightKeyDown, leftKeyDown);
+    var velocity = movementFSM.velocity;
+    cameraTransformMatrix = mult(inverse(translate(velocity, 0, 0)), cameraTransformMatrix);
+    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+    playerXPos += velocity;
+
+    if (velocity > 0) {
+        playerTilt = 1;
+    }
+    else if (velocity < 0) {
+        playerTilt = -1;
+    }
+    else {
+        playerTilt = 0;
     }
 
     // TODO REMOVE testing textures for mario
