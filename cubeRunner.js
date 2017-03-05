@@ -446,7 +446,7 @@ function render(timeStamp)
     }
 
     // TODO REMOVE testing textures for mario
-    drawMarioCubes();
+    //drawMarioCubes();
 
     // PLAYER
     drawPlayer();
