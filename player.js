@@ -68,6 +68,15 @@ function drawPlayer()
     gl.uniform4fv(currentColourLoc, colors[3]);
 
     modelTransformMatrix = translate(0, 0, playerTipZPos);
+
+    // tilt the player if needed
+    if (playerTilt == -1) {
+      modelTransformMatrix = mult(modelTransformMatrix, rotate(amountToTilt, vec3(0, 0, 1)));
+    }
+    else if (playerTilt == 1) {
+      modelTransformMatrix = mult(modelTransformMatrix, rotate(-1 * amountToTilt, vec3(0, 0, 1)));
+    }
+
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
     // reset the camera and projection matrix for the player so it doesn't move on the screen even if the cubes do
@@ -94,6 +103,15 @@ function drawPlayerOutline()
   gl.uniform4fv(currentColourLoc, colors[5]);
 
   modelTransformMatrix = translate(0, 0, cameraPositionZAxis - 10);
+
+  // tilt the player if needed
+  if (playerTilt == -1) {
+    modelTransformMatrix = mult(modelTransformMatrix, rotate(amountToTilt, vec3(0, 0, 1)));
+  }
+  else if (playerTilt == 1) {
+    modelTransformMatrix = mult(modelTransformMatrix, rotate(-1 * amountToTilt, vec3(0, 0, 1)));
+  }
+
   gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
    // reset the projection matrix for the player so it doesn't move on the screen even if the cubes do

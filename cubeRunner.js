@@ -152,6 +152,8 @@ var isPaused = 0;  // 0: not paused so all the cubes move; 1: paused so the cube
 // NAVIGATION
 var rotDegrees = 0;
 var translateAmount = 0;
+var playerTilt = 0;  // no tilt by default
+var amountToTilt = 5;
 
 // TODO SOUND
 var isMusic = true;    //TODO make true when on autoplay
@@ -378,6 +380,7 @@ window.onload = function init()
                     cameraTransformMatrix = mult(translate( 1, 0, 0), cameraTransformMatrix);
                     gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                     playerXPos += -1;
+                    playerTilt = -1;
                 // }
                 break;
             // rotate the heading/azimuth right by 4 degrees
@@ -388,6 +391,7 @@ window.onload = function init()
                     cameraTransformMatrix = mult(translate( -1, 0, 0), cameraTransformMatrix);
                     gl.uniformMatrix4fv( cameraTransformMatrixLoc, false, flatten( cameraTransformMatrix ));
                     playerXPos += 1;
+                    playerTilt = 1;
                 // }
                 break;
         }
