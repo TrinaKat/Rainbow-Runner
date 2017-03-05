@@ -77,6 +77,11 @@ function drawPlayer()
       modelTransformMatrix = mult(modelTransformMatrix, rotate(-1 * amountToTilt, vec3(0, 0, 1)));
     }
 
+    var transformedPlayerPoints = [];
+    for (var i = 0; i < playerPoints.length; i++) {
+      transformedPlayerPoints.push(mult(modelTransformMatrix, playerPoints[i]));
+    }
+
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
     // reset the camera and projection matrix for the player so it doesn't move on the screen even if the cubes do
@@ -86,6 +91,7 @@ function drawPlayer()
     gl.drawArrays( gl.TRIANGLES, 0, numPlayerVertices );
 
     drawPlayerOutline();
+    drawPlayerShadows(transformedPlayerPoints);
 
     // reset the camera and projection matrix for the player so it doesn't move on the screen even if the cubes do
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
@@ -116,10 +122,12 @@ function drawPlayerOutline()
 
    // reset the projection matrix for the player so it doesn't move on the screen even if the cubes do
   gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
   gl.drawArrays( gl.LINES, 0, numPlayerVertices );
 
   gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 }
 
 // check if the two lines intersect
