@@ -548,9 +548,6 @@ function render(timeStamp)
         playerTilt = 0;
     }
 
-    // TODO REMOVE testing textures for mario
-    drawMarioCubes();
-
     drawStar();
 
     drawCoinStar();

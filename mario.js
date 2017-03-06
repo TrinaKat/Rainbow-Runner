@@ -74,33 +74,6 @@ function populatePipeTexCoords()
   pipeTexCoords.push(pipeTopCoords[2]);
 }
 
-// Draw test cubes/squares
-function drawMarioCubes()
-{
-  // Brick
-  applyBrickTexture();
-  transformCube( -3, 5, 30 );
-  drawCube(0);
-
-  // Question
-  applyQuestionTexture();
-  transformCube( 0, 5, 30 );
-  drawCube(5);
-
-  // Pipe
-  applyPipeTexture();
-  transformCube( 3, 5, 30 );
-  drawCube(3);
-
-  // Star Eyes
-  // applyStarEyesTexture();
-  // drawStarEyesSquare();
-
-  // Disable the texture before we draw something else later
-  enableTexture = false;
-  gl.uniform1f(enableTextureLoc, enableTexture);
-}
-
 function generateStarEyesSquare()
 {
   var starEyeVertices =
