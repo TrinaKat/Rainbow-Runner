@@ -56,24 +56,22 @@ function drawOutline()
 
 function drawBorder()
 {
-    // // want the border to look like pipes if inside Mario mode
-    // if (isMarioMode) {
-    //     // TODO: fix why does the pipe look funky?
-    //     applyPipeTexture();
-    // }
-
     // Iterate through the whole length of the canvas and draw borders made of cubes on the sides
-    for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++) {
+    for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++)
+    {
         // Draw cube on left side
         transformCube( -1 * (pathWidth + 1), 0, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
-        // want the border to look like pipes if inside Mario mode
-        if (isMarioMode) {
-            // TODO: fix why does the pipe look funky?
+
+        // Want the border to look like pipes if inside Mario mode
+        if (isMarioMode)
+        {
             applyPipeTexture();
         }
+
         drawCube(4);  // draw the cube as dark grey
+
         // disable the texture before we draw something else later
         enableTexture = false;
         gl.uniform1f(enableTextureLoc, enableTexture);
@@ -82,12 +80,15 @@ function drawBorder()
         transformCube( pathWidth, 0, i );
         isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
         drawOutline();  // draw the outline for the cube
-        // want the border to look like pipes if inside Mario mode
-        if (isMarioMode) {
-            // TODO: fix why does the pipe look funky?
+
+        // Want the border to look like pipes if inside Mario mode
+        if (isMarioMode)
+        {
             applyPipeTexture();
         }
+
         drawCube(4);  // draw the cube as dark grey
+
         // disable the texture before we draw something else later
         enableTexture = false;
         gl.uniform1f(enableTextureLoc, enableTexture);

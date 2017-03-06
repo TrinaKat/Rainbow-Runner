@@ -89,14 +89,16 @@ function explodeCube( timeDiff, x )
       transformExplodeCube( explodePositions_x[i] + x, explodePositions_y[i], explodePositions_z[i], 0.2 );
 
       // Set the colour for the cube
-      // TODO EXPLODE QUESTIONS INTO QUESTIONS
+      // Questions explode into questions, bricks into bricks
       if (isMarioMode)
       {
-        if (isQuestionCubeLastExploded) {
+        if (isQuestionCubeLastExploded)
+        {
           applyQuestionTexture();
           console.log("question cube last exploded");
         }
-        else {
+        else
+        {
           applyBrickTexture();
           console.log("brick cube last exploded");
         }
@@ -124,10 +126,12 @@ function explodeCube( timeDiff, x )
       // Draw the cubes and outlines
       if (isMarioMode)
       {
-        if (isQuestionCubeLastExploded) {
+        if (isQuestionCubeLastExploded)
+        {
           applyQuestionTexture();
         }
-        else {
+        else
+        {
           applyBrickTexture();
         }
       }

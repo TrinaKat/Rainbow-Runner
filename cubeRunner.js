@@ -27,6 +27,8 @@ var vertices =    // manually plan out unit cube
     vec4( +1, 0, 0, 1.0 )
 ];
 
+var sphereVertices = [];
+
 var colors =
 [
     [1.0, 1.0, 1.0, 1.0 ],  // 0 white
@@ -171,8 +173,8 @@ var leftKeyDown = false;
 
 var movementFSM = new MovementFSM();
 
-// TODO SOUND
-var isMusic = true;    //TODO make true when on autoplay
+// SOUND
+var isMusic = true;    // Make true when on autoplay
 var isFun = false;
 var explodeSound = false;
 
@@ -209,6 +211,7 @@ window.onload = function init()
 
     // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
     generateCube();
+    generateSphere();
     generateCubeOutline();
     generatePath();
 
@@ -293,10 +296,6 @@ window.onload = function init()
     generateCoinStar();
     createStarTexture();
 
-    // TODO REMOVE??? DOES IT BLEND?
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    gl.enable(gl.BLEND);
-
     // ADD EVENT LISTENERS
     // for ASCII character keys
     addEventListener("keypress", function(event) {
@@ -357,7 +356,7 @@ window.onload = function init()
                     reinitializeGame();
                 }
                 break;
-            case 116:  // 't' key
+            case 116:  // 't' key TODO use when hit certain score? 100?
                 console.log("t key");
                 document.getElementById('happySound').play();
                 break;
@@ -401,11 +400,6 @@ window.onload = function init()
                 document.getElementById('frackOffSound').play();
                 // TODO
                 break;
-            case 99:   // 'c' key
-                console.log("c key");
-                document.getElementById('crashSound').play();
-                // TODO
-                break;
             case 122:   // 'z' key
                 console.log("z key");
                 isFun = !isFun;
@@ -431,10 +425,6 @@ window.onload = function init()
                     }
                 }
                 break;
-            case 101:   // 'e' key
-                console.log("e key");
-                isExploded = !isExploded;
-                break;
             case 49:    // '1'
                 console.log("Difficulty 1");
                 difficulty = 5;
@@ -446,6 +436,8 @@ window.onload = function init()
             case 51:    // '3'
                 console.log("Difficulty 3");
                 difficulty = 10;
+                break;
+            default:
                 break;
         }
     });
@@ -475,6 +467,7 @@ window.onload = function init()
                 break;
             case 39:  // RIGHT key
                 rightKeyDown = true;
+            default:
                 break;
         }
     });
@@ -493,6 +486,7 @@ window.onload = function init()
     // draw the first line of cubes
     generateNewCubeLine();
 
+    startSequence();
     render(0);
 }
 
@@ -594,7 +588,7 @@ function render(timeStamp)
         }
     }
 
-    // TODO exploding cube upon collision
+    // Exploding cube upon collision
     if( isExploded )
     {
         if ( !isStarCoinLastExploded && ( !isInvincible || hasHitBorder ))
@@ -622,33 +616,35 @@ function render(timeStamp)
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     playerXPos += velocity;
 
-    if (velocity > 0) {
+    if (velocity > 0)
+    {
         playerTilt = 1;
     }
-    else if (velocity < 0) {
+    else if (velocity < 0)
+    {
         playerTilt = -1;
     }
-    else {
+    else
+    {
         playerTilt = 0;
     }
 
     drawStar();
 
-    // Make better clouds
+    // TODO make better clouds
     drawCurve();
 
     // Draw the path
-    // Step size of 1 unit, moves at a constant rate
+    // Step size of 0.8 units, moves at a constant rate
     drawPath(timeDiff * 0.8);
-    // TODO REMOVE keep path from scrolling
-    // drawPath(0);
 
     // draw the cube border on both sides
     drawBorder();
 
     // check to see if you have moved the current cube line far anough and you should generate a new cube line
     // 5 means that we want to have a 5 unit separation between each cube line
-    if (cubeLineDistanceTraveled >= 5) {
+    if (cubeLineDistanceTraveled >= 5)
+    {
         generateNewCubeLine();
         cubeLineDistanceTraveled = 0;  // reset the value
     }

@@ -6,7 +6,6 @@ function applyTexture()
     // Create a buffer for texcoords
     vTexCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-    // TODO choose flipped or normal texcoords
     gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
     texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
@@ -78,7 +77,6 @@ function applyFlippedTexture()
     // Create a buffer for texcoords
     vTexCoordBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-    // TODO choose flipped or normal texcoords
     gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
 
     texcoordLoc = gl.getAttribLocation(program, "a_texcoord");

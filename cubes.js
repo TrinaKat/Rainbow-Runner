@@ -31,7 +31,7 @@ function quad( a, b, c, d )
 // Generate the random starting x positions of a line of cubes and push this into the array of all cube line positions; also pushes the starting position (always -cameraPositionZAxis since they start at the end of the screen)
 function generateNewCubeLine()
 {
-    // TODO CHANGE DIFFICULTIES
+    // Different difficulties enabled with kepresses 1, 2, 3
     // Generate a random number of cubes in the line (5, 7, 10)
     var numCubes = difficulty + Math.floor(Math.random() * 3);
     // Section the path into equal length segments
