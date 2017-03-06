@@ -183,12 +183,6 @@ var score = 0;
 var highScore = 0;
 var difficulty = 5;
 
-// SCREEN MODES
-var isStartScreen = 1;  // game starts with start screen; TODO
-var isPauseScreen = 0;  // screen that displays when you pause; TOOD
-var isEndScreen = 0;  // screen that displays for game over or when you quit from the pause screen; TODO
-var startScreen;
-
 window.onload = function init()
 {
     // SET UP WEBGL
