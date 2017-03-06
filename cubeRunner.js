@@ -487,12 +487,6 @@ window.onload = function init()
     // draw the first line of cubes
     generateNewCubeLine();
 
-    gameStart();
-}
-
-function gameStart() {
-    isStartScreen = true;
-    isGameOver = false;
     startSequence();
     render(0);
 }
