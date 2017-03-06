@@ -39,7 +39,8 @@ var colors =
     [0, 0.76, 0.76, 1.0],   // 7 cyan to indicate this is a special Mario question cube
     [ 1.0, 0.5, 0.0, 1.0 ], // 8 orange (needed for exploding cube)
     [ 1.0, 0.976, 0.51, 1.0 ],  // 9 light yellow (needed for exploding cube)
-    [ 0, 0.5, 0,5, 1.0 ]    // 10 teal (to flash the player in invincible mode)
+    [ 0, 0.5, 0,5, 1.0 ],    // 10 teal (to flash the player in invincible mode)
+    [ 1.0, 0.0, 0.0, 1.0 ]  // 11 red
 ];
 
 var rainbowColors =
@@ -83,6 +84,7 @@ var normalsArray = [];
 var texture;
 var textureFlipped;
 var enableTexture = false;  // by default we do not use textures
+var forExploding = false;
 var isFlipped = false;  // so have path scrolling by default
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
@@ -118,6 +120,7 @@ var cameraTransformMatrixLoc;
 var projectionMatrixLoc;
 var currentColourLoc;
 var enableTextureLoc;
+var forExplodingLoc;
 var texcoordLoc;
 var textureLoc;
 
@@ -271,6 +274,7 @@ window.onload = function init()
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
     enableTextureLoc = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
+    forExplodingLoc = gl.getUniformLocation(program, "forExploding");
     textureLoc = gl.getUniformLocation(program, "u_texture");
 
     // assign rainbow road texture to the path
@@ -280,6 +284,7 @@ window.onload = function init()
     // Mario Textures
     generateStarEyesSquare();
     populateCubeTexCoords();
+    populatePipeTexCoords();
     createBrickTexture();
     createQuestionTexture();
     createPipeTexture();
