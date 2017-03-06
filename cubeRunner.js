@@ -61,6 +61,7 @@ var isForBorder = 0;
 var isRainbow = 0;
 var isExploded = 0;
 var hasHitBorder = 0;
+var isGameOver = false;
 
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
@@ -513,19 +514,22 @@ function render(timeStamp)
     // TODO exploding cube upon collision
     if( isExploded )
     {
-        if (!isInvincible || hasHitBorder ) {   // if invincible, don't pause after hitting a cube
+        if (!isInvincible || hasHitBorder )
+        {   // if invincible, don't pause after hitting a cube
             isPaused = true;
+            isGameOver = true;
             if( Math.floor( score ) > highScore )
             {
                 highScore = Math.floor( score );
             }
         }
-        explodeCube( timeDiff, playerXPos );
         if( !explodeSound )
         {
+            document.getElementById('crashSound').currentTime = 0;
             document.getElementById('crashSound').play();
             explodeSound = true;
         }
+        explodeCube( timeDiff, playerXPos );
     }
 
     // Update lateral movement
