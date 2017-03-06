@@ -139,7 +139,8 @@ function drawStarEyesSquare()
   // Reset the model transform matrix so the path is drawn at the origin
   modelTransformMatrix = translate( star_x, star_y, star_z );
   modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
-  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, 0.3 ));
+  // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, 0.3 ));
+  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, 0.16 ));
   gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
   // reset the camera transform matrix as well (was changed to move the cubes and player)
@@ -147,7 +148,8 @@ function drawStarEyesSquare()
 
   gl.drawArrays( gl.TRIANGLES, 0, 6 );
 
-  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, -0.6 ));
+  // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, -0.6 ));
+  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, -0.32 ));
   gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
   gl.drawArrays( gl.TRIANGLES, 0, 6 );
