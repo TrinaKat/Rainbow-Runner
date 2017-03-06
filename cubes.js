@@ -60,7 +60,8 @@ function generateNewCubeLine()
         if (isMarioMode) {
             // decide which cube will be special question mark cube using modulo
             if (randomPosition % (13 + Math.floor(Math.random() * 10)) == 0) {
-                cubeColour = marioQuestionCubeColourIndex;
+                if (Math.random() < 0.2)
+                    cubeColour = marioQuestionCubeColourIndex;
             }
         }
 
