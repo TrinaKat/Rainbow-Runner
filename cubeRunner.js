@@ -303,18 +303,20 @@ window.onload = function init()
         switch (event.keyCode) {
             case 103:  // 'g' key
                 console.log("g key");
-                isMarioMode = !isMarioMode;
-                if( isMusic )
-                {
-                    document.getElementById('themeSong').pause();
-                    document.getElementById('starSong').pause();
-                    if( isFun )
+                if (!isGameOver) {
+                    isMarioMode = !isMarioMode;
+                    if( isMusic )
                     {
-                        document.getElementById('funSong').play();
-                    }
-                    else
-                    {
-                        document.getElementById('rainbowRoad').play();
+                        document.getElementById('themeSong').pause();
+                        document.getElementById('starSong').pause();
+                        if( isFun )
+                        {
+                            document.getElementById('funSong').play();
+                        }
+                        else
+                        {
+                            document.getElementById('rainbowRoad').play();
+                        }
                     }
                 }
                 break;
@@ -336,10 +338,8 @@ window.onload = function init()
                 break;
             case 113:  // 'q' key
                 console.log("q key");
-                // if (isPaused) {
-                    isGameOver = true;
-                    removeScreen(pauseScreen);
-                // }
+                isGameOver = true;
+                removeScreen(pauseScreen);
                 break;
             case 119:  // 'w' key
                 console.log("w key");
