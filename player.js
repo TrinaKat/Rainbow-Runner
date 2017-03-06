@@ -202,6 +202,7 @@ function playerCollisionDetection() {
   // check if the player has hit the borders
   if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
       console.log("border collision");
+      isGameOver = true;
       if( !hasHitBorder)
       {
         isExploded = 1;
