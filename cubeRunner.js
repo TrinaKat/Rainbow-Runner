@@ -306,7 +306,7 @@ window.onload = function init()
                 isMarioMode = !isMarioMode;
                 if( isMusic )
                 {
-                    document.getElementById('rainbowRoad').pause();
+                    document.getElementById('themeSong').pause();
                     document.getElementById('starSong').pause();
                     if( isFun )
                     {
@@ -314,7 +314,7 @@ window.onload = function init()
                     }
                     else
                     {
-                        document.getElementById('themeSong').play();
+                        document.getElementById('rainbowRoad').play();
                     }
                 }
                 break;
@@ -376,11 +376,11 @@ window.onload = function init()
                     }
                     else if( isMarioMode )
                     {
-                        document.getElementById('rainbowRoad').play();
+                        document.getElementById('themeSong').play();
                     }
                     else
                     {
-                        document.getElementById('themeSong').play();
+                        document.getElementById('rainbowRoad').play();
                     }
                 }
                 else
@@ -540,9 +540,9 @@ function render(timeStamp)
 
         if( isMusic && !isInvincible )
         {
-            document.getElementById('rainbowRoad').play();
+            document.getElementById('themeSong').play();
             document.getElementById('funSong').pause();
-            document.getElementById('themeSong').pause();
+            document.getElementById('rainbowRoad').pause();
         }
     }
     else
@@ -568,11 +568,11 @@ function render(timeStamp)
                 }
                 else if( isMarioMode )
                 {
-                    document.getElementById('rainbowRoad').play();
+                    document.getElementById('themeSong').play();
                 }
                 else
                 {
-                    document.getElementById('themeSong').play();
+                    document.getElementById('rainbowRoad').play();
                 }
             }
             invincibilityTimer = maxInvincibleTime;  // reset the invincibility mode timer
