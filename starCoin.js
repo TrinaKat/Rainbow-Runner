@@ -218,10 +218,13 @@ function drawCoinSide()
 
 function drawCoinStar()
 {
-  // Increment rotation of star
-  coinAngle += 0.5;//0.2;
-  // Keep angle from growing forever
-  coinAngle = coinAngle % 360;
+  if( !isPaused )
+  {
+    // Increment rotation of star
+    coinAngle += 0.5;//0.2;
+    // Keep angle from growing forever
+    coinAngle = coinAngle % 360;
+  }
 
   applyCoinTexture();
 

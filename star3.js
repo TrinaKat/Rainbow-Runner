@@ -235,10 +235,13 @@ function drawSide()
 
 function drawStar()
 {
-  // Increment rotation of star
-  angle += 0.5;//0.2;
-  // Keep angle from growing forever
-  angle = angle % 360;
+  if( !isPaused )
+  {
+    // Increment rotation of star
+    angle += 0.5;//0.2;
+    // Keep angle from growing forever
+    angle = angle % 360;
+  }
 
   // reset the camera transform matrix as well (was changed to move the cubes and player)
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
