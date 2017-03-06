@@ -451,6 +451,8 @@ window.onload = function init()
                 console.log("Difficulty 3");
                 difficulty = 10;
                 break;
+            default:
+                break;
         }
     });
 
@@ -479,6 +481,7 @@ window.onload = function init()
                 break;
             case 39:  // RIGHT key
                 rightKeyDown = true;
+            default:
                 break;
         }
     });
@@ -497,6 +500,13 @@ window.onload = function init()
     // draw the first line of cubes
     generateNewCubeLine();
 
+    gameStart();
+}
+
+function gameStart() {
+    isStartScreen = true;
+    isGameOver = false;
+    startSequence();
     render(0);
 }
 
