@@ -86,7 +86,6 @@ var normalsArray = [];
 var texture;
 var textureFlipped;
 var enableTexture = false;  // by default we do not use textures
-var forExploding = false;
 var isFlipped = false;  // so have path scrolling by default
 var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
 [
@@ -122,7 +121,6 @@ var cameraTransformMatrixLoc;
 var projectionMatrixLoc;
 var currentColourLoc;
 var enableTextureLoc;
-var forExplodingLoc;
 var texcoordLoc;
 var textureLoc;
 
@@ -270,7 +268,6 @@ window.onload = function init()
     gl.uniform1f(gl.getUniformLocation(program, "shininess"), materialShininess);
 
     enableTextureLoc = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
-    forExplodingLoc = gl.getUniformLocation(program, "forExploding");
     textureLoc = gl.getUniformLocation(program, "u_texture");
 
     // assign rainbow road texture to the path

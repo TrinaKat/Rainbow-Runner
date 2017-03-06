@@ -80,10 +80,6 @@ uniform bool forExploding;
 void main() {
     if (enableTexture)
     {
-      if ( forExploding )
-      {
-        gl_FragColor =  currentColour * texture2D( u_texture, v_texcoord);  // apply the texture
-      }
       gl_FragColor = texture2D( u_texture, v_texcoord);  // apply the texture
     }
     else
