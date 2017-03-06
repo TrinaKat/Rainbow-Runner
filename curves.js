@@ -94,9 +94,11 @@ function drawCurve()
 
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
+ 
 
   // Change the color to RED TODO to be clearly visible
   gl.uniform4fv( currentColourLoc, colors[1] );
+
 
   // reset the camera transform matrix as well (was changed to move the cubes and player)
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));

@@ -24,6 +24,7 @@ function displayStartScreen() {
     startScreen.font = "48px Courier"
     startScreen.fillText("Press <s> to Start", 220, 480);
     startScreen.fillText("Press <g> for Mario Mode", 140, 540);
+   
 }
 
 // screen that player sees when pausing the game

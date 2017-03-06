@@ -61,6 +61,8 @@ function drawPlayer()
     gl.uniform1f(enableTextureLoc, enableTexture);
 
     // Bind the current buffer to draw
+    gl.disableVertexAttribArray(vNormal);
+    gl.disableVertexAttribArray(texcoordLoc);
     gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
