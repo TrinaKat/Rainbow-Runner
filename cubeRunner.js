@@ -481,8 +481,12 @@ function render(timeStamp)
     }
 
     // check if in invicibility mode
-    if (isInvincible) {
-        invincibilityTimer -= timeDiff;  // count down until return back to regular Mario mode
+    if (isInvincible)
+    {
+        if( !isPaused )
+        {
+            invincibilityTimer -= timeDiff;  // count down until return back to regular Mario mode
+        }
         if (invincibilityTimer < 0) {
             isInvincible = 0;
             invincibilityTimer = maxInvincibleTime;  // reset the invincibility mode timer
