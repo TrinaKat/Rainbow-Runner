@@ -304,6 +304,19 @@ window.onload = function init()
             case 103:  // 'g' key
                 console.log("g key");
                 isMarioMode = !isMarioMode;
+                if( isMusic )
+                {
+                    document.getElementById('rainbowRoad').pause();
+                    document.getElementById('starSong').pause();
+                    if( isFun )
+                    {
+                        document.getElementById('funSong').play();
+                    }
+                    else
+                    {
+                        document.getElementById('themeSong').play();
+                    }
+                }
                 break;
             // TODO REMOVE THIS IS JUST FOR TESTING INVINCIBLE MODE
             case 105:  // 'i' key
@@ -361,6 +374,10 @@ window.onload = function init()
                     {
                         document.getElementById('funSong').play();
                     }
+                    else if( isMarioMode )
+                    {
+                        document.getElementById('rainbowRoad').play();
+                    }
                     else
                     {
                         document.getElementById('themeSong').play();
@@ -371,6 +388,7 @@ window.onload = function init()
                     document.getElementById('funSong').pause();
                     document.getElementById('themeSong').pause();
                     document.getElementById('starSong').pause();
+                    document.getElementById('rainbowRoad').pause();
                 }
                 isMusic = !isMusic;
                 break;
@@ -397,10 +415,18 @@ window.onload = function init()
                     if( isFun )
                     {
                         document.getElementById('themeSong').pause();
+                        document.getElementById('rainbowRoad').pause();
                         document.getElementById('funSong').play();
+                    }
+                    else if( isMarioMode )
+                    {
+                        document.getElementById('rainbowRoad').play();
+                        document.getElementById('funSong').pause();
+                        document.getElementById('themeSong').pause();
                     }
                     else
                     {
+                        document.getElementById('rainbowRoad').pause();
                         document.getElementById('funSong').pause();
                         document.getElementById('themeSong').play();
                     }
@@ -511,6 +537,13 @@ function render(timeStamp)
     if (isMarioMode)
     {
         setupMarioEnvironment();
+
+        if( isMusic && !isInvincible )
+        {
+            document.getElementById('rainbowRoad').play();
+            document.getElementById('funSong').pause();
+            document.getElementById('themeSong').pause();
+        }
     }
     else
     {
@@ -532,6 +565,10 @@ function render(timeStamp)
                 if( isFun )
                 {
                     document.getElementById('funSong').play();
+                }
+                else if( isMarioMode )
+                {
+                    document.getElementById('rainbowRoad').play();
                 }
                 else
                 {

@@ -250,17 +250,10 @@ function playerCollisionDetection() {
             isQuestionCubeLastExploded = 1;  // the last cube that we hit was a special question mark cube
 
             document.getElementById('starSong').play();
-            if( isMusic )
-            {
-                if( isFun )
-                {
-                    document.getElementById('funSong').pause();
-                }
-                else
-                {
-                    document.getElementById('themeSong').pause();
-                }
-            }
+            document.getElementById('funSong').pause();
+            document.getElementById('themeSong').pause();
+            document.getElementById('rainbowRoad').pause();
+
             invincibilityTimer = maxInvincibleTime;
           }
           // the player is not invincible
