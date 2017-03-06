@@ -231,7 +231,7 @@ function playerCollisionDetection() {
           {
             score += 20;
             isStarCoinLastExploded = true;
-            // TODO SOUND EFFECT
+            document.getElementById('chaCHING').play();
           }
 
         // check if any of the faces intersect

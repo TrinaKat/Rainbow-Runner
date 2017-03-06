@@ -554,7 +554,7 @@ function render(timeStamp)
                 highScore = Math.floor( score );
             }
         }
-        if( !explodeSound )
+        if( !explodeSound && !isStarCoinLastExploded )
         {
             document.getElementById('crashSound').currentTime = 0;
             document.getElementById('crashSound').play();
