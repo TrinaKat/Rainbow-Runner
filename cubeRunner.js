@@ -27,6 +27,8 @@ var vertices =    // manually plan out unit cube
     vec4( +1, 0, 0, 1.0 )
 ];
 
+var sphereVertices = [];
+
 var colors =
 [
     [1.0, 1.0, 1.0, 1.0 ],  // 0 white
@@ -209,6 +211,7 @@ window.onload = function init()
 
     // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
     generateCube();
+    generateSphere();
     generateCubeOutline();
     generatePath();
 
