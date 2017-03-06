@@ -227,8 +227,15 @@ function playerCollisionDetection() {
         if (allXPositions[j] + 1 < playerLeftXPos || allXPositions[j] > playerRightXPos)
           continue;
 
+        if( allCubeColours[i][j] == starCoinCubeColorIndex )
+          {
+            score += 20;
+            isStarCoinLastExploded = true;
+            // TODO SOUND EFFECT
+          }
+
         // check if any of the faces intersect
-        if (checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) ||
+        if ( !isStarCoinLastExploded && checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) ||
           checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
           checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
           checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
@@ -236,6 +243,7 @@ function playerCollisionDetection() {
           isExploded = 1;
           // make the cube disappear since we have collided with it
           allCubeLineXPositions[i].splice(j, 1);
+
           // check to see if you collided with an question mark cube
           if (allCubeColours[i][j] == marioQuestionCubeColourIndex) {
             isInvincible = 1;
@@ -256,7 +264,7 @@ function playerCollisionDetection() {
             invincibilityTimer = maxInvincibleTime;
           }
           // the player is not invincible
-          if (!isInvincible) {
+          if (!isInvincible && !isStarCoinLastExploded) {
             isGameOver = true;
           }
         }

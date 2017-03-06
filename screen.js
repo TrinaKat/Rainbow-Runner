@@ -22,7 +22,8 @@ function displayStartScreen() {
     startScreen.fillText("Rainbow Runner", 180, 360);
     // set the subtitle for the start screen
     startScreen.font = "48px Courier"
-    startScreen.fillText("Press <s> to Start", 220, 520);
+    startScreen.fillText("Press <s> to Start", 220, 480);
+    startScreen.fillText("Press <g> for Mario Mode", 140, 540);
 }
 
 // screen that player sees when pausing the game

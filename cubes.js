@@ -63,6 +63,10 @@ function generateNewCubeLine()
                 if (Math.random() < 0.2)
                     cubeColour = marioQuestionCubeColourIndex;
             }
+            if (randomPosition % (7 + Math.floor(Math.random() * 5)) == 0) {
+                if (Math.random() < 0.1)
+                    cubeColour = starCoinCubeColorIndex;
+            }
         }
 
         colours.push(cubeColour);
@@ -99,6 +103,7 @@ function drawCube(colourIndex)
 // Draw lines of cubes and transform them
 function drawAndMoveAllCubes()
 {
+    var isCoinStar = false;
     // Iterate through each row of cubes (one cube line at a time)
     for ( var r = 0; r < allCubeLineXPositions.length; r++ )
     {
@@ -110,21 +115,34 @@ function drawAndMoveAllCubes()
         {
             // Move the cube to the correct position
             transformCube( allCubeLineXPositions[r][c], 0, allCubeLineZPositions[r] );
-            // Draw the cubes and outlines
-            drawOutline();
 
             // in Mario mode
             if (isMarioMode) {
-                if (allCubeColours[r][c] == marioQuestionCubeColourIndex) {
+                if ( allCubeColours[r][c] == marioQuestionCubeColourIndex )
+                {
                     applyQuestionTexture();
+                }
+                else if ( allCubeColours[r][c] == starCoinCubeColorIndex )
+                {
+                    isCoinStar = true;
                 }
                 else {
                     applyBrickTexture();
                 }
             }
 
-            // Set the colour for the cube
-            drawCube(allCubeColours[r][c]);
+            if( isCoinStar )
+            {
+                drawCoinStar();
+                isCoinStar = false;
+            }
+            else
+            {
+                // Draw the cubes and outlines
+                drawOutline();
+                // Set the colour for the cube
+                drawCube(allCubeColours[r][c]);
+            }
 
             // disable the texture before we draw something else later
             enableTexture = false;

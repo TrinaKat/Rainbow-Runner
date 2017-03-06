@@ -154,9 +154,9 @@ function drawCoinFront()
   gl.uniform4fv( currentColourLoc, colors[12] );
 
   // Set up star coin transformations
-  modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
+  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
+  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
+  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.TRIANGLES, 0, 24 );
 }
@@ -172,9 +172,9 @@ function drawCoinBack()
   gl.uniform4fv( currentColourLoc, colors[12] );
 
   // Set up star coin transformations
-  modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
+  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
+  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
+  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.TRIANGLES, 0, 24 );
 }
@@ -192,9 +192,9 @@ function drawCoinSide()
   gl.uniform4fv( currentColourLoc, colors[12] );
 
   // Set up star coin transformations
-  modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
+  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
+  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
+  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.TRIANGLES, 0, 24 );
 
@@ -209,9 +209,9 @@ function drawCoinSide()
   gl.uniform4fv( currentColourLoc, colors[12] );
 
   // Set up star coin transformations
-  modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
+  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
+  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
+  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.TRIANGLES, 0, 24 );
 }
@@ -221,10 +221,15 @@ function drawCoinStar()
   if( !isPaused )
   {
     // Increment rotation of star
-    coinAngle += 0.5;//0.2;
+    coinAngle += 1;//0.2;
     // Keep angle from growing forever
     coinAngle = coinAngle % 360;
   }
+
+  modelTransformMatrix = mult( modelTransformMatrix, scalem( 1.5, 1.5, 1.5 ));
+  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.5, 0 ));
+  modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
+  gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   applyCoinTexture();
 

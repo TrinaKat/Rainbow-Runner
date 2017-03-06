@@ -2,6 +2,7 @@
 
 // indicate whether the last cube to explode was a question cube or not
 var isQuestionCubeLastExploded = 0;
+var isStarCoinLastExploded = false;
 
 // Outermost Layer
 var explodePositions_x =
@@ -68,8 +69,13 @@ function explodeCube( timeDiff, x )
     var cubeColourIndices = [5, 4, 3];  // black and white colour scheme
   }
 
+  if( isStarCoinLastExploded )
+  {
+    console.log("COIN EXPLOSION");
+  }
+
   // If larger than 1.5, then stop drawing
-  if( Math.abs( explodePositions_x[0] ) < 1.5 )
+  if( !isStarCoinLastExploded && Math.abs( explodePositions_x[0] ) < 1.5 )
   {
     // Outermost layer of larger cubes
     for( var i = 0; i < explodePositions_x.length; i++ )
@@ -82,8 +88,6 @@ function explodeCube( timeDiff, x )
       // Move the cube to the correct position
       transformExplodeCube( explodePositions_x[i] + x, explodePositions_y[i], explodePositions_z[i], 0.2 );
 
-      // Draw the cubes and outlines
-      drawOutline();
       // Set the colour for the cube
       // TODO EXPLODE QUESTIONS INTO QUESTIONS
       if (isMarioMode)
@@ -98,7 +102,10 @@ function explodeCube( timeDiff, x )
         }
       }
 
+      // Draw the cubes and outlines
+      drawOutline();
       drawCube(cubeColourIndices[0]);
+
       // disable the texture before we draw something else later
       enableTexture = false;
       gl.uniform1f(enableTextureLoc, enableTexture);
@@ -115,7 +122,6 @@ function explodeCube( timeDiff, x )
       transformExplodeCube( explodePositions2_x[it] + x, explodePositions2_y[it], explodePositions2_z[it], 0.14 );
 
       // Draw the cubes and outlines
-      drawOutline();
       if (isMarioMode)
       {
         if (isQuestionCubeLastExploded) {
@@ -126,7 +132,10 @@ function explodeCube( timeDiff, x )
         }
       }
 
+      // Draw the cubes and outlines
+      drawOutline();
       drawCube(cubeColourIndices[1]);
+
       // disable the texture before we draw something else later
       enableTexture = false;
       gl.uniform1f(enableTextureLoc, enableTexture);
@@ -143,18 +152,22 @@ function explodeCube( timeDiff, x )
       transformExplodeCube( explodePositions3_x[iter] + x, explodePositions3_y[iter], explodePositions3_z[iter], 0.08 );
 
       // Draw the cubes and outlines
-      drawOutline();
       if (isMarioMode)
       {
-        if (isQuestionCubeLastExploded) {
+        if (isQuestionCubeLastExploded)
+        {
           applyQuestionTexture();
         }
-        else {
+        else
+        {
           applyBrickTexture();
         }
       }
 
-      drawCube(cubeColourIndices[2]);
+        // Draw the cubes and outlines
+        drawOutline();
+        drawCube(cubeColourIndices[2]);
+
       // disable the texture before we draw something else later
       enableTexture = false;
       gl.uniform1f(enableTextureLoc, enableTexture);
@@ -209,6 +222,7 @@ function explodeCube( timeDiff, x )
 
     // need to reset this at the end
     isQuestionCubeLastExploded = 0;
+    isStarCoinLastExploded = false;
   }
 }
 

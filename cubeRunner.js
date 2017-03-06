@@ -545,7 +545,7 @@ function render(timeStamp)
     // TODO exploding cube upon collision
     if( isExploded )
     {
-        if (!isInvincible || hasHitBorder )
+        if ( !isStarCoinLastExploded && ( !isInvincible || hasHitBorder ))
         {   // if invincible, don't pause after hitting a cube
             isPaused = true;
             isGameOver = true;
@@ -581,9 +581,6 @@ function render(timeStamp)
     }
 
     drawStar();
-
-    // Integrate into game
-    drawCoinStar();
 
     // Make better clouds
     drawCurve();
