@@ -255,6 +255,10 @@ function playerCollisionDetection() {
             }
             invincibilityTimer = maxInvincibleTime;
           }
+          // the player is not invincible
+          if (!isInvincible) {
+            isGameOver = true;
+          }
         }
       }
     }

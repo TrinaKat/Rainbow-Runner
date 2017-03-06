@@ -158,7 +158,7 @@ var allCubeLineZPositions = [];  // array containing the Z position for each cub
 var numCubeLines = (2 * cameraPositionZAxis) / stepSize;   // the total number of active cube lines we have displayed at a time
 // Keep track of Z distance traveled by each line (elements correspond to those in allCubeLineXPositions)
 var cubeLineDistanceTraveled = 0;
-var isPaused = 0;  // 0: not paused so all the cubes move; 1: paused so the cubes remain stationary
+var isPaused = 1;  // 0: not paused so all the cubes move; 1: paused so the cubes remain stationary
 
 // NAVIGATION
 var rotDegrees = 0;
@@ -313,6 +313,19 @@ window.onload = function init()
             case 112:  // 'p' key
                 console.log("p key");
                 isPaused = !isPaused;
+                if (isPaused) {
+                    displayPauseScreen();
+                }
+                else {
+                    removeScreen(pauseScreen);
+                }
+                break;
+            case 113:  // 'q' key
+                console.log("q key");
+                // if (isPaused) {
+                    isGameOver = true;
+                    removeScreen(pauseScreen);
+                // }
                 break;
             case 119:  // 'w' key
                 console.log("w key");
@@ -324,6 +337,15 @@ window.onload = function init()
                 break;
             case 115:  // 's' key
                 console.log("s key");
+                if (isStartScreen) {
+                    // exit the start screen and un-pause the game
+                    isStartScreen = 0;
+                    isPaused = 0;
+                    removeScreen(startScreen);
+                }
+                break;
+            case 116:  // 't' key
+                console.log("t key");
                 document.getElementById('happySound').play();
                 break;
             case 109:  // 'm' key
@@ -456,6 +478,16 @@ function render(timeStamp)
 
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    // display the start screen
+    if (isStartScreen) {
+        displayStartScreen();
+    }
+    // display the game over screen
+    if (isGameOver) {
+        displayEndScreen();
+        isPaused = true;
+    }
 
     // first, get the time difference since the last call to render
     var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
