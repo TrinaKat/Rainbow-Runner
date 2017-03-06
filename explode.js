@@ -59,7 +59,7 @@ function explodeCube( timeDiff, x )
     // // Disable the texture before we draw something else later
     // enableTexture = false;
     // gl.uniform1f(enableTextureLoc, enableTexture);
-    var cubeColourIndices = [9, 6, 8];  // orange and yellow colour scheme
+    var cubeColourIndices = [11, 8, 4];
   }
   else {
     var cubeColourIndices = [5, 4, 3];  // black and white colour scheme
@@ -68,6 +68,8 @@ function explodeCube( timeDiff, x )
   // If larger than 1.5, then stop drawing
   if( Math.abs( explodePositions_x[0] ) < 1.5 )
   {
+    forExploding = true;
+    gl.uniform1f(forExplodingLoc, forExploding);
     // Outermost layer of larger cubes
     for( var i = 0; i < explodePositions_x.length; i++ )
     {
@@ -82,15 +84,17 @@ function explodeCube( timeDiff, x )
       // Draw the cubes and outlines
       drawOutline();
       // Set the colour for the cube
+      // TODO EXPLODE QUESTIONS INTO QUESTIONS
       if (isMarioMode)
       {
           applyBrickTexture();
+          // applyQuestionTexture();
       }
 
       drawCube(cubeColourIndices[0]);
       // disable the texture before we draw something else later
-        enableTexture = false;
-        gl.uniform1f(enableTextureLoc, enableTexture);
+      enableTexture = false;
+      gl.uniform1f(enableTextureLoc, enableTexture);
     }
     // Middle layer of medium cubes
     for( var it = 0; it < explodePositions2_x.length; it++ )
@@ -138,6 +142,9 @@ function explodeCube( timeDiff, x )
       enableTexture = false;
       gl.uniform1f(enableTextureLoc, enableTexture);
     }
+
+    forExploding = false;
+    gl.uniform1f(forExplodingLoc, forExploding);
   }
   else
   {
