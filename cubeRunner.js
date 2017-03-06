@@ -278,7 +278,6 @@ window.onload = function init()
     createFlippedTexture("Textures/rainbow.png");
 
     // Mario Textures
-    generateStarEyesSquare();
     populateCubeTexCoords();
     populatePipeTexCoords();
     createBrickTexture();
@@ -287,7 +286,6 @@ window.onload = function init()
     createDirtTexture();
     createGrassTexture();
     createCoinTexture();
-    createStarEyesTexture();
 
     // Coin Star
     generateCoinStar();
