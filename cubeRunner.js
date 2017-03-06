@@ -331,7 +331,11 @@ window.onload = function init()
                 console.log("m key");
                 if( !isMusic )
                 {
-                    if( isFun )
+                    if( isInvincible )
+                    {
+                        document.getElementById('starSong').play();
+                    }
+                    else if( isFun )
                     {
                         document.getElementById('funSong').play();
                     }
@@ -344,6 +348,7 @@ window.onload = function init()
                 {
                     document.getElementById('funSong').pause();
                     document.getElementById('themeSong').pause();
+                    document.getElementById('starSong').pause();
                 }
                 isMusic = !isMusic;
                 break;
@@ -365,7 +370,7 @@ window.onload = function init()
             case 122:   // 'z' key
                 console.log("z key");
                 isFun = !isFun;
-                if( isMusic )
+                if( isMusic && !isInvincible )
                 {
                     if( isFun )
                     {
@@ -489,6 +494,18 @@ function render(timeStamp)
         }
         if (invincibilityTimer < 0) {
             isInvincible = 0;
+            document.getElementById('starSong').pause();
+            if( isMusic )
+            {
+                if( isFun )
+                {
+                    document.getElementById('funSong').play();
+                }
+                else
+                {
+                    document.getElementById('themeSong').play();
+                }
+            }
             invincibilityTimer = maxInvincibleTime;  // reset the invincibility mode timer
         }
     }

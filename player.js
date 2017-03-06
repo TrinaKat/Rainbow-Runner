@@ -238,6 +238,18 @@ function playerCollisionDetection() {
           // check to see if you collided with an question mark cube
           if (allCubeColours[i][j] == marioQuestionCubeColourIndex) {
             isInvincible = 1;
+            document.getElementById('starSong').play();
+            if( isMusic )
+            {
+                if( isFun )
+                {
+                    document.getElementById('funSong').pause();
+                }
+                else
+                {
+                    document.getElementById('themeSong').pause();
+                }
+            }
             invincibilityTimer = maxInvincibleTime;
           }
         }
