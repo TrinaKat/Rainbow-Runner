@@ -161,9 +161,6 @@ function explodeCube( timeDiff, x )
       enableTexture = false;
       gl.uniform1f(enableTextureLoc, enableTexture);
     }
-
-    forExploding = false;
-    gl.uniform1f(forExplodingLoc, forExploding);
   }
   else
   {
@@ -214,6 +211,8 @@ function explodeCube( timeDiff, x )
 
     // need to reset this at the end
     isQuestionCubeLastExploded = 0;
+    forExploding = false;
+    gl.uniform1f(forExplodingLoc, forExploding);
   }
 }
 
