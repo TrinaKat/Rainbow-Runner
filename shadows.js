@@ -32,28 +32,27 @@ function drawPlayerShadows(transformedPlayerPoints) {
 	var shadowColor = vec4(0, 0, 0, 0.7);
 
 	// Load shadow points into buffer
-	shadowBuffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, shadowBuffer);
 	gl.bufferData(gl.ARRAY_BUFFER, flatten(shadowPoints), gl.STATIC_DRAW);
 
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
+  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
 
-    gl.uniform4fv(currentColourLoc, shadowColor);
+  gl.uniform4fv(currentColourLoc, shadowColor);
 
-    // Note that we completely ignore transformations because shadows
-    // are based off the player's final (transformed) vertices
-    var eye = mat4();
-    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(eye));
-    gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
-    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
-    gl.drawArrays(gl.TRIANGLES, 0, shadowPoints.length);
+  // Note that we completely ignore transformations because shadows
+  // are based off the player's final (transformed) vertices
+  var eye = mat4();
+  gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(eye));
+  gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+  gl.drawArrays(gl.TRIANGLES, 0, shadowPoints.length);
 
-    // Reset camera and projection matrices
-    gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
-    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+  // Reset camera and projection matrices
+  gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 
-    gl.depthMask(true);
-    gl.disable(gl.BLEND);
-    gl.enable(gl.DEPTH_TEST);
+  gl.depthMask(true);
+  gl.disable(gl.BLEND);
+  gl.enable(gl.DEPTH_TEST);
 }

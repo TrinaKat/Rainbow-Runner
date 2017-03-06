@@ -3,9 +3,6 @@
 var cubeTexCoordBuffer;
 var cubeTexCoords = [];
 
-var starEyesPoints = [];
-var starEyesBuffer;
-
 var pipeTexCoordBuffer;
 var pipeTexCoords = [];
 
@@ -39,7 +36,6 @@ var questionTexture;
 var pipeTexture;
 var pipeTopTexture;
 var dirtTexture;
-var starEyesTexture;
 
 function populateCubeTexCoords()
 {
@@ -74,92 +70,7 @@ function populatePipeTexCoords()
   pipeTexCoords.push(pipeTopCoords[2]);
 }
 
-// Draw test cubes/squares
-function drawMarioCubes()
-{
-  // Brick
-  applyBrickTexture();
-  transformCube( -3, 5, 30 );
-  drawCube(0);
-
-  // Question
-  applyQuestionTexture();
-  transformCube( 0, 5, 30 );
-  drawCube(5);
-
-  // Pipe
-  applyPipeTexture();
-  transformCube( 3, 5, 30 );
-  drawCube(3);
-
-  // Star Eyes
-  applyStarEyesTexture();
-  drawStarEyesSquare();
-
-  // Disable the texture before we draw something else later
-  enableTexture = false;
-  gl.uniform1f(enableTextureLoc, enableTexture);
-}
-
-function generateStarEyesSquare()
-{
-  var starEyeVertices =
-  [
-    vec4( -0.3,  0.3, 0, 1.0 ), // 1
-    vec4( -0.3, -0.3, 0, 1.0 ), // 0
-    vec4(  0.3, -0.3, 0, 1.0 ), // 3
-    vec4( -0.3,  0.3, 0, 1.0 ), // 1
-    vec4(  0.3, -0.3, 0, 1.0 ), // 3
-    vec4(  0.3,  0.3, 0, 1.0 )  // 2
-
-  ];
-
-  for (var i = 0; i < 6; i++)
-  {
-      starEyesPoints.push(starEyeVertices[i]);
-  }
-
-  starEyesBuffer = gl.createBuffer();
-  gl.bindBuffer( gl.ARRAY_BUFFER, starEyesBuffer);
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(starEyesPoints), gl.STATIC_DRAW );
-
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-}
-
-function drawStarEyesSquare()
-{
-  // Buffer and attributes for the path points
-  gl.bindBuffer( gl.ARRAY_BUFFER, starEyesBuffer);
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(starEyesPoints), gl.STATIC_DRAW );
-
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-
-  // Reset the model transform matrix so the path is drawn at the origin
-  modelTransformMatrix = translate( star_x, star_y, star_z );
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
-  // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, 0.3 ));
-  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, 0.16 ));
-  gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
-
-  // reset the camera transform matrix as well (was changed to move the cubes and player)
-  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
-
-  gl.drawArrays( gl.TRIANGLES, 0, 6 );
-
-  // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, -0.6 ));
-  modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0, -0.32 ));
-  gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
-
-  gl.drawArrays( gl.TRIANGLES, 0, 6 );
-
-  // set the camera transform matrix to the actual translated state
-  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-}
-
-
-
+// CREATE TEXTURES
 
 function createBrickTexture()
 {
@@ -274,7 +185,7 @@ function createDirtTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/Mario/ground.jpg";
+  image.src = "./Textures/Mario/ground.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties
@@ -326,43 +237,9 @@ function createGrassTexture()
   gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
 }
 
-function createStarEyesTexture()
-{
-  // Create a texture
-  starEyesTexture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, starEyesTexture);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-  // Fill the texture with a 1x1 blue pixel
-  // Before we load the image so use blue image so we can start rendering immediately
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                new Uint8Array([0, 0, 255, 255]));
-
-  // Asynchronously load an image
-  var image = new Image();
-  image.src = "./Textures/Mario/starEyes.png";
-  image.addEventListener('load', function() {
-      // Now that the image has loaded, make copy it to the texture.
-      // Set texture properties
-      gl.bindTexture(gl.TEXTURE_2D, starEyesTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  });
-
-  // Create a buffer for texcoords
-  gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten( cubeTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-}
 
 
-
-
-
-
+// APPLY TEXTURES
 
 function applyBrickTexture()
 {
@@ -453,25 +330,6 @@ function applyGrassTexture()
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, grassTexture);
-  gl.uniform1i(textureLoc, 0);
-
-  // Enable the texture before we draw
-  // Tell the shader whether or not we want to enable textures
-  enableTexture = true;
-  gl.uniform1f(enableTextureLoc, enableTexture);
-}
-
-function applyStarEyesTexture()
-{
-  // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(cubeTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  // Bind the texture
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, starEyesTexture);
   gl.uniform1i(textureLoc, 0);
 
   // Enable the texture before we draw
