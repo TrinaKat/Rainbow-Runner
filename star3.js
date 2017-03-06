@@ -280,7 +280,7 @@ var starTCoords =
 ];
 
 var starTexCoordBuffer;
-var starTexCoords = [];   // TODO
+var starTexCoords = [];
 var starTexture;
 
 function createStarTexture()

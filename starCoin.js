@@ -267,7 +267,7 @@ var coinTCoords =
 ];
 
 var coinTexCoordBuffer;
-var coinTexCoords = [];   // TODO
+var coinTexCoords = [];
 var coinTexture;
 
 function createCoinTexture()

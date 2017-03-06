@@ -3,7 +3,8 @@
 var pathWidth = 40;
 
 // Generate vertices for the path
-function generatePath() {
+function generatePath()
+{
     // Generate the path with z: { -cameraPositionZaxis, cameraPositionZaxis }
     // Store the vertices needed for the path
     var pathVertices =
@@ -23,7 +24,8 @@ function generatePath() {
 }
 
 // Draw the path for the cubes to travel on
-function drawPath(scrollAmount) {
+function drawPath(scrollAmount)
+{
     // Buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
@@ -66,9 +68,13 @@ function drawPath(scrollAmount) {
     else
     {
         if (isMarioMode)
+        {
             applyGrassTexture();
+        }
         else
+        {
             applyFlippedRainbowTexture();
+        }
     }
 
     // Reset the model transform matrix so the path is drawn at the origin
