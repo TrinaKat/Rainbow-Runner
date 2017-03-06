@@ -93,8 +93,8 @@ function drawMarioCubes()
   drawCube(3);
 
   // Star Eyes
-  applyStarEyesTexture();
-  drawStarEyesSquare();
+  // applyStarEyesTexture();
+  // drawStarEyesSquare();
 
   // Disable the texture before we draw something else later
   enableTexture = false;
@@ -274,7 +274,7 @@ function createDirtTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/Mario/ground.jpg";
+  image.src = "./Textures/Mario/ground.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties
