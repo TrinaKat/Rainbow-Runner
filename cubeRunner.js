@@ -218,6 +218,9 @@ window.onload = function init()
     // STAR
     generateStar();
 
+    // TODO CLOUD
+    generateCurve();
+
     // BUFFER AND ATTRIBUTES FOR THE NORMALS
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
@@ -579,7 +582,11 @@ function render(timeStamp)
 
     drawStar();
 
+    // Integrate into game
     drawCoinStar();
+
+    // Make better clouds
+    drawCurve();
 
     // Draw the path
     // Step size of 1 unit, moves at a constant rate

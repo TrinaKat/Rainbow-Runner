@@ -80,6 +80,9 @@ function generateCurve()
   gl.enableVertexAttribArray( vPosition );
 }
 
+var cloud1_x = -7;
+var cloud2_x = 6;
+
 function drawCurve()
 {
   gl.disableVertexAttribArray(vNormal);
@@ -95,18 +98,39 @@ function drawCurve()
   // Change the color to RED TODO to be clearly visible
   gl.uniform4fv( currentColourLoc, colors[1] );
 
+  // reset the camera transform matrix as well (was changed to move the cubes and player)
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+
   // Set up star transformations
-  modelTransformMatrix = translate( 0, 5, 40 );
-  modelTransformMatrix = mult( modelTransformMatrix, scalem( 1.0, 0.8, 1.0 ));
+  modelTransformMatrix = translate( cloud1_x, 8, 29 );
+  modelTransformMatrix = mult( modelTransformMatrix, scalem( 3.0, 1.8, 2.0 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.LINES, 0, numCurveVertices );
 
-  modelTransformMatrix = translate( -3, 6, 40 );
-  modelTransformMatrix = mult( modelTransformMatrix, scalem( 1.3, 0.8, 1.0 ));
+  modelTransformMatrix = translate( cloud2_x, 6, 29 );
+  modelTransformMatrix = mult( modelTransformMatrix, scalem( 2.3, 1.3, 2.0 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.LINES, 0, numCurveVertices );
+
+  if( !isPaused )
+  {
+    cloud1_x -= 0.01;
+    cloud2_x -= 0.01;
+  }
+
+  if( cloud1_x < -15 )
+  {
+    cloud1_x = 9;
+  }
+  if( cloud2_x < -15 )
+  {
+    cloud2_x = 9;
+  }
+
+  // set the camera transform matrix to the actual translated state
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 
   gl.enableVertexAttribArray(vNormal);
 }
