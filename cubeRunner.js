@@ -320,12 +320,6 @@ window.onload = function init()
                     }
                 }
                 break;
-            // TODO REMOVE THIS IS JUST FOR TESTING INVINCIBLE MODE
-            case 105:  // 'i' key
-                console.log("i key");
-                isInvincible = !isInvincible;
-                // invincibilityTimer = 5;  // set the invincibility timer
-                break;
             case 112:  // 'p' key
                 console.log("p key");
                 isPaused = !isPaused;
@@ -351,11 +345,16 @@ window.onload = function init()
                 break;
             case 115:  // 's' key
                 console.log("s key");
+                // start the game
                 if (isStartScreen) {
                     // exit the start screen and un-pause the game
                     isStartScreen = 0;
                     isPaused = 0;
                     removeScreen(startScreen);
+                }
+                // restart the game
+                if (isGameOver) {
+                    reinitializeGame();
                 }
                 break;
             case 116:  // 't' key
@@ -495,6 +494,22 @@ window.onload = function init()
     generateNewCubeLine();
 
     render(0);
+}
+
+function reinitializeGame() {
+    removeScreen(endScreen);
+    // delete all the cubes so we can generate new ones
+    allCubeLineXPositions = [];
+    allCubeLineZPositions = [];
+    allCubeColours = [];
+    isPaused = 0;
+    playerXPos = 0;
+    isExploded = 0;
+    hasHitBorder = 0;
+    playerTilt = 0;  // no tilt by default
+    currAmountTranslated = 0;
+    amountToMove = 0;
+    isGameOver = false;
 }
 
 // called repeatedly to render and draw our scene

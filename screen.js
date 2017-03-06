@@ -57,7 +57,10 @@ function displayEndScreen() {
     // set the title for the start screen
     endScreen.font = "bold 84px Courier"
     endScreen.fillStyle = "#ffffff";  // we want white text
-    endScreen.fillText("Game Over", 240, 480);
+    endScreen.fillText("Game Over", 240, 360);
+    endScreen.font = "48px Courier"
+    endScreen.fillText("Press <s> to Restart", 200, 460);
+
 }
 
 // remove the specified screen from the display
