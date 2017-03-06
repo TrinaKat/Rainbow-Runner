@@ -1,5 +1,8 @@
 // Explode
 
+// indicate whether the last cube to explode was a question cube or not
+var isQuestionCubeLastExploded = 0;  
+
 // Outermost Layer
 var explodePositions_x =
 [ -0.5, -0.3, -0.4, -0.2, 0.1, 0.3, 0.1, 0.2, 0.4 ];
@@ -87,8 +90,14 @@ function explodeCube( timeDiff, x )
       // TODO EXPLODE QUESTIONS INTO QUESTIONS
       if (isMarioMode)
       {
+        if (isQuestionCubeLastExploded) {
+          applyQuestionTexture();
+          console.log("question cube last exploded");
+        }
+        else {
           applyBrickTexture();
-          // applyQuestionTexture();
+          console.log("brick cube last exploded");
+        }
       }
 
       drawCube(cubeColourIndices[0]);
@@ -111,7 +120,12 @@ function explodeCube( timeDiff, x )
       drawOutline();
       if (isMarioMode)
       {
+        if (isQuestionCubeLastExploded) {
+          applyQuestionTexture();
+        }
+        else {
           applyBrickTexture();
+        }
       }
 
       drawCube(cubeColourIndices[1]);
@@ -134,7 +148,12 @@ function explodeCube( timeDiff, x )
       drawOutline();
       if (isMarioMode)
       {
+        if (isQuestionCubeLastExploded) {
+          applyQuestionTexture();
+        }
+        else {
           applyBrickTexture();
+        }
       }
 
       drawCube(cubeColourIndices[2]);
@@ -192,5 +211,9 @@ function explodeCube( timeDiff, x )
 
     explodeAngle3 =
     [ 210, 160, 120, 80, 60, 40, 20, -10, -30 ];
+
+    // need to reset this at the end
+    isQuestionCubeLastExploded = 0;
   }
 }
+

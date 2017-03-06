@@ -239,6 +239,8 @@ function playerCollisionDetection() {
           // check to see if you collided with an question mark cube
           if (allCubeColours[i][j] == marioQuestionCubeColourIndex) {
             isInvincible = 1;
+            isQuestionCubeLastExploded = 1;  // the last cube that we hit was a special question mark cube
+
             document.getElementById('starSong').play();
             if( isMusic )
             {
