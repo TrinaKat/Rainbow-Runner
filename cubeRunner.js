@@ -138,6 +138,7 @@ var vBuffer;
 var vOutlineBuffer;
 var vPathBuffer;
 var vTexCoordBuffer;
+var shadowBuffer;
 
 // INITIALIZE VARIABLES
 var currentFOV = 50;   // adjust this later for narrow or width FOV
@@ -234,6 +235,7 @@ window.onload = function init()
     vBuffer = gl.createBuffer();
     vOutlineBuffer = gl.createBuffer();
     vPathBuffer = gl.createBuffer();
+    shadowBuffer = gl.createBuffer();
 
     // SET VALUES FOR UNIFORMS FOR SHADERS
     modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix");
@@ -612,8 +614,6 @@ function render(timeStamp)
     ctx.fillStyle = "#ffffff";
     ctx.fillText("Score: " + Math.floor( score ), 50, 50);
     ctx.fillText("High Score: " + highScore, 725, 50);
-
-
 
     // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
