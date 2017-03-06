@@ -40,7 +40,8 @@ var colors =
     [ 1.0, 0.5, 0.0, 1.0 ], // 8 orange (needed for exploding cube)
     [ 1.0, 0.976, 0.51, 1.0 ],  // 9 light yellow (needed for exploding cube)
     [ 0, 0.5, 0,5, 1.0 ],    // 10 teal (to flash the player in invincible mode)
-    [ 1.0, 0.0, 0.0, 1.0 ]  // 11 red
+    [ 1.0, 0.0, 0.0, 1.0 ],  // 11 red
+    [ 1.0, 0.6, 0.0, 1.0 ]  // 12 orange-yellow
 ];
 
 var rainbowColors =
@@ -293,6 +294,9 @@ window.onload = function init()
     createGrassTexture();
     createCoinTexture();
     createStarEyesTexture();
+
+    // Coin Star
+    generateCoinStar();
 
     // TODO REMOVE??? DOES IT BLEND?
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -553,6 +557,8 @@ function render(timeStamp)
     drawMarioCubes();
 
     drawStar();
+
+    drawCoinStar();
 
     // Draw the path
     // Step size of 1 unit, moves at a constant rate
