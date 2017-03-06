@@ -535,7 +535,7 @@ function render(timeStamp)
 
     // Draw the path
     // Step size of 1 unit, moves at a constant rate
-    drawPath(timeDiff);
+    drawPath(timeDiff * 0.8);
     // TODO REMOVE keep path from scrolling
     // drawPath(0);
 
