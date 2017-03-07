@@ -196,7 +196,7 @@ function drawBack()
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
   gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(texcoordLoc)
+  //gl.disableVertexAttribArray(texcoordLoc)
 
   // Change the color for the cube to yellow
   gl.uniform4fv( currentColourLoc, colors[6] );

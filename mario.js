@@ -41,12 +41,12 @@ function populateCubeTexCoords()
 {
   for( var i = 0; i < 6; i++ )
   {
-    cubeTexCoords.push(tCoords[1]);
     cubeTexCoords.push(tCoords[0]);
-    cubeTexCoords.push(tCoords[3]);
     cubeTexCoords.push(tCoords[1]);
-    cubeTexCoords.push(tCoords[3]);
     cubeTexCoords.push(tCoords[2]);
+    cubeTexCoords.push(tCoords[3]);
+    //cubeTexCoords.push(tCoords[3]);
+    //cubeTexCoords.push(tCoords[2]);
   }
 }
 
