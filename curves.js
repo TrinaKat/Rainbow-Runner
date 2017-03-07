@@ -87,7 +87,7 @@ function generateCurve()
   gl.enableVertexAttribArray( vPosition );
 }
 
-var cloud1_x = -8;
+var cloud1_x = -7;
 var cloud2_x = 3;
 
 function drawCurve()
@@ -104,15 +104,15 @@ function drawCurve()
   gl.enableVertexAttribArray( vPosition );
 
 
-  // Change the color to light gray
-  gl.uniform4fv( currentColourLoc, colors[1] );
+  // Change the color to black
+  gl.uniform4fv( currentColourLoc, colors[5] );
 
 
   // reset the camera transform matrix as well (was changed to move the cubes and player)
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
-  // Set up star transformations
-  modelTransformMatrix = translate( cloud1_x, 10, 25 );
+  // Set up transformations
+  modelTransformMatrix = translate( cloud1_x, 9.5, 25 );
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 3.0, 1.8, 2.0 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
@@ -233,14 +233,14 @@ function drawLakituCurve()
   gl.enableVertexAttribArray( vPosition );
 
 
-  // Change the color to light gray
-  gl.uniform4fv( currentColourLoc, colors[1] );
+  // Change the color to black
+  gl.uniform4fv( currentColourLoc, colors[5] );
 
 
   // reset the camera transform matrix as well (was changed to move the cubes and player)
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
-  // Set up star transformations
+  // Set up transformations
   modelTransformMatrix = translate( lakitu_x, lakitu_y, 29 );
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 3.0, 2.5, 2.5 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
@@ -270,7 +270,7 @@ function drawLakituCurve()
   }
 
   // Move left and right
-  if( lakitu_x < -7 || lakitu_x > 3.5 )
+  if( lakitu_x < -6 || lakitu_x > 3.5 )
   {
     lakitu_left = !lakitu_left;
   }

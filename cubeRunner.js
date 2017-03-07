@@ -28,6 +28,7 @@ var vertices =    // manually plan out unit cube
 ];
 
 var sphereVertices = [];
+var sphereNormals = [];
 
 var colors =
 [
@@ -231,11 +232,26 @@ window.onload = function init()
     //BumpMap Object
     //generateBumpMap();
     //createBumpMapTexture();
+
     // TODO CLOUD
     generateCurve();
+    generateLakituCurve();
 
-    //generateLakituCurve();
-    
+    createCloudFaceTexture();
+    generateCloudFaceSquare();
+
+    createLakituTexture();
+    generateLakituSquare();
+
+    createCloudBigTexture();
+    generateCloudBigSquare();
+
+    createCloudSmallTexture();
+    generateCloudSmallSquare();
+
+    createCloudLakituTexture();
+    generateCloudLakituSquare();
+
 
     // TODO: REMOVE
     generateIntroCubes();
@@ -671,19 +687,37 @@ function render(timeStamp)
 
     drawStar();
 
-    // Draw the clouds
-    if( isMarioMode )
-    {
-        drawCurve();
-        drawLakituCurve();
-    }
-
     // Draw the path
     // Step size of 0.8 units, moves at a constant rate
     drawPath(timeDiff * 0.8);
 
     // TODO REMOVE keep path from scrolling
     drawPath(0);
+
+    // Draw the clouds
+    if( isMarioMode )
+    {
+        // Back to Front Order
+        drawCurve();
+        drawCloudBig();
+        drawCloudSmall();
+
+        // Enable Blending
+        gl.enable(gl.BLEND);
+        gl.disable(gl.DEPTH_TEST);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.depthMask(false);
+
+        drawCloudLakitu();
+        drawLakituCurve();
+        drawCloudFace();
+        drawLakitu();
+
+        gl.depthMask(true);
+        gl.disable(gl.BLEND);
+        gl.enable(gl.DEPTH_TEST);
+    }
+
 
     // draw the cube border on both sides
     if (isDrawBorder)
