@@ -327,14 +327,6 @@ window.onload = function init()
                 break;
             case 112:  // 'p' key
                 console.log("p key");
-<<<<<<< HEAD
-                isPaused = !isPaused;
-                if (isPaused) {
-                    displayPauseScreen();
-                }
-                else {
-                    removeScreen(pauseScreen);
-=======
                 if (!isStartScreen && !isGameOver) {
                     isPaused = !isPaused;
                     if (isPaused) {
@@ -343,7 +335,6 @@ window.onload = function init()
                     else {
                         removeScreen(pauseScreen);
                     }
->>>>>>> 309fac187560d6fc798e85eff9b8142f5af3e359
                 }
                 break;
             case 113:  // 'q' key
@@ -677,12 +668,8 @@ function render(timeStamp)
     drawPath(0);
 
     // draw the cube border on both sides
-<<<<<<< HEAD
-    drawBorder();
-=======
     if (isDrawBorder)
         drawBorder();
->>>>>>> 309fac187560d6fc798e85eff9b8142f5af3e359
 
 
     //draw Bump Map Object
