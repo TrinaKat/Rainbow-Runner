@@ -7,7 +7,19 @@ var startScreen;
 var pauseScreen;
 var endScreen;
 
+
+
+// game boy canvas 
+function displayGameBoyScreen() {
+    var gameBoycanvas = document.getElementById("gameboyScreen");
+    var ctx = gameBoycanvas.getContext("2d");
+    var gameboyimg = new Image();
+    gameboyimg.src = "./Textures/gameBoy.png";
+   ctx.drawImage(gameboyimg, 0, 0, 3121,1851.8);
+};
 // start screen that the player sees at the very beginning
+
+
 function displayStartScreen() {
 	var startScreenCanvas = document.getElementById( "startScreen" );
 	startScreen = startScreenCanvas.getContext( "2d" );

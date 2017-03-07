@@ -171,8 +171,10 @@ var amountToTilt = 5;
 // Stuff for navigation FSM
 var rightKeyDown = false;
 var leftKeyDown = false;
+var upKeyDown = false;
 
 var movementFSM = new MovementFSM();
+var jumpFSM = new JumpFSM();
 
 // SOUND
 var isMusic = true;    // Make true when on autoplay
@@ -337,6 +339,8 @@ window.onload = function init()
             case 113:  // 'q' key
                 console.log("q key");
                 isGameOver = true;
+                document.getElementById('quitSound').play();
+
                 break;
             case 119:  // 'w' key
                 console.log("w key");
@@ -379,11 +383,6 @@ window.onload = function init()
                     document.getElementById('rainbowRoad').pause();
                 }
                 isMusic = !isMusic;
-                break;
-            case 113:  // 'q' key
-                console.log("q key");
-                document.getElementById('quitSound').play();
-                // TODO RESET
                 break;
             case 114:  // 'r' key
                 console.log("r key");
@@ -474,6 +473,11 @@ window.onload = function init()
             case 39:  // RIGHT key
                 if (!isPaused && !isGameOver)
                     rightKeyDown = true;
+                break;
+            case 38: // UP key
+                if (!isPaused && !isGameOver)
+                    upKeyDown = true;
+                break;
             default:
                 break;
         }
@@ -486,6 +490,11 @@ window.onload = function init()
             break;
         case 39: // RIGHT key
             rightKeyDown = false;
+            break;
+        case 38: // UP key
+            upKeyDown = false;
+            break;
+        default:
             break;
         }
     });
@@ -505,7 +514,7 @@ function render(timeStamp)
 
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
+    displayGameBoyScreen();
     // display the start screen
     if (isStartScreen) {
         displayStartScreen();
@@ -614,9 +623,19 @@ function render(timeStamp)
     // Update lateral movement
     movementFSM.update(rightKeyDown, leftKeyDown);
     var velocity = movementFSM.velocity;
-    cameraTransformMatrix = mult(inverse(translate(velocity, 0, 0)), cameraTransformMatrix);
+
+    var verticalVelocity = 0;
+
+    if (isMarioMode) {
+        // Update jumping
+        jumpFSM.update(upKeyDown);
+        var verticalVelocity = jumpFSM.verticalVelocity();
+    }
+
+    cameraTransformMatrix = mult(inverse(translate(velocity, verticalVelocity, 0)), cameraTransformMatrix);
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     playerXPos += velocity;
+    playerYPos += verticalVelocity;
 
     if (velocity > 0)
     {
@@ -630,7 +649,6 @@ function render(timeStamp)
     {
         playerTilt = 0;
     }
-
 
     drawStar();
 

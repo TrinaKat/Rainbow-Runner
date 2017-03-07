@@ -4,13 +4,15 @@ var coinAngle = 0;
 
 var frontCoinPoints = [];
 var backCoinPoints = [];
-var sideCoinPoints1 = [];
-var sideCoinPoints2 = [];
+var sideCoinPoints = [];
+
+var coinFrontNormals = [];
+var coinBackNormals = [];
+var coinSideNormals = [];
 
 var frontCoinBuffer;  // 10 triangles
 var backCoinBuffer;   // 10 triangles
-var sideCoinBuffer1;  // 20 triangles
-var sideCoinBuffer2;
+var sideCoinBuffer;  // 20 triangles
 
 var coin_x = 0;
 var coin_y = 2;
@@ -46,7 +48,7 @@ var starCoinVertices =
   vec4(   0.0,     -0.5,     -0.1, 1.0 ),  // 14 Lower Middle
   vec4(   0.35156, -0.35156, -0.1, 1.0 ),  // 15 Lower Right
   vec4(   0.5,      0.0,     -0.1, 1.0 ),  // 16 Middle Right
-  vec4(   0.35156,  0.35156, -0.1, 1.0 ),  // 17 Upper Right
+  vec4(   0.35156,  0.35156, -0.1, 1.0 )   // 17 Upper Right
 ];
 
 var frontCoinVertexOrder =
@@ -73,7 +75,7 @@ var backCoinVertexOrder =
   17, 9, 16
 ];
 
-var sideCoinVertexOrder1 =
+var sideCoinVertexOrder =
 [
   10, 11, 2,
   10, 2, 1,
@@ -85,11 +87,8 @@ var sideCoinVertexOrder1 =
   12, 4, 3,
 
   13, 14, 5,
-  13, 5, 4
-];
+  13, 5, 4,
 
-var sideCoinVertexOrder2 =
-[
   14, 15, 6,
   14, 6, 5,
 
@@ -103,48 +102,87 @@ var sideCoinVertexOrder2 =
   17, 1, 8
 ];
 
+function generateCoinNormals(a, b, c, face)
+{
+  var t1 = subtract(starCoinVertices[b], starCoinVertices[a]);
+  var t2 = subtract(starCoinVertices[c], starCoinVertices[b]);
+  var normal = cross(t1, t2);
+
+  // Front
+  if( face == 0 )
+  {
+    coinFrontNormals.push(normal);
+    coinFrontNormals.push(normal);
+    coinFrontNormals.push(normal);
+  }
+  // Back
+  else if( face == 1 )
+  {
+    coinBackNormals.push(normal);
+    coinBackNormals.push(normal);
+    coinBackNormals.push(normal);
+  }
+  // Side
+  else
+  {
+    coinSideNormals.push(normal);
+    coinSideNormals.push(normal);
+    coinSideNormals.push(normal);
+  }
+}
+
 function generateCoinStar()
 {
   for( var i = 0; i < 24; i++ )
   {
     frontCoinPoints.push( starCoinVertices[ frontCoinVertexOrder[i] ]);
     backCoinPoints.push( starCoinVertices[ backCoinVertexOrder[i] ]);
-    sideCoinPoints1.push( starCoinVertices[ sideCoinVertexOrder1[i] ]);
-    sideCoinPoints2.push( starCoinVertices[ sideCoinVertexOrder2[i] ]);
     coinTexCoords.push( coinTCoords[ frontCoinVertexOrder[i] ]);
+    if( i % 3 == 0 )
+    {
+      generateCoinNormals(frontCoinVertexOrder[i], frontCoinVertexOrder[i+1], frontCoinVertexOrder[i+2], 0);
+      generateCoinNormals(backCoinVertexOrder[i], backCoinVertexOrder[i+1], backCoinVertexOrder[i+2], 1);
+    }
+  }
+
+  for( var it = 0; it < 48; it++ )
+  {
+    sideCoinPoints.push( starCoinVertices[ sideCoinVertexOrder[it] ]);
+
+    if( it % 3 == 0 )
+    {
+      generateCoinNormals(sideCoinVertexOrder[it], sideCoinVertexOrder[it+1], sideCoinVertexOrder[it+2], 2);
+    }
   }
 
   frontCoinBuffer = gl.createBuffer();
   gl.bindBuffer( gl.ARRAY_BUFFER, frontCoinBuffer );
   gl.bufferData( gl.ARRAY_BUFFER, flatten(frontCoinPoints), gl.STATIC_DRAW );
 
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
   backCoinBuffer = gl.createBuffer();
   gl.bindBuffer( gl.ARRAY_BUFFER, backCoinBuffer );
   gl.bufferData( gl.ARRAY_BUFFER, flatten(backCoinPoints), gl.STATIC_DRAW );
 
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
-  sideCoinBuffer1 = gl.createBuffer();
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideCoinBuffer1 );
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(sideCoinPoints1), gl.STATIC_DRAW );
+  sideCoinBuffer = gl.createBuffer();
+  gl.bindBuffer( gl.ARRAY_BUFFER, sideCoinBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(sideCoinPoints), gl.STATIC_DRAW );
 
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-
-  sideCoinBuffer2 = gl.createBuffer();
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideCoinBuffer2 );
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(sideCoinPoints2), gl.STATIC_DRAW );
-
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 }
 
 function drawCoinFront()
 {
+  // Enable normals for lighting
+  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(coinFrontNormals), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vNormal );
+
   // Bind the current buffer to draw
   gl.bindBuffer( gl.ARRAY_BUFFER, frontCoinBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
@@ -153,16 +191,18 @@ function drawCoinFront()
   // Change the color to yellow
   gl.uniform4fv( currentColourLoc, colors[12] );
 
-  // Set up star coin transformations
-  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
-
   gl.drawArrays( gl.TRIANGLES, 0, 24 );
 }
 
 function drawCoinBack()
 {
+  // Enable normals for lighting
+  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(coinBackNormals), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vNormal );
+
   // Bind the current buffer to draw
   gl.bindBuffer( gl.ARRAY_BUFFER, backCoinBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
@@ -171,49 +211,30 @@ function drawCoinBack()
   // Change the color to yellow
   gl.uniform4fv( currentColourLoc, colors[12] );
 
-  // Set up star coin transformations
-  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
-
   gl.drawArrays( gl.TRIANGLES, 0, 24 );
 }
 
 function drawCoinSide()
 {
-  // Side 1
+  // Disable texturing
+  gl.disableVertexAttribArray( texcoordLoc );
+
+  // Enable normals for lighting
+  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(coinSideNormals), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vNormal );
 
   // Bind the current buffer to draw
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideCoinBuffer1 );
+  gl.bindBuffer( gl.ARRAY_BUFFER, sideCoinBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
   // Change the color to yellow
   gl.uniform4fv( currentColourLoc, colors[12] );
 
-  // Set up star coin transformations
-  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
-
-  gl.drawArrays( gl.TRIANGLES, 0, 24 );
-
-  // Side 2
-
-  // Bind the current buffer to draw
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideCoinBuffer2 );
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-
-  // Change the color to yellow
-  gl.uniform4fv( currentColourLoc, colors[12] );
-
-  // Set up star coin transformations
-  // modelTransformMatrix = translate( coin_x, coin_y, coin_z );
-  // modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
-  // gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
-
-  gl.drawArrays( gl.TRIANGLES, 0, 24 );
+  gl.drawArrays( gl.TRIANGLES, 0, 48 );
 }
 
 function drawCoinStar()
@@ -231,6 +252,8 @@ function drawCoinStar()
   modelTransformMatrix = mult( modelTransformMatrix, rotateY( coinAngle ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
+  drawCoinSide();
+
   applyCoinTexture();
 
   drawCoinFront();
@@ -238,11 +261,7 @@ function drawCoinStar()
 
   enableTexture = false;
   gl.uniform1f(enableTextureLoc, enableTexture);
-
-  drawCoinSide();
 }
-
-
 
 
 

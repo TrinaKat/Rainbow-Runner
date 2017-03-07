@@ -1,5 +1,9 @@
 // Border + Outline + Misc.
 
+function playSound(soundID) {
+    document.getElementById(soundID).play();
+}
+
 // Generate vertices for the cube outline
 function generateCubeOutline()
 {
