@@ -750,6 +750,9 @@ function render(timeStamp)
     // TODO REMOVE keep path from scrolling
     drawPath(0);
 
+    // Draw player AFTER path because we want transparent shadows but BEFORE cubes
+    drawPlayer();
+
     // Draw the clouds
     if( isMarioMode )
     {
@@ -806,8 +809,8 @@ function render(timeStamp)
         isGameOver = false;
     }
 
-    // Draw player last because we want transparent shadows
-    drawPlayer();
+    // Draw player AFTER path because we want transparent shadows but BEFORE cubes
+    drawPlayerBody();
 
     //placing the text on the canvas
     ctx.font = "24px eightbit"

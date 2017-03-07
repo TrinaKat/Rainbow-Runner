@@ -138,38 +138,8 @@ function drawPlayer()
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
 
-    // Enable normals for lighting
-    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(playerNormals), gl.STATIC_DRAW );
-
-    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vNormal );
-
-    // Bind the current buffer to draw
-    gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
-
     // get the player's base edge's position in the z-axis (need to add one since located at z = +1 from the origin)
     playerTipZPos = cameraPositionZAxis - 10;
-
-    // change the player's colour if it is invincible
-    if (isInvincible && invincibilityTimer > 0 )
-    {
-      gl.uniform4fv(currentColourLoc, colors[7]);
-      if ( invincibilityTimer < 1.5 )
-      {
-        // flash the colour of the player
-        if (invincibleColourFlash)
-        {
-          gl.uniform4fv(currentColourLoc, colors[0]);
-        }
-        invincibleColourFlash = !invincibleColourFlash;
-      }
-    }
-    else {
-      gl.uniform4fv(currentColourLoc, colors[3]);
-    }
 
     modelTransformMatrix = translate(0, 0, playerTipZPos);
 
@@ -189,6 +159,57 @@ function drawPlayer()
     }
     var centerPoint = mult(modelTransformMatrix, playerVertices[3]);
 
+    // Draw shadow first for back to front rendering
+    drawPlayerShadows(transformedPlayerPoints, centerPoint);
+}
+
+function drawPlayerBody()
+{
+    // Disable the texture before we draw something else later
+    enableTexture = false;
+    gl.uniform1f(enableTextureLoc, enableTexture);
+
+    // Enable normals for lighting
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(playerNormals), gl.STATIC_DRAW );
+
+    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+
+    // Bind the current buffer to draw
+    gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vPosition );
+
+    modelTransformMatrix = translate(0, 0, playerTipZPos);
+
+    // tilt the player if needed
+    if (playerTilt == -1) {
+      modelTransformMatrix = mult(modelTransformMatrix, rotate(amountToTilt, vec3(0, 0, 1)));
+    }
+    else if (playerTilt == 1) {
+      modelTransformMatrix = mult(modelTransformMatrix, rotate(-1 * amountToTilt, vec3(0, 0, 1)));
+    }
+
+    // change the player's colour if it is invincible
+    if (isInvincible && invincibilityTimer > 0 )
+    {
+      gl.uniform4fv(currentColourLoc, colors[7]);
+      if ( invincibilityTimer < 1.5 )
+      {
+        // flash the colour of the player
+        if (invincibleColourFlash)
+        {
+          gl.uniform4fv(currentColourLoc, colors[0]);
+        }
+        invincibleColourFlash = !invincibleColourFlash;
+      }
+    }
+    else {
+      gl.uniform4fv(currentColourLoc, colors[3]);
+    }
+
+
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
     // reset the camera and projection matrix for the player so it doesn't move on the screen even if the cubes do
@@ -198,7 +219,6 @@ function drawPlayer()
     gl.drawArrays( gl.TRIANGLES, 0, numPlayerVertices );
 
     drawPlayerOutline();
-    drawPlayerShadows(transformedPlayerPoints, centerPoint);
 
     // reset the camera and projection matrix for the player so it doesn't move on the screen even if the cubes do
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));

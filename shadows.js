@@ -57,7 +57,8 @@ function drawPlayerShadows(transformedPlayerPoints, centerPoint) {
 
 	// Note that we completely ignore transformations because shadows
 	// are based off the player's final (transformed) vertices
-	var eye = mat4();
+	// Actually, translate it so it's clearly under the player
+	var eye = translate( 0, 0, -0.1);	//mat4();
 	gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(eye));
 	gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
 	gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
