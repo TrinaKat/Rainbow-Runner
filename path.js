@@ -26,6 +26,9 @@ function generatePath()
 // Draw the path for the cubes to travel on
 function drawPath(scrollAmount)
 {
+    // We don't need lighting on the path because it is LIT AF already
+    gl.disableVertexAttribArray(vNormal);
+
     // Buffer and attributes for the path points
     gl.bindBuffer( gl.ARRAY_BUFFER, vPathBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(pathPoints), gl.STATIC_DRAW );
@@ -92,5 +95,6 @@ function drawPath(scrollAmount)
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
 
-    gl.bindTexture(gl.TEXTURE_2D, null);
+    // Re-enable vNormal (or enable when we need it... ) TODO remove?
+    gl.enableVertexAttribArray(vNormal);
 }
