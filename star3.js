@@ -343,7 +343,7 @@ function createStarTexture()
 
 function applyStarTexture()
 {
-  console.log ("hi");
+ 
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(starTexCoords), gl.STATIC_DRAW);
@@ -362,5 +362,5 @@ function applyStarTexture()
   // Tell the shader whether or not we want to enable textures
   enableTexture = true;
   gl.uniform1f(enableTextureLoc, enableTexture);
-console.log ("end of apply texture");
+
 }
