@@ -64,8 +64,8 @@ function introTransition() {
             }
 	        // Draw the cubes and outlines
 	        drawOutline();
-	        // Set the colour for the cube
-	        drawCube(8);  // orange for now TODO 
+	        // Set the colour for the cubes
+	        drawCube(4);  
 	    }
 	}
 	// backmost element is past the player
