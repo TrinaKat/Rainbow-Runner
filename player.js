@@ -181,12 +181,13 @@ function drawPlayer()
       modelTransformMatrix = mult(modelTransformMatrix, rotate(-1 * amountToTilt, vec3(0, 0, 1)));
     }
 
-    var transformedPlayerPoints = [];
-    for (var i = 0; i < playerPoints.length; i++) {
-      transformedPlayerPoints.push(mult(modelTransformMatrix, playerPoints[i]));
+    var transformedPlayerPoints = [playerVertices[0], playerVertices[1], playerVertices[2]];
+    for (var i = 0; i < 3; i++) {
+      transformedPlayerPoints[i] = (mult(modelTransformMatrix, transformedPlayerPoints[i]));
       // lol hella jank
       transformedPlayerPoints[i][1] += playerYPos;
     }
+    var centerPoint = mult(modelTransformMatrix, playerVertices[3]);
 
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
@@ -197,7 +198,7 @@ function drawPlayer()
     gl.drawArrays( gl.TRIANGLES, 0, numPlayerVertices );
 
     drawPlayerOutline();
-    drawPlayerShadows(transformedPlayerPoints);
+    drawPlayerShadows(transformedPlayerPoints, centerPoint);
 
     // reset the camera and projection matrix for the player so it doesn't move on the screen even if the cubes do
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
@@ -308,7 +309,7 @@ function playerCollisionDetection() {
 
   // If you are jumping high, then don't need to run collision detection
   //  for the cubes
-  if (isMarioMode && isLowEnough) || !isMarioMode) {
+  if ((isMarioMode && isLowEnough) || !isMarioMode) {
     // need to check all of the cubes that are now in the same z position range as the player and check if they overlap with the player
     for (var i = 0; i < allCubeLineZPositions.length; i++) {
       // the cube is in the z position range of the player

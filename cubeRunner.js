@@ -620,6 +620,7 @@ function render(timeStamp)
     cameraTransformMatrix = mult(inverse(translate(velocity, verticalVelocity, 0)), cameraTransformMatrix);
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     playerXPos += velocity;
+    playerYPos += verticalVelocity;
 
     if (velocity > 0)
     {
