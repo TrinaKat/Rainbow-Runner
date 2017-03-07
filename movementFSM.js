@@ -1,9 +1,9 @@
 class MovementFSM {
 	constructor() {
 		// Constants
-		this.initAccelSpeed = 0.012;
-		this.accelRate = 0.01;
-		this.framesToMax = 6;
+		this.initAccelSpeed = 0.025;
+		this.accelRate = 0.015;
+		this.framesToMax = 4;
 		this.deaccelRate = .04;
 		this.maxMoveSpeed = this.initAccelSpeed + this.framesToMax * this.accelRate;
 
