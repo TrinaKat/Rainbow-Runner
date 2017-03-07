@@ -121,27 +121,34 @@ Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
 
 <canvas id="text" width="960" height="960"></canvas>
-<canvas id = "startScreen" width="960" height="960"></canvas>
+<canvas id = "startScreen" width="960" height="960" ></canvas>
 <canvas id = "pauseScreen" width="960" height="960"></canvas>
 <canvas id = "endScreen" width="960" height="960"></canvas>
+<canvas id = "gameboyScreen" width="3500" height="2000"> </canvas> 
+
 
 <style>
   .container {
       position: relative;
   }
 
-  #text {
-      position: absolute;
-      left: 0px;
-      top: 0px
-      z-index: 10;
-  }
 
-  #startScreen, #pauseScreen, #endScreen {
+   #text, #startScreen, #pauseScreen, #endScreen, #gl-canvas {
       position: absolute;
-      left: 0px;
-      top: 0px
+      left: 1085px;
+      top: 421px;
       z-index: 10;
+
+  }
+    #gl-canvas{
+      z-index: 0;
+
+  }
+  #gameboyScreen {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -10;
   }
 </style>
 </div>
