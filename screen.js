@@ -49,16 +49,28 @@ function displayInstructionScreen() {
     // clear the 2D canvas that has the start screen
     instructionScreen.clearRect(0, 0, instructionScreen.canvas.width, instructionScreen.canvas.height);
     // set the start screen to translucent black overlay
-    instructionScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    instructionScreen.fillStyle = 'rgba(0, 0, 0, 0.84)';
     instructionScreen.fillRect(0, 0, instructionScreen.canvas.width, instructionScreen.canvas.height);
     // set the title for the start screen
-    instructionScreen.font = "84px eightbit"
+    instructionScreen.font = "72px eightbit"
     instructionScreen.fillStyle = "#ffffff";  // we want white text
-    instructionScreen.fillText("Instructions", 240, 420);
+    instructionScreen.fillText("Instructions", 100, 140);
     // set the instructions to perform next
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText("<p> to Pause", 280, 580);
-    instructionScreen.fillText("<Q> to Quit", 330, 640);
+    instructionScreen.fillText("Navigation", 100, 220);
+    instructionScreen.font = "24px eightbit"
+    instructionScreen.fillText("<LEFT> to move left", 100, 250);
+    instructionScreen.fillText("<RIGHT> to move right", 100, 280);
+    instructionScreen.font = "32px eightbit"
+    instructionScreen.fillText("Toggle Settings", 100, 340);
+    instructionScreen.font = "24px eightbit"
+    startScreen.fillText("<m> for Mario Mode", 100, 370);
+    // TODO MORE TOGGLE SETTINGS
+    instructionScreen.font = "32px eightbit"
+    instructionScreen.fillText("Gameplay Settings", 100, 700);
+    instructionScreen.font = "24px eightbit"
+    instructionScreen.fillText("<p> to Pause", 100, 730);
+    instructionScreen.fillText("<Q> to Quit", 100, 760);
 }
 
 // screen that player sees when pausing the game
