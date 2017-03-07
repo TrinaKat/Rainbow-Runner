@@ -306,6 +306,19 @@ window.onload = function init()
     // for ASCII character keys
     addEventListener("keypress", function(event) {
         switch (event.keyCode) {
+            case 105:  // 'i' key
+                console.log("i key");
+                if (isStartScreen) {
+                    removeScreen(startScreen);
+                    displayInstructionScreen();
+                }
+                else if (isInstructionScreen) {
+                    removeScreen(instructionScreen);
+                    displayStartScreen();
+                }
+                isStartScreen = !isStartScreen;
+                isInstructionScreen = !isInstructionScreen;
+                break;
             case 109:  // 'm' key
                 console.log("m key");
                 if (!isGameOver) {
@@ -340,6 +353,8 @@ window.onload = function init()
             case 113:  // 'q' key
                 console.log("q key");
                 isGameOver = true;
+                if (isPaused)
+                    removeScreen(pauseScreen);
                 document.getElementById('quitSound').play();
 
                 break;
@@ -528,6 +543,7 @@ function render(timeStamp)
     // display the game over screen
     if (isGameOver) {
         displayEndScreen();
+        // if the user crashed into a cube, it will pause but there will be no remove screen
         isPaused = true;
     }
 
