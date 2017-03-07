@@ -221,7 +221,7 @@ window.onload = function init()
     // STAR
     generateStar();
 
-    //BumpMap Object 
+    //BumpMap Object
     //generateBumpMap();
     //createBumpMapTexture();
     // TODO CLOUD
@@ -556,8 +556,14 @@ function render(timeStamp)
         {
             invincibilityTimer -= timeDiff;  // count down until return back to regular Mario mode
         }
-        if (invincibilityTimer < 0) {
+        // Give them a little leeway after flashing ends TODO make sure this is best time
+        if( invincibilityTimer < -0.8 )
+        {
             isInvincible = 0;
+            invincibilityTimer = maxInvincibleTime;  // reset the invincibility mode timer
+        }
+        else if (invincibilityTimer < 0)
+        {
             document.getElementById('starSong').pause();
             if( isMusic )
             {
@@ -574,8 +580,8 @@ function render(timeStamp)
                     document.getElementById('rainbowRoad').play();
                 }
             }
-            invincibilityTimer = maxInvincibleTime;  // reset the invincibility mode timer
         }
+
     }
 
     // Exploding cube upon collision
@@ -636,7 +642,7 @@ function render(timeStamp)
    drawBorder();
 
 
-    //draw Bump Map Object 
+    //draw Bump Map Object
     //drawBumpMap();
 
     // check to see if you have moved the current cube line far anough and you should generate a new cube line

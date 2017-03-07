@@ -71,11 +71,14 @@ function drawPlayer()
     playerTipZPos = cameraPositionZAxis - 10;
 
     // change the player's colour if it is invincible
-    if (isInvincible) {
+    if (isInvincible && invincibilityTimer > 0 )
+    {
       gl.uniform4fv(currentColourLoc, colors[7]);
-      if (invincibilityTimer < 1.5) {
+      if ( invincibilityTimer < 1.5 )
+      {
         // flash the colour of the player
-        if (invincibleColourFlash) {
+        if (invincibleColourFlash)
+        {
           gl.uniform4fv(currentColourLoc, colors[0]);
         }
         invincibleColourFlash = !invincibleColourFlash;
