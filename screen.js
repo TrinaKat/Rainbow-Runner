@@ -47,7 +47,7 @@ function displayPauseScreen() {
     pauseScreen.fillText("Paused", 240, 420);
     // set the instructions to perform next
     pauseScreen.font = "32px eightbit"
-    pauseScreen.fillText("Press <space> to Resume", 170, 580);
+    pauseScreen.fillText("Press <space> to Resume", 140, 580);
     pauseScreen.fillText("Press <Q> to Quit", 260, 640);
 }
 
