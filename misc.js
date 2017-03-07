@@ -93,7 +93,7 @@ function drawBorder()
         // Want the border to look like pipes if inside Mario mode
         if (isMarioMode)
         {
-            applyPipeTexture();
+            //applyPipeTexture();
         }
 
         drawCube(4);  // draw the cube as dark grey

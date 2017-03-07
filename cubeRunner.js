@@ -189,6 +189,8 @@ var highScore = 0;
 var difficulty = 5;
 
 
+var devModeOn = false;
+
 // TODO
 var isDrawBorder = 0;
 
@@ -328,7 +330,9 @@ window.onload = function init()
     addEventListener("keypress", function(event) {
         switch (event.keyCode) {
             case 105:  // 'i' key
-                console.log("i key");
+                if(devModeOn) {
+                    console.log("i key");
+                }
                 if (isPaused)
                 {
                     if (isStartScreen)
@@ -350,7 +354,9 @@ window.onload = function init()
                 }
                 break;
             case 109:  // 'm' key
-                console.log("m key");
+                if(devModeOn) {
+                    console.log("m key");
+                }
                 if (!isGameOver) {
                     isMarioMode = !isMarioMode;
                     if( isMusic )
@@ -369,7 +375,9 @@ window.onload = function init()
                 }
                 break;
             case 112:  // 'p' key
-                console.log("p key");
+                if(devModeOn) {
+                    console.log("p key");
+                }
                 if (!isStartScreen && !isGameOver && !isInstructionScreen) {
                     isPaused = !isPaused;
                     if (isPaused) {
@@ -381,7 +389,9 @@ window.onload = function init()
                 }
                 break;
             case 113:  // 'q' key
-                console.log("q key");
+                if(devModeOn) {
+                    console.log("q key");
+                }
                 if( !isInstructionScreen )
                     isGameOver = true;
                 if (isPaused )
@@ -390,19 +400,28 @@ window.onload = function init()
 
                 break;
             case 119:  // 'w' key
-                console.log("w key");
+                if(devModeOn) {
+                    console.log("w key");
+                }
+
                 isAllWhite = !isAllWhite;
                 break;
             case 102:  // 'f' key
-                console.log("f key");
+                if(devModeOn) {
+                    console.log("f key");
+                }
                 isFlipped = !isFlipped;
                 break;
             case 116:  // 't' key TODO use when hit certain score? 100?
-                console.log("t key");
+                if(devModeOn) {
+                    console.log("t key");
+                }
                 document.getElementById('happySound').play();
                 break;
             case 115:  // 's' key
-                console.log("s key");
+                if(devModeOn) {
+                    console.log("s key");
+                }
                 if( !isMusic )
                 {
                     if( isInvincible )
@@ -432,12 +451,16 @@ window.onload = function init()
                 isMusic = !isMusic;
                 break;
             case 114:  // 'r' key
-                console.log("r key");
+                if(devModeOn) {
+                    console.log("r key");
+                }
                 document.getElementById('frackOffSound').play();
                 // TODO
                 break;
             case 122:   // 'z' key
-                console.log("z key");
+                if(devModeOn) {
+                    console.log("z key");
+                }
                 isFun = !isFun;
                 if( isMusic && !isInvincible )
                 {
@@ -462,16 +485,28 @@ window.onload = function init()
                 }
                 break;
             case 49:    // '1'
-                console.log("Difficulty 1");
+                if(devModeOn) {
+                    console.log("Difficulty 1");
+                }
                 difficulty = 5;
                 break;
             case 50:    // '2'
-                console.log("Difficulty 2");
+                if(devModeOn) {
+                    console.log("Difficulty 2");
+                }
                 difficulty = 7;
                 break;
             case 51:    // '3'
-                console.log("Difficulty 3");
+                if(devModeOn) {
+                    console.log("Difficulty 3");
+                }
                 difficulty = 10;
+                break;
+            case 120:   // x key
+                if(devModeOn) {
+                    console.log("Dev mode turned on.");
+                }
+                devModeOn = true;
                 break;
             default:
                 break;
@@ -486,20 +521,23 @@ window.onload = function init()
             case 188:   // ',' key aka <
                 // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
                 currDegrees += 4;
-                console.log("<");
+                if(devModeOn) {
+                    console.log("<");
+                }
                 projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
                 break;
             case 190:   // '.' key aka >
                 currDegrees -= 4;
-                console.log(">");
+                if(devModeOn) {
+                    console.log(">");
+                }
                 projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
                 break;
 
             // KEEP FOR GAME NAVIGATION
             case 32:  // space key
-                console.log("space key");
                 // start the game
                 if (isStartScreen) {
                     // exit the start screen and un-pause the game
@@ -751,13 +789,17 @@ function render(timeStamp)
     }
 
     // draw all of the cubes and move them forward at constant rate
-    drawAndMoveAllCubes();
+    //drawAndMoveAllCubes();
 
     // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
     destroyOutOfRangeCubes();
 
     // check to see if the player has collided with any cubes --> game over
     playerCollisionDetection();
+    if (devModeOn) {
+        isExploded = false;
+        isGameOver = false;
+    }
 
     // Draw player last because we want transparent shadows
     drawPlayer();
