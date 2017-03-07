@@ -660,10 +660,10 @@ function render(timeStamp)
     drawPlayer();
 
     //placing the text on the canvas
-    ctx.font = "bold 24px Courier"
+    ctx.font = "24px eightbit"
     ctx.fillStyle = "#ffffff";
     ctx.fillText("Score: " + Math.floor( score ), 50, 50);
-    ctx.fillText("High Score: " + highScore, 725, 50);
+    ctx.fillText("High Score: " + highScore, 660, 50);
 
     // render again (repeatedly as long as program is running or the game isn't paused)
     requestAnimationFrame( render );
