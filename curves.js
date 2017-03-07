@@ -96,7 +96,7 @@ function drawCurve()
   gl.enableVertexAttribArray( vPosition );
  
 
-  // Change the color to RED TODO to be clearly visible
+  // Change the color to light gray
   gl.uniform4fv( currentColourLoc, colors[1] );
 
 
