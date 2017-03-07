@@ -206,10 +206,7 @@ function createDirtTexture()
 }
 
 function createGrassTexture()
-{  
-
-  gl.disableVertexAttribArray(vNormal);
- 
+{
   // Create a texture
   grassTexture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, grassTexture);
@@ -237,7 +234,7 @@ function createGrassTexture()
   // Already created with rainbow texture
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
- 
+
   gl.enableVertexAttribArray(texcoordLoc);
   gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
 }
