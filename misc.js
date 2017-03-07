@@ -47,7 +47,6 @@ function drawOutline()
     gl.enableVertexAttribArray(texcoordLoc);
     gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
 
-
     if (isForBorder)
     {
         gl.uniform4fv(currentColourLoc, colors[0]);  // Make the outline white

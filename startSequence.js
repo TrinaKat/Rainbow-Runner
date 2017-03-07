@@ -61,4 +61,6 @@ function resetSequence() {
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     projectionMatrix = playerProjectionMatrix;
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+    // play the intro transition sequence again
+    restartIntroTransition();
 }

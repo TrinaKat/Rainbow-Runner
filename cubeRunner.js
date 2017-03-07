@@ -144,7 +144,7 @@ var shadowBuffer;
 var nBuffer;
 
 // INITIALIZE VARIABLES
-var currentFOV = 50;   // adjust this later for narrow or width FOV
+var currentFOV = 45;   // adjust this later for narrow or width FOV
 var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
 var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
 var cameraPositionYAxis = 0;  // camera's initial position along the y-axis
@@ -184,6 +184,10 @@ var ctx ;
 var score = 0;
 var highScore = 0;
 var difficulty = 5;
+
+
+// TODO
+var isDrawBorder = 0;
 
 window.onload = function init()
 {
@@ -227,6 +231,9 @@ window.onload = function init()
     //createBumpMapTexture();
     // TODO CLOUD
     generateCurve();
+
+    // TODO: REMOVE
+    generateIntroCubes();
 
     // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
@@ -330,7 +337,6 @@ window.onload = function init()
             case 113:  // 'q' key
                 console.log("q key");
                 isGameOver = true;
-                removeScreen(pauseScreen);
                 break;
             case 119:  // 'w' key
                 console.log("w key");
@@ -504,6 +510,11 @@ function render(timeStamp)
     if (isStartScreen) {
         displayStartScreen();
     }
+
+    // play the intro sequence if we are just starting the game
+    if (isIntroTransition)
+        introTransition();
+
     // display the game over screen
     if (isGameOver) {
         displayEndScreen();
@@ -631,10 +642,11 @@ function render(timeStamp)
     drawPath(timeDiff * 0.8);
 
     // TODO REMOVE keep path from scrolling
-     drawPath(0);
+    drawPath(0);
 
     // draw the cube border on both sides
-   drawBorder();
+    if (isDrawBorder)
+        drawBorder();
 
 
     //draw Bump Map Object
