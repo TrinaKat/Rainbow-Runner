@@ -144,7 +144,7 @@ var shadowBuffer;
 var nBuffer;
 
 // INITIALIZE VARIABLES
-var currentFOV = 50;   // adjust this later for narrow or width FOV
+var currentFOV = 45;   // adjust this later for narrow or width FOV
 var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
 var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
 var cameraPositionYAxis = 0;  // camera's initial position along the y-axis
@@ -171,8 +171,10 @@ var amountToTilt = 5;
 // Stuff for navigation FSM
 var rightKeyDown = false;
 var leftKeyDown = false;
+var upKeyDown = false;
 
 var movementFSM = new MovementFSM();
+var jumpFSM = new JumpFSM();
 
 // SOUND
 var isMusic = true;    // Make true when on autoplay
@@ -184,6 +186,10 @@ var ctx ;
 var score = 0;
 var highScore = 0;
 var difficulty = 5;
+
+
+// TODO
+var isDrawBorder = 0;
 
 window.onload = function init()
 {
@@ -228,6 +234,9 @@ window.onload = function init()
     // TODO CLOUD
     generateCurve();
     generateLakituCurve();
+
+    // TODO: REMOVE
+    generateIntroCubes();
 
     // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
@@ -318,18 +327,30 @@ window.onload = function init()
                 break;
             case 112:  // 'p' key
                 console.log("p key");
+<<<<<<< HEAD
                 isPaused = !isPaused;
                 if (isPaused) {
-                    // displayPauseScreen();
+                    displayPauseScreen();
                 }
                 else {
                     removeScreen(pauseScreen);
+=======
+                if (!isStartScreen && !isGameOver) {
+                    isPaused = !isPaused;
+                    if (isPaused) {
+                        displayPauseScreen();
+                    }
+                    else {
+                        removeScreen(pauseScreen);
+                    }
+>>>>>>> 309fac187560d6fc798e85eff9b8142f5af3e359
                 }
                 break;
             case 113:  // 'q' key
                 console.log("q key");
                 isGameOver = true;
-                removeScreen(pauseScreen);
+                document.getElementById('quitSound').play();
+
                 break;
             case 119:  // 'w' key
                 console.log("w key");
@@ -372,11 +393,6 @@ window.onload = function init()
                     document.getElementById('rainbowRoad').pause();
                 }
                 isMusic = !isMusic;
-                break;
-            case 113:  // 'q' key
-                console.log("q key");
-                document.getElementById('quitSound').play();
-                // TODO RESET
                 break;
             case 114:  // 'r' key
                 console.log("r key");
@@ -467,6 +483,11 @@ window.onload = function init()
             case 39:  // RIGHT key
                 if (!isPaused && !isGameOver)
                     rightKeyDown = true;
+                break;
+            case 38: // UP key
+                if (!isPaused && !isGameOver)
+                    upKeyDown = true;
+                break;
             default:
                 break;
         }
@@ -479,6 +500,11 @@ window.onload = function init()
             break;
         case 39: // RIGHT key
             rightKeyDown = false;
+            break;
+        case 38: // UP key
+            upKeyDown = false;
+            break;
+        default:
             break;
         }
     });
@@ -498,14 +524,19 @@ function render(timeStamp)
 
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
+    displayGameBoyScreen();
     // display the start screen
     if (isStartScreen) {
-        // displayStartScreen();
+        displayStartScreen();
     }
+
+    // play the intro sequence if we are just starting the game
+    if (isIntroTransition)
+        introTransition();
+
     // display the game over screen
     if (isGameOver) {
-        // displayEndScreen();
+        displayEndScreen();
         isPaused = true;
     }
 
@@ -602,9 +633,19 @@ function render(timeStamp)
     // Update lateral movement
     movementFSM.update(rightKeyDown, leftKeyDown);
     var velocity = movementFSM.velocity;
-    cameraTransformMatrix = mult(inverse(translate(velocity, 0, 0)), cameraTransformMatrix);
+
+    var verticalVelocity = 0;
+
+    if (isMarioMode) {
+        // Update jumping
+        jumpFSM.update(upKeyDown);
+        var verticalVelocity = jumpFSM.verticalVelocity();
+    }
+
+    cameraTransformMatrix = mult(inverse(translate(velocity, verticalVelocity, 0)), cameraTransformMatrix);
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     playerXPos += velocity;
+    playerYPos += verticalVelocity;
 
     if (velocity > 0)
     {
@@ -618,7 +659,6 @@ function render(timeStamp)
     {
         playerTilt = 0;
     }
-
 
     drawStar();
 
@@ -634,10 +674,15 @@ function render(timeStamp)
     drawPath(timeDiff * 0.8);
 
     // TODO REMOVE keep path from scrolling
-     drawPath(0);
+    drawPath(0);
 
     // draw the cube border on both sides
+<<<<<<< HEAD
     drawBorder();
+=======
+    if (isDrawBorder)
+        drawBorder();
+>>>>>>> 309fac187560d6fc798e85eff9b8142f5af3e359
 
 
     //draw Bump Map Object

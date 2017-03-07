@@ -7,7 +7,19 @@ var startScreen;
 var pauseScreen;
 var endScreen;
 
+
+
+// game boy canvas 
+function displayGameBoyScreen() {
+    var gameBoycanvas = document.getElementById("gameboyScreen");
+    var ctx = gameBoycanvas.getContext("2d");
+    var gameboyimg = new Image();
+    gameboyimg.src = "./Textures/gameBoy.png";
+   ctx.drawImage(gameboyimg, 0, 0, 3121,1851.8);
+};
 // start screen that the player sees at the very beginning
+
+
 function displayStartScreen() {
 	var startScreenCanvas = document.getElementById( "startScreen" );
 	startScreen = startScreenCanvas.getContext( "2d" );
@@ -23,12 +35,10 @@ function displayStartScreen() {
     startScreen.fillText("Runner", 240, 420);
     // set the subtitle for the start screen
     startScreen.font = "32px eightbit"
-
-    //startScreen.fillText("Press <s> to Start", 220, 480);
-    //startScreen.fillText("Press <g> for Mario Mode", 140, 540);
    
-    startScreen.fillText("Press <space> to Start", 160, 580);
-    startScreen.fillText("Press <m> Toggle Mario Mode", 80, 640);
+    startScreen.fillText("<space> to Start", 240, 580);
+    startScreen.fillText("<m> Toggle Mario Mode", 170, 640);
+    startScreen.fillText("<i> for instructions", 220, 700);
 
 }
 
@@ -47,8 +57,8 @@ function displayPauseScreen() {
     pauseScreen.fillText("Paused", 240, 420);
     // set the instructions to perform next
     pauseScreen.font = "32px eightbit"
-    pauseScreen.fillText("Press <space> to Resume", 140, 580);
-    pauseScreen.fillText("Press <Q> to Quit", 260, 640);
+    pauseScreen.fillText("<p> to Resume", 280, 580);
+    pauseScreen.fillText("<Q> to Quit", 330, 640);
 }
 
 // sfreen that player sees when exiting from pause mode or quitting the game
@@ -66,7 +76,7 @@ function displayEndScreen() {
     endScreen.fillText("Game", 220, 320);
     endScreen.fillText("Over", 250, 460);
     endScreen.font = "32px eightbit"
-    endScreen.fillText("Press <space> to Restart", 140, 620);
+    endScreen.fillText("<space> to Restart", 210, 620);
 
 }
 

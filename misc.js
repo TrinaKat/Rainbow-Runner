@@ -1,5 +1,9 @@
 // Border + Outline + Misc.
 
+function playSound(soundID) {
+    document.getElementById(soundID).play();
+}
+
 // Generate vertices for the cube outline
 function generateCubeOutline()
 {
@@ -46,7 +50,6 @@ function drawOutline()
     texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
     gl.enableVertexAttribArray(texcoordLoc);
     gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
-
 
     if (isForBorder)
     {

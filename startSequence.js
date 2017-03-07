@@ -56,9 +56,18 @@ function resetSequence() {
     playerTilt = 0;  // no tilt by default
     currAmountTranslated = 0;
     amountToMove = 0;
+
+    movementFSM = new MovementFSM();
+    jumpFSM = new JumpFSM();
+
+    playerXPos = 0;
+    playerYPos = 0;
+
     // reset the transformation matrices 
     cameraTransformMatrix = pathCameraTransformMatrix;
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     projectionMatrix = playerProjectionMatrix;
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+    // play the intro transition sequence again
+    restartIntroTransition();
 }
