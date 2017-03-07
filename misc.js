@@ -49,17 +49,13 @@ function drawOutline()
     gl.enableVertexAttribArray( vPosition );
 
     if (isMarioMode) {
-        gl.enableVertexAttribArray(texcoordLoc);
-        gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
     }
 
-    if (isForBorder)
-    {
+    if (isForBorder) {
         gl.uniform4fv(currentColourLoc, colors[0]);  // Make the outline white
         isForBorder = 0;
     }
-    else
-    {
+    else {
         gl.uniform4fv(currentColourLoc, colors[4]);  // Make the outline black
     }
     gl.drawArrays( gl.LINES, 0, numOutlinePoints );
@@ -71,7 +67,6 @@ function drawBorder()
     modelTransformMatrix = translate(-pathWidth, 0, -cameraPositionZAxis);
     modelTransformMatrix = mult(modelTransformMatrix, scalem(1,1,cameraPositionZAxis*2));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
-    setUpCubeDraw();
 
     if (isMarioMode) {
         //applyPipeTexture();

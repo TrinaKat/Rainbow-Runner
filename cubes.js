@@ -94,10 +94,11 @@ function setUpCubeDraw() {
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    
-
     if (!isMarioMode) {
         gl.disableVertexAttribArray(vTexCoordLoc);
+    } else {
+        gl.enableVertexAttribArray(texcoordLoc);
+        gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
     }
 }
 
