@@ -6,18 +6,31 @@ var playerPoints = [];
 var playerOutline = [];
 var numPlayerVertices = 12;
 
+var playerNormals = [];
+
 // save player's position
 var playerXPos = 0;  // the position of the center of the player along the x-axis
 var playerTipZPos;  // the position of the base edge of the player along the z-axis
 var playerEdgeSlope = (1)/0.5;  // based on the player vertices below (for the side edges)
 
 var playerVertices =
-  [
-    vec4( -0.5, 0.5, 1.0, 1.0 ),  // 0 Near left
-    vec4(  0.5, 0.5, 1.0, 1.0 ),  // 1 Near right
-    vec4(  0.0, 0.7, 0.0, 1.0 ),  // 2 Far point
-    vec4(  0.0, 0.8, 0.9, 1.0 )   // 3 Center
-  ];
+[
+  vec4( -0.5, 0.5, 1.0, 1.0 ),  // 0 Near left
+  vec4(  0.5, 0.5, 1.0, 1.0 ),  // 1 Near right
+  vec4(  0.0, 0.7, 0.0, 1.0 ),  // 2 Far point
+  vec4(  0.0, 0.8, 0.9, 1.0 )   // 3 Center
+];
+
+function generateNormals(a, b, c)
+{
+  var t1 = subtract(playerVertices[b], playerVertices[a]);
+  var t2 = subtract(playerVertices[c], playerVertices[b]);
+  var normal = cross(t1, t2);
+
+  playerNormals.push(normal);
+  playerNormals.push(normal);
+  playerNormals.push(normal);
+}
 
 function generatePlayer()
 {
@@ -27,6 +40,10 @@ function generatePlayer()
   for (var i = 0; i < 12; i++)
   {
       playerPoints.push(playerVertices[vertexOrder[i]]);
+      if( i % 3 == 0 )
+      {
+        generateNormals(vertexOrder[i], vertexOrder[i+1], vertexOrder[i+2]);
+      }
   }
 
   // Generate player outline
@@ -60,9 +77,17 @@ function drawPlayer()
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
 
+    // Enable normals for lighting
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(playerNormals), gl.STATIC_DRAW );
+
+    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vPosition );
+
     // Bind the current buffer to draw
-    gl.disableVertexAttribArray(vNormal);
-    gl.disableVertexAttribArray(texcoordLoc);
     gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
@@ -121,6 +146,9 @@ function drawPlayer()
 
 function drawPlayerOutline()
 {
+  // We don't need lighting on the path because it is LIT AF already
+  gl.disableVertexAttribArray(vNormal);
+
   // Bind the current buffer that we want to draw (the one with the points)
   gl.bindBuffer( gl.ARRAY_BUFFER, playerOutlineBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );

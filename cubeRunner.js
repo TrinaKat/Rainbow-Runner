@@ -141,6 +141,7 @@ var vOutlineBuffer;
 var vPathBuffer;
 var vTexCoordBuffer;
 var shadowBuffer;
+var nBuffer;
 
 // INITIALIZE VARIABLES
 var currentFOV = 50;   // adjust this later for narrow or width FOV
@@ -227,30 +228,22 @@ window.onload = function init()
     // TODO CLOUD
     generateCurve();
 
-    // BUFFER AND ATTRIBUTES FOR THE NORMALS
-    var nBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
-
-    vNormal = gl.getAttribLocation( program, "vNormal" );
-    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vNormal );
-
-    vPosition = gl.getAttribLocation( program, "vPosition" );
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
-
     // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
     vOutlineBuffer = gl.createBuffer();
     vPathBuffer = gl.createBuffer();
     shadowBuffer = gl.createBuffer();
+    nBuffer = gl.createBuffer();
 
     // SET VALUES FOR UNIFORMS FOR SHADERS
     modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix");
     cameraTransformMatrixLoc = gl.getUniformLocation(program, "cameraTransformMatrix");
     projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
     currentColourLoc = gl.getUniformLocation(program, "currentColour");
+
+    // GET ATTRIBUTE LOCATION
+    vNormal = gl.getAttribLocation( program, "vNormal" );
+    vPosition = gl.getAttribLocation( program, "vPosition" );
 
     // want to move camera in the +z direction since you are looking down the -z axis
     // in reality, since we are taking the inverse matrix, we are moving all the objects in the -z direction

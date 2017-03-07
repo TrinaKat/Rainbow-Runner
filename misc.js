@@ -5,7 +5,8 @@ function generateCubeOutline()
 {
     // Generate lines for front face of the cube
     outlinePoints.push(vertices[0]);
-    for (var i = 1; i < 4; i++) {
+    for (var i = 1; i < 4; i++)
+    {
         outlinePoints.push(vertices[i]);
         outlinePoints.push(vertices[i]);
     }
@@ -13,14 +14,16 @@ function generateCubeOutline()
 
     // Generate lines for the back face of the cube
     outlinePoints.push(vertices[4]);
-    for (var j = 5; j < 8; j++) {
+    for (var j = 5; j < 8; j++)
+    {
         outlinePoints.push(vertices[j]);
         outlinePoints.push(vertices[j]);
     }
     outlinePoints.push(vertices[4]);
 
     // Generate four lines to connect the top face to the bottom face
-    for (var k = 0; k < 4; k++) {
+    for (var k = 0; k < 4; k++)
+    {
         outlinePoints.push(vertices[k]);
         outlinePoints.push(vertices[k+4]);
     }
@@ -29,6 +32,9 @@ function generateCubeOutline()
 // Draw the cube outline in black for normal cubes and white for border cubes
 function drawOutline()
 {
+    // We don't need lighting on outlines
+    gl.disableVertexAttribArray(vNormal);
+
     // Bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.STATIC_DRAW );

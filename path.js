@@ -94,7 +94,4 @@ function drawPath(scrollAmount)
      // disable the texture before we draw something else later
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
-
-    // Re-enable vNormal (or enable when we need it... ) TODO remove?
-    gl.enableVertexAttribArray(vNormal);
 }
