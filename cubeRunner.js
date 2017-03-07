@@ -750,8 +750,8 @@ function render(timeStamp)
     // TODO REMOVE keep path from scrolling
     drawPath(0);
 
-    // Draw player AFTER path because we want transparent shadows but BEFORE cubes
-    drawPlayer();
+    // Draw player shadow AFTER path because we want transparent shadows but BEFORE cubes
+    drawPlayerShadowsWithDepth();
 
     // Draw the clouds
     if( isMarioMode )

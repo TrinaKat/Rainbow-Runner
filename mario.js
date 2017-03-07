@@ -15,20 +15,22 @@ var tCoords =
   vec2(1, 0)  //3
 ];
 
+var numPipeRepeats = 100-1; //2 * cameraPositionZAxis;  // cubeRunner.js is added after mario.js
+
 var pipeCoords =
 [
-  vec2(0.0, 0.0), //0
-  vec2(0.0, 0.5), //1
-  vec2(0.5, 0.5), //2
-  vec2(0.5, 0.0)  //3
+  vec2(0.0, 0.5), //0
+  vec2(0.0, 1.0), //1
+  vec2(100, 1.0), //2
+  vec2(100, 0.5)  //3
 ];
 
 var pipeTopCoords =
 [
-  vec2(0.5, 0.0), //0
-  vec2(0.5, 0.5), //1
-  vec2(1.0, 0.5), //2
-  vec2(1.0, 0.0)  //3
+  vec2(0.0, 0), //0
+  vec2(0.0, 0.5), //1
+  vec2(100, 0.5), //2
+  vec2(100, 0)  //3
 ];
 
 var brickTexture;
@@ -153,7 +155,7 @@ function createPipeTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/Mario/marioPipes.png";
+  image.src = "./Textures/Mario/marioPipesRepeatDebug.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties
