@@ -227,6 +227,7 @@ window.onload = function init()
     //createBumpMapTexture();
     // TODO CLOUD
     generateCurve();
+    generateLakituCurve();
 
     // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
@@ -319,7 +320,7 @@ window.onload = function init()
                 console.log("p key");
                 isPaused = !isPaused;
                 if (isPaused) {
-                    displayPauseScreen();
+                    // displayPauseScreen();
                 }
                 else {
                     removeScreen(pauseScreen);
@@ -500,11 +501,11 @@ function render(timeStamp)
 
     // display the start screen
     if (isStartScreen) {
-        displayStartScreen();
+        // displayStartScreen();
     }
     // display the game over screen
     if (isGameOver) {
-        displayEndScreen();
+        // displayEndScreen();
         isPaused = true;
     }
 
@@ -621,8 +622,12 @@ function render(timeStamp)
 
     drawStar();
 
-    // TODO make better clouds
-    drawCurve();
+    // Draw the clouds
+    if( isMarioMode )
+    {
+        drawCurve();
+        drawLakituCurve();
+    }
 
     // Draw the path
     // Step size of 0.8 units, moves at a constant rate
@@ -632,7 +637,7 @@ function render(timeStamp)
      drawPath(0);
 
     // draw the cube border on both sides
-   drawBorder();
+    drawBorder();
 
 
     //draw Bump Map Object
