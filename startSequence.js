@@ -37,7 +37,7 @@ function generateSphere() {
 	tetrahedron(va, vb, vc, vd);
 }
 
-function startSequence() {
+function resetSequence() {
 	// remove the game over screen
 	if (isGameOver)
 		removeScreen(endScreen);

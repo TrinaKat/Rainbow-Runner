@@ -459,7 +459,7 @@ window.onload = function init()
                 }
                 // restart the game
                 if (isGameOver) {
-                    startSequence();
+                    resetSequence();
                     isGameOver = false;
                 }
                 break;
