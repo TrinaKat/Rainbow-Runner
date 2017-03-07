@@ -19,6 +19,10 @@ function divideTriangle(a, b, c, count) {
 		divideTriangle(bc, c, ac, count - 1);
 		divideTriangle(ab, bc, ac, count - 1);
 	}
+  else
+  {
+    triangle( a, b, c );
+  }
 }
 
 function tetrahedron(a, b, c, d, n) {
@@ -34,7 +38,7 @@ function generateSphere() {
 	var vb = vec4(0.0, 0.942809, 0.333333, 1);
 	var vc = vec4(-0.816497, -0.471405, 0.333333, 1);
 	var vd = vec4(0.816497, -0.471405, 0.333333, 1);
-	tetrahedron(va, vb, vc, vd);
+	tetrahedron(va, vb, vc, vd, 5);
 }
 
 function resetSequence() {
@@ -63,7 +67,7 @@ function resetSequence() {
     playerXPos = 0;
     playerYPos = 0;
 
-    // reset the transformation matrices 
+    // reset the transformation matrices
     cameraTransformMatrix = pathCameraTransformMatrix;
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     projectionMatrix = playerProjectionMatrix;
