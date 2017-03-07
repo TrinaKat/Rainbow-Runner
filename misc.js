@@ -36,8 +36,9 @@ function generateCubeOutline()
 // Draw the cube outline in black for normal cubes and white for border cubes
 function drawOutline()
 {
-    // We don't need lighting on outlines
+    // We don't need lighting or textures on outlines
     gl.disableVertexAttribArray(vNormal);
+    gl.disableVertexAttribArray(vTexCoordLoc);
 
     // Bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer );
@@ -47,9 +48,10 @@ function drawOutline()
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
-    gl.enableVertexAttribArray(texcoordLoc);
-    gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+    if (isMarioMode) {
+        gl.enableVertexAttribArray(texcoordLoc);
+        gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+    }
 
     if (isForBorder)
     {
@@ -65,42 +67,32 @@ function drawOutline()
 
 function drawBorder()
 {
-    // Iterate through the whole length of the canvas and draw borders made of cubes on the sides
-    for (var i = -cameraPositionZAxis; i < cameraPositionZAxis; i++)
-    {
-        // Draw cube on left side
-        transformCube( -1 * (pathWidth + 1), 0, i );
-        isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
-        drawOutline();  // draw the outline for the cube
+    // Left wall
+    modelTransformMatrix = translate(-pathWidth, 0, -cameraPositionZAxis);
+    modelTransformMatrix = mult(modelTransformMatrix, scalem(1,1,cameraPositionZAxis*2));
+    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+    setUpCubeDraw();
 
-        // Want the border to look like pipes if inside Mario mode
-        if (isMarioMode)
-        {
-            applyPipeTexture();
-        }
-
-        drawCube(4);  // draw the cube as dark grey
-
-        // disable the texture before we draw something else later
-        enableTexture = false;
-        gl.uniform1f(enableTextureLoc, enableTexture);
-
-        // Draw cube on right side
-        transformCube( pathWidth, 0, i );
-        isForBorder = 1;  // Sets bool to true, will draw Outline in white rather than black
-        drawOutline();  // draw the outline for the cube
-
-        // Want the border to look like pipes if inside Mario mode
-        if (isMarioMode)
-        {
-            //applyPipeTexture();
-        }
-
-        drawCube(4);  // draw the cube as dark grey
-
-        // disable the texture before we draw something else later
-        enableTexture = false;
-        gl.uniform1f(enableTextureLoc, enableTexture);
+    if (isMarioMode) {
+        //applyPipeTexture();
     }
+
+    drawCube(4);
+    isForBorder = 1;
+    drawOutline();
+
+    // Right wall
+    modelTransformMatrix = translate(pathWidth, 0, -cameraPositionZAxis);
+    modelTransformMatrix = mult(modelTransformMatrix, scalem(1,1,cameraPositionZAxis*2));
+    gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+    setUpCubeDraw();
+
+    if (isMarioMode) {
+        //applyPipeTexture();
+    }
+
+    drawCube(4);
+    isForBorder = 1;
+    drawOutline();
 }
 

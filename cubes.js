@@ -78,9 +78,7 @@ function generateNewCubeLine()
     allCubeColours.push(colours);
 }
 
-// Draw the cube with a specified colour
-function drawCube(colourIndex)
-{
+function setUpCubeDraw() {
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
 
@@ -96,13 +94,21 @@ function drawCube(colourIndex)
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    // Change the colour for the cube (want to index between 0 and 3)
-    if (!isAllWhite)
-    {
-        gl.uniform4fv(currentColourLoc, colors[colourIndex]);
+    
+
+    if (!isMarioMode) {
+        gl.disableVertexAttribArray(vTexCoordLoc);
     }
-    else
-    {
+}
+
+// Draw the cube with a specified colour
+function drawCube(colourIndex)
+{
+    setUpCubeDraw();
+    // Change the colour for the cube (want to index between 0 and 3)
+    if (!isAllWhite) {
+        gl.uniform4fv(currentColourLoc, colors[colourIndex]);
+    } else {
         gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
     }
 

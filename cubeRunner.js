@@ -138,6 +138,7 @@ var playerProjectionMatrix = mat4();
 var vPosition;
 var vNormal;
 var vBuffer;
+var vTexCoordLoc;
 var vOutlineBuffer;
 var vPathBuffer;
 var vTexCoordBuffer;
@@ -277,6 +278,7 @@ window.onload = function init()
     // GET ATTRIBUTE LOCATION
     vNormal = gl.getAttribLocation( program, "vNormal" );
     vPosition = gl.getAttribLocation( program, "vPosition" );
+    vTexCoordLoc = gl.getAttribLocation( program, "a_texcoord" );
 
     // want to move camera in the +z direction since you are looking down the -z axis
     // in reality, since we are taking the inverse matrix, we are moving all the objects in the -z direction
@@ -503,10 +505,13 @@ window.onload = function init()
                 difficulty = 10;
                 break;
             case 120:   // x key
-                if(devModeOn) {
-                    console.log("Dev mode turned on.");
+                if (devModeOn) {
+                    console.log('Dev mode turned off.');
+                    devModeOn = false;
+                } else {
+                    console.log('Dev mode turned on.');
+                    devModeOn = true;
                 }
-                devModeOn = true;
                 break;
             default:
                 break;
@@ -789,7 +794,7 @@ function render(timeStamp)
     }
 
     // draw all of the cubes and move them forward at constant rate
-    //drawAndMoveAllCubes();
+    drawAndMoveAllCubes();
 
     // check to see if any of the cubes have moved past the camera and are now out of range; if so, delete them
     destroyOutOfRangeCubes();
