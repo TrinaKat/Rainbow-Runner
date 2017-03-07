@@ -49,15 +49,17 @@ var curveVertices =
 
 function generateCurve()
 {
-  var accuracy = 0.1; //this'll give the bezier 100 segments
+  var accuracy = 0.1; //This'll give the bezier 10 segments, 0.01 for 100, etc.
 
   for( var it = 0; it < curveVertices.length; it++ )
   {
+    // Add the starting vertex
     curve(true, 0, curveVertices[it][0][0], curveVertices[it][0][1],
                    curveVertices[it][1][0], curveVertices[it][1][1],
                    curveVertices[it][2][0], curveVertices[it][2][1],
                    curveVertices[it][3][0], curveVertices[it][3][1] );
 
+    // Adds two of each inbetween vertex, so for end of previous segment and start of next segment
     for( var i = accuracy; i < 1 - accuracy; i += accuracy )
     {
       curve(false, i, curveVertices[it][0][0], curveVertices[it][0][1],
@@ -66,6 +68,7 @@ function generateCurve()
                       curveVertices[it][3][0], curveVertices[it][3][1] );
     }
 
+    // Ending vertex
     curve(true, 1 - accuracy, curveVertices[it][0][0], curveVertices[it][0][1],
                               curveVertices[it][1][0], curveVertices[it][1][1],
                               curveVertices[it][2][0], curveVertices[it][2][1],
@@ -85,6 +88,7 @@ var cloud2_x = 6;
 
 function drawCurve()
 {
+  // No lighting/texture needed here
   gl.disableVertexAttribArray(vNormal);
   gl.disableVertexAttribArray(texcoordLoc);
 
@@ -94,7 +98,7 @@ function drawCurve()
 
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
- 
+
 
   // Change the color to light gray
   gl.uniform4fv( currentColourLoc, colors[1] );
@@ -116,12 +120,15 @@ function drawCurve()
 
   gl.drawArrays( gl.LINES, 0, numCurveVertices );
 
+  // If it's paused, don't translate
   if( !isPaused )
   {
     cloud1_x -= 0.01;
     cloud2_x -= 0.01;
   }
 
+  // Once it exits the view, pretend it went all the way around
+  // TODO vary Y height too
   if( cloud1_x < -15 )
   {
     cloud1_x = 9;
@@ -133,6 +140,4 @@ function drawCurve()
 
   // set the camera transform matrix to the actual translated state
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-
-  gl.enableVertexAttribArray(vNormal);
 }
