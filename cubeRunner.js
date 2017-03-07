@@ -317,12 +317,14 @@ window.onload = function init()
                 break;
             case 112:  // 'p' key
                 console.log("p key");
-                isPaused = !isPaused;
-                if (isPaused) {
-                    displayPauseScreen();
-                }
-                else {
-                    removeScreen(pauseScreen);
+                if (!isStartScreen && !isGameOver) {
+                    isPaused = !isPaused;
+                    if (isPaused) {
+                        displayPauseScreen();
+                    }
+                    else {
+                        removeScreen(pauseScreen);
+                    }
                 }
                 break;
             case 113:  // 'q' key
