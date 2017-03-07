@@ -132,7 +132,7 @@ function generatePlayer()
 
 }
 
-function drawPlayer()
+function drawPlayerShadowsWithDepth()
 {
     // Disable the texture before we draw something else later
     enableTexture = false;
