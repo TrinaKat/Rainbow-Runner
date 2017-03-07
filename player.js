@@ -21,6 +21,66 @@ var playerVertices =
   vec4(  0.0, 0.8, 0.9, 1.0 )   // 3 Center
 ];
 
+class JumpFSM {
+  constructor() {
+    // Constants
+    this.maxJumpHeight = 4;
+    this.jumpSpeed = .2;
+
+    this.canHitCubeThreshold = 0.6;
+
+    // State variables
+    this.State = {
+      UP: 1,
+      DOWN: -1,
+      NOT_JUMPING: 0
+    }
+    this.state = this.State.NOT_JUMPING;
+
+    this.curHeight = 0;
+  }
+
+  verticalVelocity() {
+    return this.jumpSpeed * this.state;
+  }
+
+  canHitCube() {
+    return this.curHeight <= this.canHitCubeThreshold;
+  }
+
+  update(up) {
+    switch(this.state) {
+      case this.State.NOT_JUMPING:
+        if (up) {
+          this.state = this.State.UP;
+          playSound('jump');
+        }
+        break;
+
+      case this.State.UP:
+        if (this.curHeight <= this.maxJumpHeight) {
+          this.curHeight += this.jumpSpeed;
+        }
+        else {
+          this.state = this.State.DOWN;
+        }
+        break;
+
+      case this.State.DOWN:
+        if (this.curHeight > 0) {
+          this.curHeight -= this.jumpSpeed;
+        }
+        else {
+          this.state = this.State.NOT_JUMPING;
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
 function generatePlayerNormals(a, b, c)
 {
   var t1 = subtract(playerVertices[b], playerVertices[a]);
@@ -229,6 +289,7 @@ function playerCollisionDetection() {
   var playerRightXPos = playerXPos + 0.5;
   var playerBaseZPos = playerTipZPos + 1;
 
+
   // check if the player has hit the borders
   if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
       console.log("border collision");
@@ -240,55 +301,61 @@ function playerCollisionDetection() {
       hasHitBorder = 1;
   }
 
-  // need to check all of the cubes that are now in the same z position range as the player and check if they overlap with the player
-  for (var i = 0; i < allCubeLineZPositions.length; i++) {
-    // the cube is in the z position range of the player
-    // allCubeLineZPositions[i] is the z-value of the back face of the cube, and allCubeLineZPositions[i] + 1 is the z-value of the front face of the cube
-    if (allCubeLineZPositions[i] < playerBaseZPos && (allCubeLineZPositions[i] + 1) > playerTipZPos) {
-      // get all the x positions of the cubes in this cube line
-      var allXPositions = allCubeLineXPositions[i];
+  var isJumpingHighEnough = isMarioMode && jumpFSM.canHitCube();
 
-      // check if the x position is in between the front side edges of the player given the exact z-value (use the slope and some math)
-      for (var j = 0; j < allXPositions.length; j++) {
-        // the left x-position of the cube is allXPositions[j] and the right x-position of the cube is allXPositions[j] + 1
-        // check if any of the sides of the square (the top/bottom face of the cube) intersect with the front two edges of the player
+  // If you are jumping high, then don't need to run collision detection
+  //  for the cubes
+  if (isJumpingHighEnough) {
+    // need to check all of the cubes that are now in the same z position range as the player and check if they overlap with the player
+    for (var i = 0; i < allCubeLineZPositions.length; i++) {
+      // the cube is in the z position range of the player
+      // allCubeLineZPositions[i] is the z-value of the back face of the cube, and allCubeLineZPositions[i] + 1 is the z-value of the front face of the cube
+      if (allCubeLineZPositions[i] < playerBaseZPos && (allCubeLineZPositions[i] + 1) > playerTipZPos) {
+        // get all the x positions of the cubes in this cube line
+        var allXPositions = allCubeLineXPositions[i];
 
-        // the cube is out of range for x values, so ignore it
-        if (allXPositions[j] + 1 < playerLeftXPos || allXPositions[j] > playerRightXPos)
-          continue;
+        // check if the x position is in between the front side edges of the player given the exact z-value (use the slope and some math)
+        for (var j = 0; j < allXPositions.length; j++) {
+          // the left x-position of the cube is allXPositions[j] and the right x-position of the cube is allXPositions[j] + 1
+          // check if any of the sides of the square (the top/bottom face of the cube) intersect with the front two edges of the player
 
-        if( allCubeColours[i][j] == starCoinCubeColorIndex )
-          {
-            score += 20;
-            isStarCoinLastExploded = true;
-            document.getElementById('chaCHING').play();
-          }
+          // the cube is out of range for x values, so ignore it
+          if (allXPositions[j] + 1 < playerLeftXPos || allXPositions[j] > playerRightXPos)
+            continue;
 
-        // check if any of the faces intersect
-        if ( !isStarCoinLastExploded && checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) ||
-          checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
-          checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
-          checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
-          console.log("collision");
-          isExploded = 1;
-          // make the cube disappear since we have collided with it
-          allCubeLineXPositions[i].splice(j, 1);
+          if( allCubeColours[i][j] == starCoinCubeColorIndex )
+            {
+              score += 20;
+              isStarCoinLastExploded = true;
+              document.getElementById('chaCHING').play();
+            }
 
-          // check to see if you collided with an question mark cube
-          if (allCubeColours[i][j] == marioQuestionCubeColourIndex) {
-            isInvincible = 1;
-            isQuestionCubeLastExploded = 1;  // the last cube that we hit was a special question mark cube
+          // check if any of the faces intersect
+          if ( !isStarCoinLastExploded && checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) ||
+            checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
+            checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
+            checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
+            console.log("collision");
+            isExploded = 1;
+            // make the cube disappear since we have collided with it
+            allCubeLineXPositions[i].splice(j, 1);
 
-            document.getElementById('starSong').play();
-            document.getElementById('funSong').pause();
-            document.getElementById('themeSong').pause();
-            document.getElementById('rainbowRoad').pause();
+            // check to see if you collided with an question mark cube
+            if (allCubeColours[i][j] == marioQuestionCubeColourIndex) {
+              isInvincible = 1;
+              isQuestionCubeLastExploded = 1;  // the last cube that we hit was a special question mark cube
 
-            invincibilityTimer = maxInvincibleTime;
-          }
-          // the player is not invincible
-          if (!isInvincible && !isStarCoinLastExploded) {
-            isGameOver = true;
+              document.getElementById('starSong').play();
+              document.getElementById('funSong').pause();
+              document.getElementById('themeSong').pause();
+              document.getElementById('rainbowRoad').pause();
+
+              invincibilityTimer = maxInvincibleTime;
+            }
+            // the player is not invincible
+            if (!isInvincible && !isStarCoinLastExploded) {
+              isGameOver = true;
+            }
           }
         }
       }

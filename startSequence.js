@@ -56,6 +56,10 @@ function resetSequence() {
     playerTilt = 0;  // no tilt by default
     currAmountTranslated = 0;
     amountToMove = 0;
+
+    movementFSM = new MovementFSM();
+    jumpFSM = new JumpFSM();
+
     // reset the transformation matrices 
     cameraTransformMatrix = pathCameraTransformMatrix;
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
