@@ -252,6 +252,8 @@ window.onload = function init()
     createCloudLakituTexture();
     generateCloudLakituSquare();
 
+    createGoombaFaceTexture();
+    generateGoombaFaceSquare();
 
     // TODO: REMOVE
     generateIntroCubes();
@@ -262,6 +264,7 @@ window.onload = function init()
     vPathBuffer = gl.createBuffer();
     shadowBuffer = gl.createBuffer();
     nBuffer = gl.createBuffer();
+    sphereBuffer = gl.createBuffer();
 
     // SET VALUES FOR UNIFORMS FOR SHADERS
     modelTransformMatrixLoc = gl.getUniformLocation(program, "modelTransformMatrix");
@@ -697,6 +700,8 @@ function render(timeStamp)
     // Draw the clouds
     if( isMarioMode )
     {
+        drawGoomba();
+
         // Back to Front Order
         drawCurve();
         drawCloudBig();
