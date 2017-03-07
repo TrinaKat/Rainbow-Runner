@@ -31,14 +31,14 @@ function displayStartScreen() {
     // set the title for the start screen
     startScreen.font = "84px eightbit"
     startScreen.fillStyle = "#ffffff";  // we want white text
-    startScreen.fillText("Rainbow", 200, 320);
-    startScreen.fillText("Runner", 240, 420);
+    startScreen.fillText("Rainbow", 220, 320);
+    startScreen.fillText("Runner", 260, 420);
     // set the subtitle for the start screen
     startScreen.font = "32px eightbit"
    
-    startScreen.fillText("<space> to Start", 240, 580);
-    startScreen.fillText("<m> Toggle Mario Mode", 170, 640);
-    startScreen.fillText("<i> for instructions", 220, 700);
+    startScreen.fillText("<space> to Start", 260, 580);
+    startScreen.fillText("<m> Toggle Mario Mode", 190, 640);
+    startScreen.fillText("<i> for instructions", 240, 700);
 
 }
 
@@ -56,21 +56,22 @@ function displayInstructionScreen() {
     instructionScreen.fillStyle = "#ffffff";  // we want white text
     instructionScreen.fillText("Instructions", 100, 140);
     // set the instructions to perform next
+    instructionScreen.font = "42px eightbit"
+    instructionScreen.fillText("Navigation", 100, 300);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText("Navigation", 100, 220);
-    instructionScreen.font = "24px eightbit"
-    instructionScreen.fillText("<LEFT> to move left", 100, 250);
-    instructionScreen.fillText("<RIGHT> to move right", 100, 280);
+    instructionScreen.fillText(" - <LEFT> to move left", 100, 370);
+    instructionScreen.fillText(" - <RIGHT> to move right", 100, 420);
+    instructionScreen.font = "42px eightbit"
+    instructionScreen.fillText("Toggle Settings", 100, 570);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText("Toggle Settings", 100, 340);
-    instructionScreen.font = "24px eightbit"
-    startScreen.fillText("<m> for Mario Mode", 100, 370);
+    instructionScreen.fillText(" - <m> for Mario Mode", 100, 640);
     // TODO MORE TOGGLE SETTINGS
+    instructionScreen.font = "42px eightbit"
+    instructionScreen.fillText("Gameplay Settings", 100, 800);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText("Gameplay Settings", 100, 700);
-    instructionScreen.font = "24px eightbit"
-    instructionScreen.fillText("<p> to Pause", 100, 730);
-    instructionScreen.fillText("<Q> to Quit", 100, 760);
+    instructionScreen.fillText(" - <p> to Pause ", 100, 850);
+    instructionScreen.fillText(" - <Q> to Quit", 100, 900);
+    instructionScreen.fillText(" - <i> to Go back", 100, 950);
 }
 
 // screen that player sees when pausing the game
