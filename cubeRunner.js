@@ -717,7 +717,7 @@ function render(timeStamp)
 
     var verticalVelocity = 0;
 
-    if (isMarioMode) {
+    if (isMarioMode && !isPaused ) {
         // Update jumping
         jumpFSM.update(upKeyDown);
         var verticalVelocity = jumpFSM.verticalVelocity();
