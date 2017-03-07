@@ -233,7 +233,9 @@ window.onload = function init()
     //createBumpMapTexture();
     // TODO CLOUD
     generateCurve();
-    generateLakituCurve();
+
+    //generateLakituCurve();
+    
 
     // TODO: REMOVE
     generateIntroCubes();
