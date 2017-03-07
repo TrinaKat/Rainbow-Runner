@@ -22,9 +22,14 @@ function displayStartScreen() {
     startScreen.fillText("Rainbow Runner", 180, 360);
     // set the subtitle for the start screen
     startScreen.font = "48px Courier"
+<<<<<<< HEAD
     startScreen.fillText("Press <s> to Start", 220, 480);
     startScreen.fillText("Press <g> for Mario Mode", 140, 540);
    
+=======
+    startScreen.fillText("Press <space> to Start", 170, 480);
+    startScreen.fillText("Press <m> for Mario Mode", 140, 540);
+>>>>>>> f8475539ac1a0c182be20cdd05722fd1baa5951e
 }
 
 // screen that player sees when pausing the game
@@ -42,7 +47,7 @@ function displayPauseScreen() {
     pauseScreen.fillText("Paused", 360, 300);
     // set the instructions to perform next
     pauseScreen.font = "48px Courier"
-    pauseScreen.fillText("Press <p> to Resume", 220, 460);
+    pauseScreen.fillText("Press <space> to Resume", 170, 460);
     pauseScreen.fillText("Press <q> to Quit", 240, 520);
 }
 
@@ -58,7 +63,10 @@ function displayEndScreen() {
     // set the title for the start screen
     endScreen.font = "bold 84px Courier"
     endScreen.fillStyle = "#ffffff";  // we want white text
-    endScreen.fillText("Game Over", 240, 480);
+    endScreen.fillText("Game Over", 240, 360);
+    endScreen.font = "48px Courier"
+    endScreen.fillText("Press <space> to Restart", 170, 460);
+
 }
 
 // remove the specified screen from the display

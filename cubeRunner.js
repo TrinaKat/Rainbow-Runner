@@ -303,8 +303,8 @@ window.onload = function init()
     // for ASCII character keys
     addEventListener("keypress", function(event) {
         switch (event.keyCode) {
-            case 103:  // 'g' key
-                console.log("g key");
+            case 109:  // 'm' key
+                console.log("m key");
                 if (!isGameOver) {
                     isMarioMode = !isMarioMode;
                     if( isMusic )
@@ -321,12 +321,6 @@ window.onload = function init()
                         }
                     }
                 }
-                break;
-            // TODO REMOVE THIS IS JUST FOR TESTING INVINCIBLE MODE
-            case 105:  // 'i' key
-                console.log("i key");
-                isInvincible = !isInvincible;
-                // invincibilityTimer = 5;  // set the invincibility timer
                 break;
             case 112:  // 'p' key
                 console.log("p key");
@@ -351,21 +345,12 @@ window.onload = function init()
                 console.log("f key");
                 isFlipped = !isFlipped;
                 break;
-            case 115:  // 's' key
-                console.log("s key");
-                if (isStartScreen) {
-                    // exit the start screen and un-pause the game
-                    isStartScreen = 0;
-                    isPaused = 0;
-                    removeScreen(startScreen);
-                }
-                break;
             case 116:  // 't' key TODO use when hit certain score? 100?
                 console.log("t key");
                 document.getElementById('happySound').play();
                 break;
-            case 109:  // 'm' key
-                console.log("m key");
+            case 115:  // 's' key
+                console.log("s key");
                 if( !isMusic )
                 {
                     if( isInvincible )
@@ -466,11 +451,28 @@ window.onload = function init()
                 break;
 
             // KEEP FOR GAME NAVIGATION
+            case 32:  // space key
+                console.log("space key");
+                // start the game
+                if (isStartScreen) {
+                    // exit the start screen and un-pause the game
+                    isStartScreen = 0;
+                    isPaused = false;
+                    removeScreen(startScreen);
+                }
+                // restart the game
+                if (isGameOver) {
+                    startSequence();
+                    isGameOver = false;
+                }
+                break;
             case 37:  // LEFT key
-                leftKeyDown = true;
+                if (!isPaused)
+                  leftKeyDown = true;
                 break;
             case 39:  // RIGHT key
-                rightKeyDown = true;
+                if (!isPaused)
+                    rightKeyDown = true;
             default:
                 break;
         }
@@ -490,7 +492,7 @@ window.onload = function init()
     // draw the first line of cubes
     generateNewCubeLine();
 
-    startSequence();
+    // startSequence();
     render(0);
 }
 
