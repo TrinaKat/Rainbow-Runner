@@ -4,13 +4,15 @@ var angle = 0;
 
 var frontPoints = [];
 var backPoints = [];
-var sidePoints1 = [];
-var sidePoints2 = [];
+var sidePoints = [];
+
+var starFrontNormals = [];
+var starBackNormals = [];
+var starSideNormals = [];
 
 var frontBuffer;  // 10 triangles
 var backBuffer;   // 10 triangles
-var sideBuffer1;  // 20 triangles
-var sideBuffer2;
+var sideBuffer;  // 20 triangles
 
 var star_x = 6;
 var star_y = 8;
@@ -48,7 +50,7 @@ var starVertices =
   vec4( -0.53125, -0.3125, -0.15, 1.0 ),  // 16 Lower Left
   vec4(  0.0,     -0.6953, -0.15, 1.0 ),  // 17 Bottom Point
   vec4(  0.53125, -0.3125, -0.15, 1.0 ),  // 18 Lower Right
-  vec4(  0.3281,   0.3281, -0.15, 1.0 ),  // 19 Upper Right
+  vec4(  0.3281,   0.3281, -0.15, 1.0 )   // 19 Upper Right
 ];
 
 var frontVertexOrder =
@@ -81,7 +83,7 @@ var backVertexOrder =
   19, 17, 18
 ];
 
-var sideVertexOrder1 =
+var sideVertexOrder =
 [
   10, 15, 5,
   10, 5, 0,
@@ -96,11 +98,8 @@ var sideVertexOrder1 =
   16, 2, 6,
 
   12, 17, 7,
-  12, 7, 2
-];
+  12, 7, 2,
 
-var sideVertexOrder2 =
-[
   17, 13, 3,
   17, 3, 7,
 
@@ -117,70 +116,95 @@ var sideVertexOrder2 =
   19, 0, 9
 ];
 
-function generateStar()
-
-
+function generateStarNormals(a, b, c, face)
 {
+  var t1 = subtract(starVertices[b], starVertices[a]);
+  var t2 = subtract(starVertices[c], starVertices[b]);
+  var normal = cross(t1, t2);
 
-  gl.disableVertexAttribArray(vNormal);
-  
+  // Front
+  if( face == 0 )
+  {
+    starFrontNormals.push(normal);
+    starFrontNormals.push(normal);
+    starFrontNormals.push(normal);
+  }
+  // Back
+  else if( face == 1 )
+  {
+    starBackNormals.push(normal);
+    starBackNormals.push(normal);
+    starBackNormals.push(normal);
+  }
+  // Side
+  else
+  {
+    starSideNormals.push(normal);
+    starSideNormals.push(normal);
+    starSideNormals.push(normal);
+  }
+}
+
+function generateStar()
+{
   for( var i = 0; i < 24; i++ )
   {
     frontPoints.push( starVertices[ frontVertexOrder[i] ]);
     backPoints.push( starVertices[ backVertexOrder[i] ]);
     starTexCoords.push( starTCoords[ frontVertexOrder[i] ]);
+    if( i % 3 == 0 )
+    {
+      generateStarNormals(frontVertexOrder[i], frontVertexOrder[i+1], frontVertexOrder[i+2], 0);
+      generateStarNormals(backVertexOrder[i], backVertexOrder[i+1], backVertexOrder[i+2], 1);
+    }
   }
-  for( var it = 0; it < 30; it++ )
+
+  for( var it = 0; it < 60; it++ )
   {
-    sidePoints1.push( starVertices[ sideVertexOrder1[it] ]);
-    sidePoints2.push( starVertices[ sideVertexOrder2[it] ]);
+    sidePoints.push( starVertices[ sideVertexOrder[it] ]);
+
+    if( it % 3 == 0 )
+    {
+      generateStarNormals(sideVertexOrder[it], sideVertexOrder[it+1], sideVertexOrder[it+2], 2);
+    }
   }
 
   frontBuffer = gl.createBuffer();
   gl.bindBuffer( gl.ARRAY_BUFFER, frontBuffer );
   gl.bufferData( gl.ARRAY_BUFFER, flatten(frontPoints), gl.STATIC_DRAW );
 
-  //gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
   backBuffer = gl.createBuffer();
   gl.bindBuffer( gl.ARRAY_BUFFER, backBuffer );
   gl.bufferData( gl.ARRAY_BUFFER, flatten(backPoints), gl.STATIC_DRAW );
 
-  //gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
-  sideBuffer1 = gl.createBuffer();
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideBuffer1 );
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(sidePoints1), gl.STATIC_DRAW );
+  sideBuffer = gl.createBuffer();
+  gl.bindBuffer( gl.ARRAY_BUFFER, sideBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(sidePoints), gl.STATIC_DRAW );
 
-  //gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
-
-  sideBuffer2 = gl.createBuffer();
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideBuffer2 );
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(sidePoints2), gl.STATIC_DRAW );
-
-  //gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-  
-
 }
 
 function drawFront()
 {
+  // Enable normals for lighting
+  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(starFrontNormals), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vNormal );
+
   // Bind the current buffer to draw
   gl.bindBuffer( gl.ARRAY_BUFFER, frontBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
-
   // Change the color for the cube to yellow
   gl.uniform4fv( currentColourLoc, colors[6] );
-  gl.disableVertexAttribArray(vNormal);
-  
- 
- 
+
   // Set up star transformations
   modelTransformMatrix = translate( star_x, star_y, star_z );
   modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
@@ -191,12 +215,17 @@ function drawFront()
 
 function drawBack()
 {
+  // Enable normals for lighting
+  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(starBackNormals), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vNormal );
+
   // Bind the current buffer to draw
   gl.bindBuffer( gl.ARRAY_BUFFER, backBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
-  gl.disableVertexAttribArray(vNormal);
-  //gl.disableVertexAttribArray(texcoordLoc)
 
   // Change the color for the cube to yellow
   gl.uniform4fv( currentColourLoc, colors[6] );
@@ -211,15 +240,21 @@ function drawBack()
 
 function drawSide()
 {
-  // Side 1
+  // Disable texturing
+  gl.disableVertexAttribArray( texcoordLoc );
 
+  // Enable normals for lighting
+  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(starSideNormals), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vNormal );
 
   // Bind the current buffer to draw
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideBuffer1 );
+  gl.bindBuffer( gl.ARRAY_BUFFER, sideBuffer );
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
-  gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(texcoordLoc)
+
   // Change the color for the cube to yellow
   gl.uniform4fv( currentColourLoc, colors[6] );
 
@@ -228,27 +263,7 @@ function drawSide()
   modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  gl.drawArrays( gl.TRIANGLES, 0, 30 );
-
-  // Side 2
-
-  // Bind the current buffer to draw
-  gl.bindBuffer( gl.ARRAY_BUFFER, sideBuffer2 );
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-
-  gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(texcoordLoc)
-  // Change the color for the cube to yellow
-  gl.uniform4fv( currentColourLoc, colors[6] );
-
-  // Set up star transformations
-  modelTransformMatrix = translate( star_x, star_y, star_z );
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
-  gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
-
-  gl.drawArrays( gl.TRIANGLES, 0, 30 );
-  
+  gl.drawArrays( gl.TRIANGLES, 0, 60 );
 }
 
 function drawStar()
@@ -304,7 +319,7 @@ var starTexCoords = [];
 var starTexture;
 
 function createStarTexture()
-{ 
+{
   // Create a texture
   starTexture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, starTexture);
@@ -333,17 +348,13 @@ function createStarTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten( starTexCoords ), gl.STATIC_DRAW);
   gl.enableVertexAttribArray(texcoordLoc);
-  gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(vPosition);
-  
- 
+
   gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
 
 }
 
 function applyStarTexture()
 {
- 
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(starTexCoords), gl.STATIC_DRAW);
@@ -356,8 +367,6 @@ function applyStarTexture()
   gl.bindTexture(gl.TEXTURE_2D, starTexture);
   gl.uniform1i(textureLoc, 0);
 
-    gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(vPosition);
   // Enable the texture before we draw
   // Tell the shader whether or not we want to enable textures
   enableTexture = true;

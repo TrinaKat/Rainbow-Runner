@@ -21,7 +21,7 @@ var playerVertices =
   vec4(  0.0, 0.8, 0.9, 1.0 )   // 3 Center
 ];
 
-function generateNormals(a, b, c)
+function generatePlayerNormals(a, b, c)
 {
   var t1 = subtract(playerVertices[b], playerVertices[a]);
   var t2 = subtract(playerVertices[c], playerVertices[b]);
@@ -42,7 +42,7 @@ function generatePlayer()
       playerPoints.push(playerVertices[vertexOrder[i]]);
       if( i % 3 == 0 )
       {
-        generateNormals(vertexOrder[i], vertexOrder[i+1], vertexOrder[i+2]);
+        generatePlayerNormals(vertexOrder[i], vertexOrder[i+1], vertexOrder[i+2]);
       }
   }
 
@@ -83,9 +83,6 @@ function drawPlayer()
 
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
-
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
 
     // Bind the current buffer to draw
     gl.bindBuffer( gl.ARRAY_BUFFER, playerBuffer );
