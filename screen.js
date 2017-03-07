@@ -17,17 +17,18 @@ function displayStartScreen() {
     startScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     startScreen.fillRect(0, 0, startScreen.canvas.width, startScreen.canvas.height);
     // set the title for the start screen
-    startScreen.font = "bold 72px Courier"
+    startScreen.font = "78px eightbitFam"
     startScreen.fillStyle = "#ffffff";  // we want white text
-    startScreen.fillText("Rainbow Runner", 180, 360);
+    startScreen.fillText("Rainbow", 230, 320);
+    startScreen.fillText("Runner", 260, 400);
     // set the subtitle for the start screen
-    startScreen.font = "48px Courier"
+    startScreen.font = "32px eightbitFam"
 
     //startScreen.fillText("Press <s> to Start", 220, 480);
     //startScreen.fillText("Press <g> for Mario Mode", 140, 540);
    
-    startScreen.fillText("Press <space> to Start", 170, 480);
-    startScreen.fillText("Press <m> for Mario Mode", 140, 540);
+    startScreen.fillText("Press <space> to Start", 170, 540);
+    startScreen.fillText("Press <m> for Mario Mode", 140, 600);
 
 }
 

@@ -467,11 +467,11 @@ window.onload = function init()
                 }
                 break;
             case 37:  // LEFT key
-                if (!isPaused)
+                if (!isPaused && !isGameOver)
                   leftKeyDown = true;
                 break;
             case 39:  // RIGHT key
-                if (!isPaused)
+                if (!isPaused && !isGameOver)
                     rightKeyDown = true;
             default:
                 break;
