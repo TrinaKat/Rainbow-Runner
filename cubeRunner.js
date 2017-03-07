@@ -329,16 +329,25 @@ window.onload = function init()
         switch (event.keyCode) {
             case 105:  // 'i' key
                 console.log("i key");
-                if (isStartScreen) {
-                    removeScreen(startScreen);
-                    displayInstructionScreen();
+                if (isPaused)
+                {
+                    if (isStartScreen)
+                    {
+                        removeScreen(startScreen);
+                        displayInstructionScreen();
+
+                        isStartScreen = !isStartScreen;
+                        isInstructionScreen = !isInstructionScreen;
+                    }
+                    else if (isInstructionScreen)
+                    {
+                        removeScreen(instructionScreen);
+                        displayStartScreen();
+
+                        isStartScreen = !isStartScreen;
+                        isInstructionScreen = !isInstructionScreen;
+                    }
                 }
-                else if (isInstructionScreen) {
-                    removeScreen(instructionScreen);
-                    displayStartScreen();
-                }
-                isStartScreen = !isStartScreen;
-                isInstructionScreen = !isInstructionScreen;
                 break;
             case 109:  // 'm' key
                 console.log("m key");
@@ -361,7 +370,7 @@ window.onload = function init()
                 break;
             case 112:  // 'p' key
                 console.log("p key");
-                if (!isStartScreen && !isGameOver) {
+                if (!isStartScreen && !isGameOver && !isInstructionScreen) {
                     isPaused = !isPaused;
                     if (isPaused) {
                         displayPauseScreen();
@@ -373,8 +382,9 @@ window.onload = function init()
                 break;
             case 113:  // 'q' key
                 console.log("q key");
-                isGameOver = true;
-                if (isPaused)
+                if( !isInstructionScreen )
+                    isGameOver = true;
+                if (isPaused )
                     removeScreen(pauseScreen);
                 document.getElementById('quitSound').play();
 
