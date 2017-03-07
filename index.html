@@ -54,6 +54,7 @@ void main()
     }
 
     gl_Position = projectionMatrix * cameraTransformMatrix * modelTransformMatrix * vPosition;
+    
     fColor = ambient + diffuse + specular;
 
     fColor.a = 1.0;
@@ -107,7 +108,9 @@ void main() {
 <script type="text/javascript" src="mario.js"></script>
 <script type="text/javascript" src="marioMode.js"></script>
 <script type="text/javascript" src="screen.js"></script>
+<script type="text/javascript" src="bumpMap.js"></script>
 <script type="text/javascript" src="startSequence.js"></script>
+
 <script type="text/javascript" src="cubeRunner.js"></script>
 
 <div class="container">

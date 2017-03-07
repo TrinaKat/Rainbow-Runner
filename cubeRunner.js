@@ -221,6 +221,9 @@ window.onload = function init()
     // STAR
     generateStar();
 
+    //BumpMap Object 
+    //generateBumpMap();
+    //createBumpMapTexture();
     // TODO CLOUD
     generateCurve();
 
@@ -616,6 +619,7 @@ function render(timeStamp)
         playerTilt = 0;
     }
 
+
     drawStar();
 
     // TODO make better clouds
@@ -625,8 +629,15 @@ function render(timeStamp)
     // Step size of 0.8 units, moves at a constant rate
     drawPath(timeDiff * 0.8);
 
+    // TODO REMOVE keep path from scrolling
+     drawPath(0);
+
     // draw the cube border on both sides
-    drawBorder();
+   drawBorder();
+
+
+    //draw Bump Map Object 
+    //drawBumpMap();
 
     // check to see if you have moved the current cube line far anough and you should generate a new cube line
     // 5 means that we want to have a 5 unit separation between each cube line
