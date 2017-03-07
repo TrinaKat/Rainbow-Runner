@@ -41,12 +41,12 @@ function populateCubeTexCoords()
 {
   for( var i = 0; i < 6; i++ )
   {
-    cubeTexCoords.push(tCoords[1]);
     cubeTexCoords.push(tCoords[0]);
-    cubeTexCoords.push(tCoords[3]);
     cubeTexCoords.push(tCoords[1]);
-    cubeTexCoords.push(tCoords[3]);
     cubeTexCoords.push(tCoords[2]);
+    cubeTexCoords.push(tCoords[3]);
+    //cubeTexCoords.push(tCoords[3]);
+    //cubeTexCoords.push(tCoords[2]);
   }
 }
 
@@ -95,6 +95,7 @@ function createBrickTexture()
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   });
 
   // Create a buffer for texcoords
@@ -205,7 +206,10 @@ function createDirtTexture()
 }
 
 function createGrassTexture()
-{
+{  
+
+  gl.disableVertexAttribArray(vNormal);
+ 
   // Create a texture
   grassTexture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, grassTexture);
@@ -233,6 +237,7 @@ function createGrassTexture()
   // Already created with rainbow texture
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+ 
   gl.enableVertexAttribArray(texcoordLoc);
   gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
 }

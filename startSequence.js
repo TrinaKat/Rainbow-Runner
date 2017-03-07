@@ -37,6 +37,28 @@ function generateSphere() {
 	tetrahedron(va, vb, vc, vd);
 }
 
-function startSequence() {
-
+function resetSequence() {
+	// remove the game over screen
+	if (isGameOver)
+		removeScreen(endScreen);
+    // delete all the cubes so we can generate new ones
+    allCubeLineXPositions = [];
+    allCubeLineZPositions = [];
+    allCubeColours = [];
+    // reset game play properties
+    isPaused = false;
+    isExploded = 0;
+    hasHitBorder = 0;
+    isGameOver = false;
+    score = 0;
+    // reset player properties
+    playerXPos = 0;
+    playerTilt = 0;  // no tilt by default
+    currAmountTranslated = 0;
+    amountToMove = 0;
+    // reset the transformation matrices 
+    cameraTransformMatrix = pathCameraTransformMatrix;
+    gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+    projectionMatrix = playerProjectionMatrix;
+    gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
 }

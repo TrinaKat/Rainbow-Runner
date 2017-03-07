@@ -17,13 +17,19 @@ function displayStartScreen() {
     startScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     startScreen.fillRect(0, 0, startScreen.canvas.width, startScreen.canvas.height);
     // set the title for the start screen
-    startScreen.font = "bold 72px Courier"
+    startScreen.font = "84px eightbit"
     startScreen.fillStyle = "#ffffff";  // we want white text
-    startScreen.fillText("Rainbow Runner", 180, 360);
+    startScreen.fillText("Rainbow", 200, 320);
+    startScreen.fillText("Runner", 240, 420);
     // set the subtitle for the start screen
-    startScreen.font = "48px Courier"
-    startScreen.fillText("Press <s> to Start", 220, 480);
-    startScreen.fillText("Press <g> for Mario Mode", 140, 540);
+    startScreen.font = "32px eightbit"
+
+    //startScreen.fillText("Press <s> to Start", 220, 480);
+    //startScreen.fillText("Press <g> for Mario Mode", 140, 540);
+   
+    startScreen.fillText("Press <space> to Start", 160, 580);
+    startScreen.fillText("Press <m> Toggle Mario Mode", 80, 640);
+
 }
 
 // screen that player sees when pausing the game
@@ -36,13 +42,13 @@ function displayPauseScreen() {
     pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
     // set the title for the start screen
-    pauseScreen.font = "bold 72px Courier"
+    pauseScreen.font = "84px eightbit"
     pauseScreen.fillStyle = "#ffffff";  // we want white text
-    pauseScreen.fillText("Paused", 360, 300);
+    pauseScreen.fillText("Paused", 240, 420);
     // set the instructions to perform next
-    pauseScreen.font = "48px Courier"
-    pauseScreen.fillText("Press <p> to Resume", 220, 460);
-    pauseScreen.fillText("Press <q> to Quit", 240, 520);
+    pauseScreen.font = "32px eightbit"
+    pauseScreen.fillText("Press <space> to Resume", 140, 580);
+    pauseScreen.fillText("Press <Q> to Quit", 260, 640);
 }
 
 // sfreen that player sees when exiting from pause mode or quitting the game
@@ -55,9 +61,13 @@ function displayEndScreen() {
     endScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     endScreen.fillRect(0, 0, endScreen.canvas.width, endScreen.canvas.height);
     // set the title for the start screen
-    endScreen.font = "bold 84px Courier"
+    endScreen.font = "bold 120px eightbit"
     endScreen.fillStyle = "#ffffff";  // we want white text
-    endScreen.fillText("Game Over", 240, 480);
+    endScreen.fillText("Game", 220, 320);
+    endScreen.fillText("Over", 250, 460);
+    endScreen.font = "32px eightbit"
+    endScreen.fillText("Press <space> to Restart", 140, 620);
+
 }
 
 // remove the specified screen from the display
