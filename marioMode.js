@@ -2,7 +2,7 @@
 
 var marioQuestionCubeColourIndex = 7;   // flag to indicate whether to draw the cube using question texture
 var starCoinCubeColorIndex = 11;        // flag to indicate whether to draw star coin
-var isMarioMode = 1;                    // by default the game is not in Mario mode
+var isMarioMode = 0;                    // by default the game is not in Mario mode
 var isInvincible = 0;                   // see if the player has entered invincible mode
 var maxInvincibleTime = 5;
 var invincibilityTimer = maxInvincibleTime;  // player has 5 seconds to be in invincible mode
