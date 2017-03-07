@@ -60,6 +60,9 @@ function resetSequence() {
     movementFSM = new MovementFSM();
     jumpFSM = new JumpFSM();
 
+    playerXPos = 0;
+    playerYPos = 0;
+
     // reset the transformation matrices 
     cameraTransformMatrix = pathCameraTransformMatrix;
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));

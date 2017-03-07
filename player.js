@@ -10,6 +10,7 @@ var playerNormals = [];
 
 // save player's position
 var playerXPos = 0;  // the position of the center of the player along the x-axis
+var playerYPos = 0;
 var playerTipZPos;  // the position of the base edge of the player along the z-axis
 var playerEdgeSlope = (1)/0.5;  // based on the player vertices below (for the side edges)
 
@@ -183,6 +184,8 @@ function drawPlayer()
     var transformedPlayerPoints = [];
     for (var i = 0; i < playerPoints.length; i++) {
       transformedPlayerPoints.push(mult(modelTransformMatrix, playerPoints[i]));
+      // lol hella jank
+      transformedPlayerPoints[i][1] += playerYPos;
     }
 
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
@@ -301,11 +304,11 @@ function playerCollisionDetection() {
       hasHitBorder = 1;
   }
 
-  var isJumpingHighEnough = isMarioMode && jumpFSM.canHitCube();
+  var isLowEnough = jumpFSM.canHitCube();
 
   // If you are jumping high, then don't need to run collision detection
   //  for the cubes
-  if (isJumpingHighEnough) {
+  if (isMarioMode && isLowEnough) || !isMarioMode) {
     // need to check all of the cubes that are now in the same z position range as the player and check if they overlap with the player
     for (var i = 0; i < allCubeLineZPositions.length; i++) {
       // the cube is in the z position range of the player
