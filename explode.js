@@ -105,7 +105,7 @@ function explodeCube( timeDiff, x )
       }
 
       // Draw the cubes and outlines
-      drawOutline();
+      // drawOutline();
       drawCube(cubeColourIndices[0]);
 
       // disable the texture before we draw something else later
@@ -137,7 +137,7 @@ function explodeCube( timeDiff, x )
       }
 
       // Draw the cubes and outlines
-      drawOutline();
+      // drawOutline();
       drawCube(cubeColourIndices[1]);
 
       // disable the texture before we draw something else later
@@ -169,7 +169,7 @@ function explodeCube( timeDiff, x )
       }
 
         // Draw the cubes and outlines
-        drawOutline();
+        // drawOutline();
         drawCube(cubeColourIndices[2]);
 
       // disable the texture before we draw something else later

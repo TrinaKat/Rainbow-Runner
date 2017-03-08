@@ -155,7 +155,7 @@ function drawAndMoveAllCubes()
             else
             {
                 // Draw the cubes and outlines
-                drawOutline();
+                // drawOutline();
                 // Set the colour for the cube
                 drawCube(allCubeColours[r][c]);
             }

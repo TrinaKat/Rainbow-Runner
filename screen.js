@@ -86,11 +86,11 @@ function displayPauseScreen() {
     // set the title for the start screen
     pauseScreen.font = "84px eightbit"
     pauseScreen.fillStyle = "#ffffff";  // we want white text
-    pauseScreen.fillText("Paused", 240, 420);
+    pauseScreen.fillText("Paused", 160, 130);
     // set the instructions to perform next
     pauseScreen.font = "32px eightbit"
-    pauseScreen.fillText("<p> to Resume", 280, 580);
-    pauseScreen.fillText("<Q> to Quit", 330, 640);
+    pauseScreen.fillText("<p> to Resume", 200, 210);
+    pauseScreen.fillText("<Q> to Quit", 260, 260);
 }
 
 // screen that player sees when exiting from pause mode or quitting the game
