@@ -44,7 +44,15 @@ var colors =
     [ 1.0, 0.976, 0.51, 1.0 ],  // 9 light yellow (needed for exploding cube)
     [ 0, 0.5, 0,5, 1.0 ],    // 10 teal (to flash the player in invincible mode)
     [ 1.0, 0.0, 0.0, 1.0 ],  // 11 red
-    [ 1.0, 0.6, 0.0, 1.0 ]  // 12 orange-yellow
+    [ 1.0, 0.6, 0.0, 1.0 ],  // 12 orange-yellow
+    // Goompa
+    [ 135/255, 80/255, 45/255, 1.0 ],    // 13 Medium Brown
+    [ 240/255, 220/255, 180/255, 1.0 ],  // 14 Light Brown
+    [ 100/255, 60/255, 30/255, 1.0 ],    // 15 Dark Brown
+    // Start Screen
+    [ 1.0, 0.0, 0.0, 1.0 ],  // 16 red
+    [ 1.0, 1.0, 0.0, 1.0 ],  // 17 yellow
+    [ 0.0, 1.0, 0.0, 1.0 ]   // 18 green
 ];
 
 var rainbowColors =
@@ -66,6 +74,8 @@ var isRainbow = 0;
 var isExploded = 0;
 var hasHitBorder = 0;
 var isGameOver = false;
+var isStartSequence = true;
+var startSequenceTimer = 5;
 
 // VARIABLES NEEDED FOR PHONG LIGHTING
 // the light is in front of the cube, which is located st z = 50
@@ -243,6 +253,7 @@ window.onload = function init()
     generateCloudFaceSquare();
 
     createLakituTexture();
+    createLakituStartTexture();
     generateLakituSquare();
 
     createCloudBigTexture();
@@ -544,14 +555,19 @@ window.onload = function init()
             // KEEP FOR GAME NAVIGATION
             case 32:  // space key
                 // start the game
-                if (isStartScreen) {
-                    // exit the start screen and un-pause the game
+                if (isStartScreen)
+                {
+                    // exit the start screen and go to start sequence with lakitu or unpause
                     isStartScreen = 0;
-                    isPaused = false;
+                    if( !isMarioMode )
+                    {
+                        isPaused = false;
+                    }
                     removeScreen(startScreen);
                 }
                 // restart the game
-                if (isGameOver) {
+                if (isGameOver)
+                {
                     resetSequence();
                     isGameOver = false;
                 }
@@ -811,6 +827,13 @@ function render(timeStamp)
         gl.depthMask(true);
         gl.disable(gl.BLEND);
         gl.enable(gl.DEPTH_TEST);
+
+        // TODO
+        if( isStartSequence )
+        {
+            lakituStartSequence();
+            startSequenceTimer -= timeDiff;
+        }
     }
 
 

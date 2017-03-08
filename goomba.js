@@ -9,41 +9,13 @@ var goomba_z = -2;
 var stepLeft = true;
 var swapFeet = 1;  // Swap every second, based on timeDiff in cubeRunner.js
 
-var goombaColors =
-[
-  // Medium Brown
-  [ 135/255, 80/255, 45/255, 1.0 ],    // 0
-
-  // Light Brown
-  [ 240/255, 220/255, 180/255, 1.0 ],  // 1
-
-  // Dark Brown
-  [ 100/255, 60/255, 30/255, 1.0 ]     // 2
-];
-
 // function generateGoombaNormals(a, b, c, part) {}
 
 function drawGoombaBody()
 {
-  gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(sphereNormals), gl.STATIC_DRAW );
-
-  gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vNormal );
-
-  // Bind the current buffer that we want to draw (the one with the points)
-  gl.bindBuffer( gl.ARRAY_BUFFER, sphereBuffer );
-  gl.bufferData( gl.ARRAY_BUFFER, flatten(sphereVertices), gl.STATIC_DRAW );
-
-  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-  gl.enableVertexAttribArray( vPosition );
-
   var goombaModelTransformMatrix = modelTransformMatrix;
 
   // HEAD
-
-  // Set color
-  gl.uniform4fv(currentColourLoc, goombaColors[0]);
 
   // Set up headTop transformations
   modelTransformMatrix = goombaModelTransformMatrix;
@@ -51,7 +23,7 @@ function drawGoombaBody()
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.4, 0.4, 0.4 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
+  drawSphere(13);
 
   // Set up headBottom transformations
   modelTransformMatrix = goombaModelTransformMatrix;
@@ -59,13 +31,10 @@ function drawGoombaBody()
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.55, 0.3, 0.55 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
+  drawSphere(13);
 
 
   // BODY
-
-  // Set color
-  gl.uniform4fv(currentColourLoc, goombaColors[1]);
 
   // Set up body transformations
   modelTransformMatrix = goombaModelTransformMatrix;
@@ -73,13 +42,10 @@ function drawGoombaBody()
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.25, 0.25, 0.25 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
+  drawSphere(14);
 
 
   // FEET
-
-  // Set color
-  gl.uniform4fv(currentColourLoc, goombaColors[2]);
 
   // LEFT FOOT
   // Set up feet transformations
@@ -99,7 +65,7 @@ function drawGoombaBody()
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.3, 0.15, 0.15 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
+  drawSphere(15);
 
 
   // RIGHT FOOT
@@ -120,7 +86,7 @@ function drawGoombaBody()
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.3, 0.15, 0.15 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
+  drawSphere(15);
 
   modelTransformMatrix = goombaModelTransformMatrix;
 }
