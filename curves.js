@@ -270,12 +270,12 @@ function drawLakituCurve()
   }
 
   // Move left and right
-  if( lakitu_x < -6 || lakitu_x > 3.5 )
+  if( lakitu_x < -5 || lakitu_x > 3.5 )
   {
     lakitu_left = !lakitu_left;
   }
   // Move up and down
-  if( lakitu_y < 7 || lakitu_y > 8 )
+  if( lakitu_y < 6 || lakitu_y > 7.7 )
   {
     lakitu_up = !lakitu_up;
   }

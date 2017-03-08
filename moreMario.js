@@ -253,8 +253,8 @@ function drawLakitu()
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
   // Set up transformations
-  modelTransformMatrix = translate( lakitu_x - 2.25, lakitu_y - 0.75, 29 );
-  modelTransformMatrix = mult( modelTransformMatrix, scalem( 3.0, 3.0, 3.0 ));
+  modelTransformMatrix = translate( lakitu_x - 3.8, lakitu_y - 2.0, 29 );
+  modelTransformMatrix = mult( modelTransformMatrix, scalem( 5.0, 5.0, 5.0 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   applyLakituTexture();
