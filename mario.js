@@ -15,22 +15,22 @@ var tCoords =
   vec2(1, 0)  //3
 ];
 
-var numPipeRepeats = 100-1; //2 * cameraPositionZAxis;  // cubeRunner.js is added after mario.js
+var numPipeRepeats = 100; //2 * cameraPositionZAxis;  // cubeRunner.js is added after mario.js
 
 var pipeCoords =
 [
   vec2(0.0, 0.5), //0
   vec2(0.0, 1.0), //1
-  vec2(100, 1.0), //2
-  vec2(100, 0.5)  //3
+  vec2(numPipeRepeats, 1.0), //2
+  vec2(numPipeRepeats, 0.5)  //3
 ];
 
 var pipeTopCoords =
 [
   vec2(0.0, 0), //0
   vec2(0.0, 0.5), //1
-  vec2(100, 0.5), //2
-  vec2(100, 0)  //3
+  vec2(numPipeRepeats, 0.5), //2
+  vec2(numPipeRepeats, 0)  //3
 ];
 
 var brickTexture;
@@ -43,12 +43,12 @@ function populateCubeTexCoords()
 {
   for( var i = 0; i < 6; i++ )
   {
-    cubeTexCoords.push(tCoords[0]);
     cubeTexCoords.push(tCoords[1]);
-    cubeTexCoords.push(tCoords[2]);
+    cubeTexCoords.push(tCoords[0]);
     cubeTexCoords.push(tCoords[3]);
-    //cubeTexCoords.push(tCoords[3]);
-    //cubeTexCoords.push(tCoords[2]);
+    cubeTexCoords.push(tCoords[1]);
+    cubeTexCoords.push(tCoords[3]);
+    cubeTexCoords.push(tCoords[2]);
   }
 }
 

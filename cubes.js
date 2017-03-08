@@ -85,20 +85,16 @@ function setUpCubeDraw() {
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
 
-    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vPosition );
-
     // Bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
+
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
-    if (!isMarioMode) {
+    if (!isMarioMode)
+    {
         gl.disableVertexAttribArray(texCoordLoc);
-    } else {
-        gl.enableVertexAttribArray(texCoordLoc);
-        gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
     }
 }
 
@@ -119,7 +115,6 @@ function drawCube(colourIndex)
 // Draw lines of cubes and transform them
 function drawAndMoveAllCubes()
 {
-    var isCoinStar = false;
     // Iterate through each row of cubes (one cube line at a time)
     for ( var r = 0; r < allCubeLineXPositions.length; r++ )
     {
@@ -133,29 +128,27 @@ function drawAndMoveAllCubes()
             transformCube( allCubeLineXPositions[r][c], 0, allCubeLineZPositions[r] );
 
             // in Mario mode
-            if (isMarioMode) {
+            if (isMarioMode)
+            {
                 if ( allCubeColours[r][c] == marioQuestionCubeColourIndex )
                 {
                     applyQuestionTexture();
+                    drawCube(allCubeColours[r][c]);
                 }
                 else if ( allCubeColours[r][c] == starCoinCubeColorIndex )
                 {
-                    isCoinStar = true;
+                    drawCoinStar();
                 }
-                else {
+                else
+                {
                     applyBrickTexture();
+                    drawCube(allCubeColours[r][c]);
                 }
-            }
-
-            if( isCoinStar )
-            {
-                drawCoinStar();
-                isCoinStar = false;
             }
             else
             {
                 // Draw the cubes and outlines
-                // drawOutline();
+                drawOutline();
                 // Set the colour for the cube
                 drawCube(allCubeColours[r][c]);
             }
