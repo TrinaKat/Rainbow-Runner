@@ -94,6 +94,7 @@ function resetSequence() {
 }
 
 var numLit = 0;
+var startSoundHasPlayed = 0;
 
 function lakituStartSequence()
 {
@@ -119,6 +120,7 @@ function lakituStartSequence()
         startSequenceTimer = 5;
         isStartSequence = false;
         isPaused = false;
+        startSoundHasPlayed = 2;
     }
 
     var color_left = 2;
@@ -129,6 +131,15 @@ function lakituStartSequence()
     {
         case 0:
             // All spheres are dull gray
+            if( !startSoundHasPlayed )
+            {
+                document.getElementById('startSound').play();
+                startSoundHasPlayed = 1;
+            }
+            else if ( startSoundHasPlayed == 2 )
+            {
+                startSoundHasPlayed = 0;
+            }
             break;
         case 1:
             // Left-most is colored
