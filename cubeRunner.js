@@ -344,7 +344,7 @@ window.onload = function init()
         switch (event.keyCode) {
             case 105:  // 'i' key
                 if(devModeOn) {
-                    // console.log("i key");
+                    console.log("i key");
                 }
                 if (isPaused)
                 {
@@ -368,28 +368,15 @@ window.onload = function init()
                 break;
             case 109:  // 'm' key
                 if(devModeOn) {
-                    // console.log("m key");
+                    console.log("m key");
                 }
                 if (isStartScreen) {
                     isMarioMode = !isMarioMode;
-                    if( isMusic )
-                    {
-                        document.getElementById('themeSong').pause();
-                        document.getElementById('starSong').pause();
-                        if( isFun )
-                        {
-                            document.getElementById('funSong').play();
-                        }
-                        else
-                        {
-                            document.getElementById('rainbowRoad').play();
-                        }
-                    }
                 }
                 break;
             case 112:  // 'p' key
                 if(devModeOn) {
-                    // console.log("p key");
+                    console.log("p key");
                 }
                 if (!isStartScreen && !isGameOver && !isInstructionScreen)
                 {
@@ -407,7 +394,7 @@ window.onload = function init()
                 break;
             case 113:  // 'q' key
                 if(devModeOn) {
-                    // console.log("q key");
+                    console.log("q key");
                 }
                 if( !isInstructionScreen && !isStartScreen )
                     isGameOver = true;
@@ -418,113 +405,66 @@ window.onload = function init()
                 break;
             case 119:  // 'w' key
                 if(devModeOn) {
-                    // console.log("w key");
+                    console.log("w key");
                 }
 
                 isAllWhite = !isAllWhite;
                 break;
             case 102:  // 'f' key
                 if(devModeOn) {
-                    // console.log("f key");
+                    console.log("f key");
                 }
                 isFlipped = !isFlipped;
                 break;
             case 116:  // 't' key TODO use when hit certain score? 100?
                 if(devModeOn) {
-                    // console.log("t key");
+                    console.log("t key");
                 }
                 document.getElementById('happySound').play();
                 break;
             case 115:  // 's' key
                 if(devModeOn) {
-                    // console.log("s key");
-                }
-                if( !isMusic )
-                {
-                    if( isInvincible )
-                    {
-                        document.getElementById('starSong').play();
-                    }
-                    else if( isFun )
-                    {
-                        document.getElementById('funSong').play();
-                    }
-                    else if( isMarioMode )
-                    {
-                        document.getElementById('themeSong').play();
-                    }
-                    else
-                    {
-                        document.getElementById('rainbowRoad').play();
-                    }
-                }
-                else
-                {
-                    document.getElementById('funSong').pause();
-                    document.getElementById('themeSong').pause();
-                    document.getElementById('starSong').pause();
-                    document.getElementById('rainbowRoad').pause();
+                    console.log("s key");
                 }
                 isMusic = !isMusic;
                 break;
             case 114:  // 'r' key
                 if(devModeOn) {
-                    // console.log("r key");
+                    console.log("r key");
                 }
                 document.getElementById('frackOffSound').play();
                 // TODO
                 break;
             case 122:   // 'z' key
                 if(devModeOn) {
-                    // console.log("z key");
+                    console.log("z key");
                 }
                 isFun = !isFun;
-                if( isMusic && !isInvincible )
-                {
-                    if( isFun )
-                    {
-                        document.getElementById('themeSong').pause();
-                        document.getElementById('rainbowRoad').pause();
-                        document.getElementById('funSong').play();
-                    }
-                    else if( isMarioMode )
-                    {
-                        document.getElementById('rainbowRoad').play();
-                        document.getElementById('funSong').pause();
-                        document.getElementById('themeSong').pause();
-                    }
-                    else
-                    {
-                        document.getElementById('rainbowRoad').pause();
-                        document.getElementById('funSong').pause();
-                        document.getElementById('themeSong').play();
-                    }
-                }
                 break;
             case 49:    // '1'
                 if(devModeOn) {
-                    // console.log("Difficulty 1");
+                    console.log("Difficulty 1");
                 }
                 difficulty = 5;
                 break;
             case 50:    // '2'
                 if(devModeOn) {
-                    // console.log("Difficulty 2");
+                    console.log("Difficulty 2");
                 }
                 difficulty = 7;
                 break;
             case 51:    // '3'
                 if(devModeOn) {
-                    // console.log("Difficulty 3");
+                    console.log("Difficulty 3");
                 }
                 difficulty = 10;
                 break;
             case 120:   // x key
                 if (devModeOn) {
-                    // console.log('Dev mode turned off.');
+                    console.log('Dev mode turned off.');
                     devModeOn = false;
                 } else {
-                    // console.log('Dev mode turned on.');
+                    console.log('Dev mode turned on.');
                     devModeOn = true;
                 }
                 break;
@@ -542,7 +482,7 @@ window.onload = function init()
                 // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
                 currDegrees += 4;
                 if(devModeOn) {
-                    // console.log("<");
+                    console.log("<");
                 }
                 projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
@@ -550,7 +490,7 @@ window.onload = function init()
             case 190:   // '.' key aka >
                 currDegrees -= 4;
                 if(devModeOn) {
-                    // console.log(">");
+                    console.log(">");
                 }
                 projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
@@ -664,11 +604,24 @@ function render(timeStamp)
     {
         setupMarioEnvironment();
 
-        if( isMusic && !isInvincible )
+        if( isMusic && !isInvincible && !isFun )
         {
             document.getElementById('themeSong').play();
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').pause();
+        }
+        else if ( isMusic && !isInvincible && isFun )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').play();
+            document.getElementById('rainbowRoad').pause();
+        }
+        else if ( isInvincible )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').pause();
+            document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').play();
         }
 
         if( !isPaused )
@@ -684,6 +637,12 @@ function render(timeStamp)
     else
     {
         gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
+        if ( isMusic )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').pause();
+            document.getElementById('rainbowRoad').play();
+        }
     }
 
     // check if in invicibility mode
@@ -865,6 +824,9 @@ function render(timeStamp)
     if (devModeOn) {
         isExploded = false;
         isGameOver = false;
+        isPaused = false;
+        hasHitBorder = false;
+        isStartSequence = false;
     }
 
     // If cube is in front of player (ahead of player point), draw cubes first
