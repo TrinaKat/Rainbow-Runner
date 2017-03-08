@@ -591,8 +591,11 @@ function render(timeStamp)
         prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
         cubeLineDistanceTraveled += amountToMove;
 
-        // incrementing the score if the cube is running / not paused
-        score += timeDiff;
+        // incrementing the score if the cube is running / not paused / start sequence
+        if( !isMarioMode || (isMarioMode && !isStartSequence))
+        {
+            score += timeDiff;
+        }
     }
     else {  // if the game is paused, don't move the cubes, but make sure to keep updating thw timer
         amountToMove = 0;
@@ -604,7 +607,20 @@ function render(timeStamp)
     {
         setupMarioEnvironment();
 
-        if( isMusic && !isInvincible && !isFun )
+        if ( isInvincible )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').pause();
+            document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').play();
+        }
+        else if ( !isMusic )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').pause();
+            document.getElementById('rainbowRoad').pause();
+        }
+        else if( isMusic && !isInvincible && !isFun )
         {
             document.getElementById('themeSong').play();
             document.getElementById('funSong').pause();
@@ -615,13 +631,6 @@ function render(timeStamp)
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').play();
             document.getElementById('rainbowRoad').pause();
-        }
-        else if ( isInvincible )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').pause();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').play();
         }
 
         if( !isPaused )
@@ -637,11 +646,23 @@ function render(timeStamp)
     else
     {
         gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
-        if ( isMusic )
+        if ( isMusic && !isFun )
         {
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').play();
+        }
+        else if ( !isMusic )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').pause();
+            document.getElementById('rainbowRoad').pause();
+        }
+        else if ( isMusic && isFun )
+        {
+            document.getElementById('themeSong').pause();
+            document.getElementById('funSong').play();
+            document.getElementById('rainbowRoad').pause();
         }
     }
 
