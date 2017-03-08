@@ -95,10 +95,10 @@ function setUpCubeDraw() {
     gl.enableVertexAttribArray( vPosition );
 
     if (!isMarioMode) {
-        gl.disableVertexAttribArray(vTexCoordLoc);
+        gl.disableVertexAttribArray(texCoordLoc);
     } else {
-        gl.enableVertexAttribArray(texcoordLoc);
-        gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(texCoordLoc);
+        gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
     }
 }
 

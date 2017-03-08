@@ -241,7 +241,7 @@ function drawBack()
 function drawSide()
 {
   // Disable texturing
-  gl.disableVertexAttribArray( texcoordLoc );
+  gl.disableVertexAttribArray( texCoordLoc );
 
   // Enable normals for lighting
   gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
@@ -340,16 +340,18 @@ function createStarTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   starTexCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten( starTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.uniform1i(textureLoc, 0);
 
 }
 
@@ -358,8 +360,8 @@ function applyStarTexture()
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(starTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);

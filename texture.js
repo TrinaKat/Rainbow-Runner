@@ -8,16 +8,14 @@ function applyTexture()
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
-    texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
-    gl.enableVertexAttribArray(texcoordLoc);
-    gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(texCoordLoc);
+    gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 }
 
 function createTexture(imagePath)
 {
     // Create a texture
     texture = gl.createTexture();
-    // gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
@@ -36,17 +34,18 @@ function createTexture(imagePath)
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
     });
 
     applyTexture();
+    gl.uniform1i(textureLoc, 0);
 }
 
 function createFlippedTexture(imagePath)
 {
     // Create a texture
     textureFlipped = gl.createTexture();
-    // gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, textureFlipped);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
@@ -65,10 +64,12 @@ function createFlippedTexture(imagePath)
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
     });
 
     applyFlippedTexture();
+    gl.uniform1i(textureLoc, 0);
 }
 
 // Apply texture to the rainbow road path
@@ -79,7 +80,6 @@ function applyFlippedTexture()
     gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
 
-    texcoordLoc = gl.getAttribLocation(program, "a_texcoord");
-    gl.enableVertexAttribArray(texcoordLoc);
-    gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(texCoordLoc);
+    gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 }

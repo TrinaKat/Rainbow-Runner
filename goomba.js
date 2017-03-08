@@ -103,7 +103,7 @@ function drawGoombaBody()
 
 function drawGoomba()
 {
-  gl.disableVertexAttribArray( texcoordLoc );
+  gl.disableVertexAttribArray( texCoordLoc );
 
   // reset the camera transform matrix as well (was changed to move the cubes and player)
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
@@ -157,15 +157,18 @@ function createGoombaFaceTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   goombaFaceTexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, goombaFaceTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function applyGoombaFaceTexture()
@@ -174,8 +177,8 @@ function applyGoombaFaceTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, goombaFaceTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);

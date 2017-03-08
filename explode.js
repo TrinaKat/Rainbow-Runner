@@ -71,7 +71,7 @@ function explodeCube( timeDiff, x )
 
   if( isStarCoinLastExploded )
   {
-    console.log("COIN EXPLOSION");
+    // console.log("COIN EXPLOSION");
   }
 
   // If larger than 1.5, then stop drawing
@@ -95,12 +95,12 @@ function explodeCube( timeDiff, x )
         if (isQuestionCubeLastExploded)
         {
           applyQuestionTexture();
-          console.log("question cube last exploded");
+          // console.log("question cube last exploded");
         }
         else
         {
           applyBrickTexture();
-          console.log("brick cube last exploded");
+          // console.log("brick cube last exploded");
         }
       }
 

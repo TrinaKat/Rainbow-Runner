@@ -266,7 +266,7 @@ function checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, se
   var rightCubeXPosition = leftCubeXPosition + 1;
   var frontCubeZPosition = backCubeZPosition + 1;
 
-  console.log("player left x pos: " + playerLeftXPos);
+  // console.log("player left x pos: " + playerLeftXPos);
 
   // the two intercepts for the left edge equation and the right edge equation
   var bLeft = playerBaseZPos - playerEdgeSlope * playerLeftXPos;
@@ -316,7 +316,7 @@ function playerCollisionDetection() {
 
   // check if the player has hit the borders
   if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
-      console.log("border collision");
+      // console.log("border collision");
       isGameOver = true;
       if( !hasHitBorder)
       {
@@ -359,7 +359,7 @@ function playerCollisionDetection() {
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
-            console.log("collision");
+            // console.log("collision");
             isExploded = 1;
             // make the cube disappear since we have collided with it
             allCubeLineXPositions[i].splice(j, 1);

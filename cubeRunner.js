@@ -124,7 +124,7 @@ var cameraTransformMatrixLoc;
 var projectionMatrixLoc;
 var currentColourLoc;
 var enableTextureLoc;
-var texcoordLoc;
+var texCoordLoc;
 var textureLoc;
 
 // INITIALIZE ALL TRANSFORMATION MATRICES
@@ -138,7 +138,6 @@ var playerProjectionMatrix = mat4();
 var vPosition;
 var vNormal;
 var vBuffer;
-var vTexCoordLoc;
 var vOutlineBuffer;
 var vPathBuffer;
 var vTexCoordBuffer;
@@ -278,7 +277,7 @@ window.onload = function init()
     // GET ATTRIBUTE LOCATION
     vNormal = gl.getAttribLocation( program, "vNormal" );
     vPosition = gl.getAttribLocation( program, "vPosition" );
-    vTexCoordLoc = gl.getAttribLocation( program, "a_texcoord" );
+    texCoordLoc = gl.getAttribLocation( program, "a_texcoord" );
 
     // want to move camera in the +z direction since you are looking down the -z axis
     // in reality, since we are taking the inverse matrix, we are moving all the objects in the -z direction
@@ -333,7 +332,7 @@ window.onload = function init()
         switch (event.keyCode) {
             case 105:  // 'i' key
                 if(devModeOn) {
-                    console.log("i key");
+                    // console.log("i key");
                 }
                 if (isPaused)
                 {
@@ -357,7 +356,7 @@ window.onload = function init()
                 break;
             case 109:  // 'm' key
                 if(devModeOn) {
-                    console.log("m key");
+                    // console.log("m key");
                 }
                 if (!isGameOver) {
                     isMarioMode = !isMarioMode;
@@ -378,7 +377,7 @@ window.onload = function init()
                 break;
             case 112:  // 'p' key
                 if(devModeOn) {
-                    console.log("p key");
+                    // console.log("p key");
                 }
                 if (!isStartScreen && !isGameOver && !isInstructionScreen) {
                     isPaused = !isPaused;
@@ -392,7 +391,7 @@ window.onload = function init()
                 break;
             case 113:  // 'q' key
                 if(devModeOn) {
-                    console.log("q key");
+                    // console.log("q key");
                 }
                 if( !isInstructionScreen )
                     isGameOver = true;
@@ -403,26 +402,26 @@ window.onload = function init()
                 break;
             case 119:  // 'w' key
                 if(devModeOn) {
-                    console.log("w key");
+                    // console.log("w key");
                 }
 
                 isAllWhite = !isAllWhite;
                 break;
             case 102:  // 'f' key
                 if(devModeOn) {
-                    console.log("f key");
+                    // console.log("f key");
                 }
                 isFlipped = !isFlipped;
                 break;
             case 116:  // 't' key TODO use when hit certain score? 100?
                 if(devModeOn) {
-                    console.log("t key");
+                    // console.log("t key");
                 }
                 document.getElementById('happySound').play();
                 break;
             case 115:  // 's' key
                 if(devModeOn) {
-                    console.log("s key");
+                    // console.log("s key");
                 }
                 if( !isMusic )
                 {
@@ -454,14 +453,14 @@ window.onload = function init()
                 break;
             case 114:  // 'r' key
                 if(devModeOn) {
-                    console.log("r key");
+                    // console.log("r key");
                 }
                 document.getElementById('frackOffSound').play();
                 // TODO
                 break;
             case 122:   // 'z' key
                 if(devModeOn) {
-                    console.log("z key");
+                    // console.log("z key");
                 }
                 isFun = !isFun;
                 if( isMusic && !isInvincible )
@@ -488,28 +487,28 @@ window.onload = function init()
                 break;
             case 49:    // '1'
                 if(devModeOn) {
-                    console.log("Difficulty 1");
+                    // console.log("Difficulty 1");
                 }
                 difficulty = 5;
                 break;
             case 50:    // '2'
                 if(devModeOn) {
-                    console.log("Difficulty 2");
+                    // console.log("Difficulty 2");
                 }
                 difficulty = 7;
                 break;
             case 51:    // '3'
                 if(devModeOn) {
-                    console.log("Difficulty 3");
+                    // console.log("Difficulty 3");
                 }
                 difficulty = 10;
                 break;
             case 120:   // x key
                 if (devModeOn) {
-                    console.log('Dev mode turned off.');
+                    // console.log('Dev mode turned off.');
                     devModeOn = false;
                 } else {
-                    console.log('Dev mode turned on.');
+                    // console.log('Dev mode turned on.');
                     devModeOn = true;
                 }
                 break;
@@ -527,7 +526,7 @@ window.onload = function init()
                 // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
                 currDegrees += 4;
                 if(devModeOn) {
-                    console.log("<");
+                    // console.log("<");
                 }
                 projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
@@ -535,7 +534,7 @@ window.onload = function init()
             case 190:   // '.' key aka >
                 currDegrees -= 4;
                 if(devModeOn) {
-                    console.log(">");
+                    // console.log(">");
                 }
                 projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
                 gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));

@@ -44,15 +44,18 @@ function createCloudFaceTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   cloudFaceTexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudFaceTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function applyCloudFaceTexture()
@@ -61,8 +64,8 @@ function applyCloudFaceTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudFaceTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -167,15 +170,18 @@ function createLakituTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   lakituTexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, lakituTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function applyLakituTexture()
@@ -184,8 +190,8 @@ function applyLakituTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, lakituTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -288,15 +294,18 @@ function createCloudBigTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   cloudBigTexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudBigTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function applyCloudBigTexture()
@@ -305,8 +314,8 @@ function applyCloudBigTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudBigTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -415,15 +424,18 @@ function createCloudSmallTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   cloudSmallTexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudSmallTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function applyCloudSmallTexture()
@@ -432,8 +444,8 @@ function applyCloudSmallTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudSmallTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -540,15 +552,18 @@ function createCloudLakituTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   cloudLakituTexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudLakituTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function applyCloudLakituTexture()
@@ -557,8 +572,8 @@ function applyCloudLakituTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, cloudLakituTexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);

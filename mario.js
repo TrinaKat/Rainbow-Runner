@@ -96,16 +96,18 @@ function createBrickTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   cubeTexCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten( cubeTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function createQuestionTexture()
@@ -130,15 +132,18 @@ function createQuestionTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Bind buffer for texcoords
   // Already created with brick texture
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten( cubeTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function createPipeTexture()
@@ -163,15 +168,18 @@ function createPipeTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Bind buffer for texcoords
   pipeTexCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, pipeTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten( pipeTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function createDirtTexture()
@@ -196,15 +204,18 @@ function createDirtTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
   // Already created with rainbow texture
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 function createGrassTexture()
@@ -229,7 +240,8 @@ function createGrassTexture()
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
   });
 
   // Create a buffer for texcoords
@@ -237,8 +249,10 @@ function createGrassTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
 }
 
 
@@ -250,8 +264,8 @@ function applyBrickTexture()
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(cubeTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -269,8 +283,8 @@ function applyQuestionTexture()
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(cubeTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -288,8 +302,8 @@ function applyPipeTexture()
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, pipeTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(pipeTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -308,8 +322,8 @@ function applyDirtTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -328,8 +342,8 @@ function applyGrassTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -348,8 +362,8 @@ function applyRainbowTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
@@ -368,8 +382,8 @@ function applyFlippedRainbowTexture()
   gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
 
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);

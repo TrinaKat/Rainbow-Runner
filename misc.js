@@ -38,7 +38,7 @@ function drawOutline()
 {
     // We don't need lighting or textures on outlines
     gl.disableVertexAttribArray(vNormal);
-    gl.disableVertexAttribArray(vTexCoordLoc);
+    gl.disableVertexAttribArray(texCoordLoc);
 
     // Bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer );

@@ -94,7 +94,7 @@ function drawCurve()
 {
   // No lighting/texture needed here
   gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(texcoordLoc);
+  gl.disableVertexAttribArray(texCoordLoc);
 
   // Bind the current buffer to draw
   gl.bindBuffer( gl.ARRAY_BUFFER, curveBuffer );
@@ -223,7 +223,7 @@ function drawLakituCurve()
 {
   // No lighting/texture needed here
   gl.disableVertexAttribArray(vNormal);
-  gl.disableVertexAttribArray(texcoordLoc);
+  gl.disableVertexAttribArray(texCoordLoc);
 
   // Bind the current buffer to draw
   gl.bindBuffer( gl.ARRAY_BUFFER, lakituBuffer );

@@ -45,7 +45,7 @@ function generateBumpMap (){
 		bumpMapNormals.push (vec3(0,0,1));
 	}
 
-	
+
 	bumpMapBuffer = gl.createBuffer();
 	gl.bindBuffer (gl.ARRAY_BUFFER, bumpMapBuffer);
 	gl.bufferData (gl.ARRAY_BUFFER, flatten(bumpMapVertexArray), gl.STATIC_DRAW);
@@ -120,8 +120,8 @@ function drawBumpMap (){
 	gl.uniform4fv(currentColourLoc, colors[12]);
 
 	gl.enableVertexAttribArray(vPosition);
-  	
-  	gl.disableVertexAttribArray(texcoordLoc);
+
+  	gl.disableVertexAttribArray(texCoordLoc);
 
 
   	gl.bindBuffer(gl.ARRAY_BUFFER,bumpMapNormalBuffer);
@@ -166,8 +166,8 @@ function createBumpMapTexture(){
   bumpMapTexCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, bumpMapTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten( bumpMaptexCorrdArray), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 }
 
 function applyBumpMapTexture()
@@ -175,8 +175,8 @@ function applyBumpMapTexture()
   // Bind the appropriate buffers and attributes for the texture
   gl.bindBuffer(gl.ARRAY_BUFFER, bumpMapTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(bumpMaptexCorrdArray), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texcoordLoc);
-  gl.vertexAttribPointer(texcoordLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
