@@ -7,7 +7,7 @@ function generateIntroCubes() {
 	// draw the cubes in groups of two, more and more narrow
 	var maxWidth = canvas.width/60;
 	var mid1Width = canvas.width/80;
-	var mid2Width = canvas.width/100;   
+	var mid2Width = canvas.width/100;
 	var minWidth = canvas.width/120;
 	var currZPosition = cameraPositionZAxis - 40;
 
@@ -55,17 +55,20 @@ function introTransition() {
         // Iterate through all the cubes on a single cube line
         for ( var c = 0; c < introCubesXPositions[r].length; c++ )
         {
-            // Move the cube to the correct position
-            transformCube( introCubesXPositions[r][c], 0, introCubesZPositions[r] );
+          // Move the cube to the correct position
+          transformCube( introCubesXPositions[r][c], 0, introCubesZPositions[r] );
 
-            // in Mario mode
-            if (isMarioMode) {
-            	applyPipeTexture();
-            }
-	        // Draw the cubes and outlines
+          // Draw the cubes and outlines
 	        drawOutline();
+
+          // in Mario mode
+          if (isMarioMode)
+          {
+          	applyPipeTexture();
+          }
+
 	        // Set the colour for the cubes
-	        drawCube(4);  
+	        drawCube(4);
 	    }
 	}
 	// backmost element is past the player

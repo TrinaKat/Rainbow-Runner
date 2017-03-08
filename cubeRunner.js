@@ -317,6 +317,7 @@ window.onload = function init()
     populatePipeTexCoords();
     createBrickTexture();
     createQuestionTexture();
+    createPipeBorderTexture();
     createPipeTexture();
     createDirtTexture();
     createGrassTexture();

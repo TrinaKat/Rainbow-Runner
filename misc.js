@@ -69,7 +69,7 @@ function drawBorder()
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
     if (isMarioMode) {
-        applyPipeTexture();
+        applyPipeBorderTexture();
     }
 
     drawCube(4);
@@ -83,7 +83,7 @@ function drawBorder()
     setUpCubeDraw();
 
     if (isMarioMode) {
-        applyPipeTexture();
+        applyPipeBorderTexture();
     }
 
     drawCube(4);

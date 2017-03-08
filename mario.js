@@ -3,6 +3,9 @@
 var cubeTexCoordBuffer;
 var cubeTexCoords = [];
 
+var pipeBorderTexCoordBuffer;
+var pipeBorderTexCoords = [];
+
 var pipeTexCoordBuffer;
 var pipeTexCoords = [];
 
@@ -15,28 +18,44 @@ var tCoords =
   vec2(1, 0)  //3
 ];
 
-var numPipeRepeats = 100; //2 * cameraPositionZAxis;  // cubeRunner.js is added after mario.js
+var numPipeBorderRepeats = 100; //2 * cameraPositionZAxis;  // cubeRunner.js is added after mario.js
+
+var pipeBorderCoords =
+[
+  vec2(0.0, 0.5), //0
+  vec2(0.0, 1.0), //1
+  vec2(numPipeBorderRepeats, 1.0), //2
+  vec2(numPipeBorderRepeats, 0.5)  //3
+];
+
+var pipeBorderTopCoords =
+[
+  vec2(0.0, 0.0), //0
+  vec2(0.0, 0.5), //1
+  vec2(numPipeBorderRepeats, 0.5), //2
+  vec2(numPipeBorderRepeats, 0)  //3
+];
 
 var pipeCoords =
 [
   vec2(0.0, 0.5), //0
   vec2(0.0, 1.0), //1
-  vec2(numPipeRepeats, 1.0), //2
-  vec2(numPipeRepeats, 0.5)  //3
+  vec2(1.0, 1.0), //2
+  vec2(1.0, 0.5)  //3
 ];
 
 var pipeTopCoords =
 [
-  vec2(0.0, 0), //0
+  vec2(0.0, 0.0),   //0
   vec2(0.0, 0.5), //1
-  vec2(numPipeRepeats, 0.5), //2
-  vec2(numPipeRepeats, 0)  //3
+  vec2(1.0, 0.5), //2
+  vec2(1.0, 0)    //3
 ];
 
 var brickTexture;
 var questionTexture;
+var pipeBorderTexture;
 var pipeTexture;
-var pipeTopTexture;
 var dirtTexture;
 
 function populateCubeTexCoords()
@@ -56,6 +75,15 @@ function populatePipeTexCoords()
 {
   for( var i = 0; i < 5; i++ )
   {
+    // For path borders
+    pipeBorderTexCoords.push(pipeBorderCoords[1]);
+    pipeBorderTexCoords.push(pipeBorderCoords[0]);
+    pipeBorderTexCoords.push(pipeBorderCoords[3]);
+    pipeBorderTexCoords.push(pipeBorderCoords[1]);
+    pipeBorderTexCoords.push(pipeBorderCoords[3]);
+    pipeBorderTexCoords.push(pipeBorderCoords[2]);
+
+    // For intro borders
     pipeTexCoords.push(pipeCoords[1]);
     pipeTexCoords.push(pipeCoords[0]);
     pipeTexCoords.push(pipeCoords[3]);
@@ -64,6 +92,15 @@ function populatePipeTexCoords()
     pipeTexCoords.push(pipeCoords[2]);
   }
 
+  // For path borders
+  pipeBorderTexCoords.push(pipeBorderTopCoords[1]);
+  pipeBorderTexCoords.push(pipeBorderTopCoords[0]);
+  pipeBorderTexCoords.push(pipeBorderTopCoords[3]);
+  pipeBorderTexCoords.push(pipeBorderTopCoords[1]);
+  pipeBorderTexCoords.push(pipeBorderTopCoords[3]);
+  pipeBorderTexCoords.push(pipeBorderTopCoords[2]);
+
+  // For intro borders
   pipeTexCoords.push(pipeTopCoords[1]);
   pipeTexCoords.push(pipeTopCoords[0]);
   pipeTexCoords.push(pipeTopCoords[3]);
@@ -146,6 +183,42 @@ function createQuestionTexture()
   gl.uniform1i(textureLoc, 0);
 }
 
+function createPipeBorderTexture()
+{
+  // Create a texture
+  pipeBorderTexture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, pipeBorderTexture);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+  // Fill the texture with a 1x1 blue pixel
+  // Before we load the image so use blue image so we can start rendering immediately
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                new Uint8Array([0, 0, 255, 255]));
+
+  // Asynchronously load an image
+  var image = new Image();
+  image.src = "./Textures/Mario/marioPipesRepeat.png";
+  image.addEventListener('load', function() {
+      // Now that the image has loaded, make copy it to the texture.
+      // Set texture properties
+      gl.bindTexture(gl.TEXTURE_2D, pipeBorderTexture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
+  });
+
+  // Bind buffer for texcoords
+  pipeBorderTexCoordBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, pipeBorderTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten( pipeBorderTexCoords ), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
+}
+
 function createPipeTexture()
 {
   // Create a texture
@@ -160,7 +233,7 @@ function createPipeTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/Mario/marioPipesRepeatDebug.png";
+  image.src = "./Textures/Mario/marioPipesRepeat.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties
@@ -289,6 +362,25 @@ function applyQuestionTexture()
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, questionTexture);
+  gl.uniform1i(textureLoc, 0);
+
+  // Enable the texture before we draw
+  // Tell the shader whether or not we want to enable textures
+  enableTexture = true;
+  gl.uniform1f(enableTextureLoc, enableTexture);
+}
+
+function applyPipeBorderTexture()
+{
+  // Bind the appropriate buffers and attributes for the texture
+  gl.bindBuffer(gl.ARRAY_BUFFER, pipeBorderTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pipeBorderTexCoords), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  // Bind the texture
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, pipeBorderTexture);
   gl.uniform1i(textureLoc, 0);
 
   // Enable the texture before we draw
