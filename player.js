@@ -134,9 +134,8 @@ function generatePlayer()
 
 function drawPlayerShadowsWithDepth()
 {
-    // Disable the texture before we draw something else later
-    enableTexture = false;
-    gl.uniform1f(enableTextureLoc, enableTexture);
+    // Disable the texture
+    gl.disableVertexAttribArray(texCoordLoc);
 
     // get the player's base edge's position in the z-axis (need to add one since located at z = +1 from the origin)
     playerTipZPos = cameraPositionZAxis - 10;
@@ -165,9 +164,8 @@ function drawPlayerShadowsWithDepth()
 
 function drawPlayerBody()
 {
-    // Disable the texture before we draw something else later
-    enableTexture = false;
-    gl.uniform1f(enableTextureLoc, enableTexture);
+    // Disable the texture
+    gl.disableVertexAttribArray(texCoordLoc);
 
     // Enable normals for lighting
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
@@ -229,6 +227,9 @@ function drawPlayerOutline()
 {
   // We don't need lighting on the path because it is LIT AF already
   gl.disableVertexAttribArray(vNormal);
+
+  // Disable the texture
+  gl.disableVertexAttribArray(texCoordLoc);
 
   // Bind the current buffer that we want to draw (the one with the points)
   gl.bindBuffer( gl.ARRAY_BUFFER, playerOutlineBuffer );
