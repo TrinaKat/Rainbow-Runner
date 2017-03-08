@@ -370,7 +370,7 @@ window.onload = function init()
                 if(devModeOn) {
                     // console.log("m key");
                 }
-                if (!isGameOver) {
+                if (isStartScreen) {
                     isMarioMode = !isMarioMode;
                     if( isMusic )
                     {
@@ -391,13 +391,17 @@ window.onload = function init()
                 if(devModeOn) {
                     // console.log("p key");
                 }
-                if (!isStartScreen && !isGameOver && !isInstructionScreen) {
-                    isPaused = !isPaused;
-                    if (isPaused) {
-                        displayPauseScreen();
-                    }
-                    else {
-                        removeScreen(pauseScreen);
+                if (!isStartScreen && !isGameOver && !isInstructionScreen)
+                {
+                    if( (isMarioMode && !isStartSequence) || !isMarioMode )
+                    {
+                        isPaused = !isPaused;
+                        if (isPaused) {
+                            displayPauseScreen();
+                        }
+                        else {
+                            removeScreen(pauseScreen);
+                        }
                     }
                 }
                 break;
@@ -405,7 +409,7 @@ window.onload = function init()
                 if(devModeOn) {
                     // console.log("q key");
                 }
-                if( !isInstructionScreen )
+                if( !isInstructionScreen && !isStartScreen )
                     isGameOver = true;
                 if (isPaused )
                     removeScreen(pauseScreen);
@@ -569,6 +573,7 @@ window.onload = function init()
                 if (isGameOver)
                 {
                     resetSequence();
+                    isStartScreen = true;
                     isGameOver = false;
                 }
                 break;
@@ -828,8 +833,7 @@ function render(timeStamp)
         gl.disable(gl.BLEND);
         gl.enable(gl.DEPTH_TEST);
 
-        // TODO
-        if( isStartSequence )
+        if( isStartSequence && !isStartScreen )
         {
             lakituStartSequence();
             startSequenceTimer -= timeDiff;

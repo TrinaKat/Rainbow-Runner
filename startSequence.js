@@ -60,14 +60,7 @@ function resetSequence() {
     allCubeColours = [];
     // reset game play properties
     isStartSequence = true;
-    if( isMarioMode )
-    {
-        isPaused = true;
-    }
-    else
-    {
-        isPaused = false;
-    }
+    isPaused = true;
     isExploded = 0;
     hasHitBorder = 0;
     isGameOver = false;
