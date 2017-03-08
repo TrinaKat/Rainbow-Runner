@@ -750,8 +750,32 @@ function render(timeStamp)
     // TODO REMOVE keep path from scrolling
     drawPath(0);
 
-    // Draw player shadow AFTER path because we want transparent shadows but BEFORE cubes
-    drawPlayerShadowsWithDepth();
+    // Determine which is the closest cube line right now
+    var closestCubeLine = 1;
+    var playerTipPosZ = cameraPositionZAxis - 10;
+    var dist_1 = Math.abs(allCubeLineZPositions[0] - playerTipPosZ);
+    var dist_2 = Math.abs(allCubeLineZPositions[1] - playerTipPosZ);    // Generally is this one
+    var dist_3 = Math.abs(allCubeLineZPositions[2] - playerTipPosZ);
+
+    if ( dist_2 < dist_2 && dist_2 < dist_3 )
+    {
+        closestCubeLine = 2;
+    }
+    else if (dist_3 < dist_1 && dist_3 < dist_2)
+    {
+        closestCubeLine = 3;
+    }
+
+    // If you didn't draw shadow, draw it later
+    var drewShadow = false;
+
+    // If cube is behind player (closer to camera), draw player shadow first
+    if (allCubeLineZPositions[closestCubeLine] > playerTipPosZ && !jumpFSM.state) // If jumping, draw shadow as player will be on top
+    {
+        // Draw player shadow AFTER path because we want transparent shadows but BEFORE cubes
+        drawPlayerShadowsWithDepth();
+        drewShadow = true;
+    }
 
     // Draw the clouds
     if( isMarioMode )
@@ -784,10 +808,6 @@ function render(timeStamp)
     if (isDrawBorder)
         drawBorder();
 
-
-    //draw Bump Map Object
-    //drawBumpMap();
-
     // check to see if you have moved the current cube line far anough and you should generate a new cube line
     // 5 means that we want to have a 5 unit separation between each cube line
     if (cubeLineDistanceTraveled >= 5)
@@ -804,9 +824,17 @@ function render(timeStamp)
 
     // check to see if the player has collided with any cubes --> game over
     playerCollisionDetection();
+
     if (devModeOn) {
         isExploded = false;
         isGameOver = false;
+    }
+
+    // If cube is in front of player (ahead of player point), draw cubes first
+    if (!drewShadow)
+    {
+        // Draw player shadow AFTER path because we want transparent shadows
+        drawPlayerShadowsWithDepth();
     }
 
     // Draw player AFTER path because we want transparent shadows but BEFORE cubes
