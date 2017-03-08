@@ -6,6 +6,9 @@ var sphereBuffer;
 var goomba_x = 0;
 var goomba_z = -2;
 
+var stepLeft = true;
+var swapFeet = 1;  // Swap every second, based on timeDiff in cubeRunner.js
+
 var goombaColors =
 [
   // Medium Brown
@@ -78,22 +81,43 @@ function drawGoombaBody()
   // Set color
   gl.uniform4fv(currentColourLoc, goombaColors[2]);
 
+  // LEFT FOOT
   // Set up feet transformations
   modelTransformMatrix = goombaModelTransformMatrix;
-  modelTransformMatrix = mult( modelTransformMatrix, translate( -0.26, 0, 40.1 ));
-  modelTransformMatrix = mult( modelTransformMatrix, rotateZ( -30 ));
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( -45 ));
-  modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.3, 0.15, 0.1 ));
+  modelTransformMatrix = mult( modelTransformMatrix, translate( -0.23, 0, 40.1 ));
+
+  if (stepLeft)
+  {
+    modelTransformMatrix = mult( modelTransformMatrix, rotateZ( 15 ));
+  }
+  else
+  {
+    modelTransformMatrix = mult( modelTransformMatrix, rotateZ( -30 ));
+  }
+
+  modelTransformMatrix = mult( modelTransformMatrix, rotateY( -50 ));
+  modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.3, 0.15, 0.15 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
 
+
+  // RIGHT FOOT
   // Set up feet transformations
   modelTransformMatrix = goombaModelTransformMatrix;
-  modelTransformMatrix = mult( modelTransformMatrix, translate( 0.26, 0, 40.1 ));
-  modelTransformMatrix = mult( modelTransformMatrix, rotateZ( 30 ));
-  modelTransformMatrix = mult( modelTransformMatrix, rotateY( 45 ));
-  modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.3, 0.15, 0.1 ));
+  modelTransformMatrix = mult( modelTransformMatrix, translate( 0.23, 0, 40.1 ));
+
+  if (!stepLeft)
+  {
+    modelTransformMatrix = mult( modelTransformMatrix, rotateZ( -15 ));
+  }
+  else
+  {
+    modelTransformMatrix = mult( modelTransformMatrix, rotateZ( 30 ));
+  }
+
+  modelTransformMatrix = mult( modelTransformMatrix, rotateY( 50 ));
+  modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.3, 0.15, 0.15 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
   gl.drawArrays( gl.TRIANGLES, 0, sphereVertices.length );
@@ -108,6 +132,8 @@ function drawGoomba()
   // reset the camera transform matrix as well (was changed to move the cubes and player)
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
+  // modelTransformMatrix = scalem( 2.0, 2.0, 1.0 );
+  // modelTransformMatrix = mult( modelTransformMatrix, translate( goomba_x, 0.2, goomba_z ));
   modelTransformMatrix = translate( goomba_x, 0.2, goomba_z );
 
   drawGoombaBody();

@@ -649,6 +649,16 @@ function render(timeStamp)
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').pause();
         }
+
+        if( !isPaused )
+        {
+            swapFeet -= timeDiff;
+            if (swapFeet < 0)
+            {
+                swapFeet = 1;
+                stepLeft = !stepLeft;
+            }
+        }
     }
     else
     {
