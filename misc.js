@@ -68,13 +68,17 @@ function drawBorder()
     modelTransformMatrix = mult(modelTransformMatrix, scalem(1,1,cameraPositionZAxis*2));
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
 
-    if (isMarioMode) {
+    if (isMarioMode)
+    {
         applyPipeBorderTexture();
+    }
+    else
+    {
+        drawOutline();
     }
 
     drawCube(4);
     isForBorder = 1;
-    drawOutline();
 
     // Right wall
     modelTransformMatrix = translate(pathWidth, 0, -cameraPositionZAxis);
@@ -82,12 +86,16 @@ function drawBorder()
     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
     setUpCubeDraw();
 
-    if (isMarioMode) {
+    if (isMarioMode)
+    {
         applyPipeBorderTexture();
+    }
+    else
+    {
+        drawOutline();
     }
 
     drawCube(4);
     isForBorder = 1;
-    drawOutline();
 }
 
