@@ -10,7 +10,7 @@ var endScreen;
 var instructionScreen;
 
 
-// game boy canvas 
+// game boy canvas
 function displayGameBoyScreen() {
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
@@ -35,7 +35,7 @@ function displayStartScreen() {
     startScreen.fillText("Runner", 260, 420);
     // set the subtitle for the start screen
     startScreen.font = "32px eightbit"
-   
+
     startScreen.fillText("<space> to Start", 260, 580);
     startScreen.fillText("<m> Toggle Mario Mode", 190, 640);
     startScreen.fillText("<i> for instructions", 240, 700);
