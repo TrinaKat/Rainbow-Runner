@@ -81,8 +81,8 @@ function displayPauseScreen() {
 	pauseScreen = pauseScreenCanvas.getContext( "2d" );
 	// clear the 2D canvas that has the start screen
     pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
-    // set the start screen to translucent black overlay
-    pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    // set the pause screen to clear
+    pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.0)';
     pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
     // set the title for the start screen
     pauseScreen.font = "84px eightbit"
