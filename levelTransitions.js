@@ -2,30 +2,38 @@
 var isIntroTransition = 1;
 var introCubesXPositions = [];
 var introCubesZPositions = [];
+// draw the cubes in groups of two, more and more narrow
+var maxWidth;
+var mid1Width;
+var mid2Width;
+var minWidth;
+var longLength = 14;
 
 function generateIntroCubes() {
-	// draw the cubes in groups of two, more and more narrow
-	var maxWidth = canvas.width/60;
-	var mid1Width = canvas.width/80;
-	var mid2Width = canvas.width/100;
-	var minWidth = canvas.width/120;
-	var currZPosition = cameraPositionZAxis - 40;
-
+	// initialize variables 
+	maxWidth = 16;
+	mid1Width = 12;
+	mid2Width = 10;
+	minWidth = 8;
+	var currZPosition = cameraPositionZAxis - 30;
 	// curve in
 	for (var x = maxWidth; x >= minWidth; x--) {
 		// draw the straight segments
 		if (x == maxWidth || x == mid1Width || x == mid2Width || x == minWidth) {
-			for (var i = 0; i < 40; i++) {
+			// for (var i = 0; i < 40; i++) {
+				console.log("straight segment");
 				// store the x positions for this row of cubes
 				var xPositions = [];
 				// store pairs of cubes (one for each side)
-				xPositions.push(-1 * x);
 				xPositions.push(x);
+				xPositions.push(-1 * x);
 				// add the cube positions to the arrays
 				introCubesXPositions.push(xPositions);
-				introCubesZPositions.push(currZPosition);
-				currZPosition--;
-			}
+				// want the long cube to centered correctly before we scale
+				introCubesZPositions.push(currZPosition - longLength + 1);
+				// make sure that subsequent cubes are located in the correct positions
+				currZPosition = currZPosition - longLength;
+			// }
 		}
 		// draw the diagonal curving in segments
 		else {
@@ -57,6 +65,12 @@ function introTransition() {
         {
           // Move the cube to the correct position
           transformCube( introCubesXPositions[r][c], 0, introCubesZPositions[r] );
+         
+          // apply scaling to the long cube to form straight segment
+          if (introCubesXPositions[r][0] == maxWidth || introCubesXPositions[r][0] == mid1Width || introCubesXPositions[r][0] == mid2Width || introCubesXPositions[r][0] == minWidth) {
+          	console.log("apply scaling");
+	        gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
+	   	  }
 
           // Draw the cubes and outlines
 	        drawOutline();
