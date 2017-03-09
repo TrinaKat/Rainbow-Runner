@@ -82,16 +82,16 @@ function displayPauseScreen() {
 	// clear the 2D canvas that has the start screen
     pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
     // set the pause screen to clear
-    pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.0)';
+    pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
     // set the title for the start screen
     pauseScreen.font = "84px eightbit"
     pauseScreen.fillStyle = "#ffffff";  // we want white text
-    pauseScreen.fillText("Paused", 160, 130);
+    pauseScreen.fillText("Paused", 90, 130);
     // set the instructions to perform next
     pauseScreen.font = "32px eightbit"
-    pauseScreen.fillText("<p> to Resume", 200, 210);
-    pauseScreen.fillText("<Q> to Quit", 260, 260);
+    pauseScreen.fillText("<p> to Resume", 130, 210);
+    pauseScreen.fillText("<Q> to Quit", 190, 260);
 }
 
 // screen that player sees when exiting from pause mode or quitting the game

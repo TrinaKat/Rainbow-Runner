@@ -192,7 +192,8 @@ function drawPlayerBody()
     // change the player's colour if it is invincible
     if (isInvincible && invincibilityTimer > 0 )
     {
-      gl.uniform4fv(currentColourLoc, colors[7]);
+      // set the player to red like Mario
+      gl.uniform4fv(currentColourLoc, colors[11]);
       if ( invincibilityTimer < 1.5 )
       {
         // flash the colour of the player
