@@ -15,8 +15,10 @@ function displayGameBoyScreen() {
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
-    gameboyimg.src = "./Textures/gameBoySquarer.png";
+    gameboyimg.src = "./Textures/gameBoySquarer2.png";
    ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
+
+
 };
 
 // start screen that the player sees at the very beginning
