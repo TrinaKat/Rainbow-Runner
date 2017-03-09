@@ -20,8 +20,6 @@ function generateIntroCubes() {
 	for (var x = maxWidth; x >= minWidth; x--) {
 		// draw the straight segments
 		if (x == maxWidth || x == mid1Width || x == mid2Width || x == minWidth) {
-			// for (var i = 0; i < 40; i++) {
-				console.log("straight segment");
 				// store the x positions for this row of cubes
 				var xPositions = [];
 				// store pairs of cubes (one for each side)
@@ -33,7 +31,6 @@ function generateIntroCubes() {
 				introCubesZPositions.push(currZPosition - longLength + 1);
 				// make sure that subsequent cubes are located in the correct positions
 				currZPosition = currZPosition - longLength;
-			// }
 		}
 		// draw the diagonal curving in segments
 		else {
@@ -68,7 +65,6 @@ function introTransition() {
          
           // apply scaling to the long cube to form straight segment
           if (introCubesXPositions[r][0] == maxWidth || introCubesXPositions[r][0] == mid1Width || introCubesXPositions[r][0] == mid2Width || introCubesXPositions[r][0] == minWidth) {
-          	console.log("apply scaling");
 	        gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
 	   	  }
 

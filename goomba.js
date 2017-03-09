@@ -247,3 +247,8 @@ function drawGoombaFace()
   enableTexture = false;
   gl.uniform1f(enableTextureLoc, enableTexture);
 }
+
+// MAKE THE GOOMBA LINE 
+function drawGoombaLine() {
+
+}
