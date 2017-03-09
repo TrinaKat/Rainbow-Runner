@@ -246,27 +246,27 @@ window.onload = function init()
     //createBumpMapTexture();
 
     // TODO CLOUD
-    generateCurve();
-    generateLakituCurve();
+    // generateCurve();
+    // generateLakituCurve();
 
-    createCloudFaceTexture();
-    generateCloudFaceSquare();
+    // createCloudFaceTexture();
+    // generateCloudFaceSquare();
 
-    createLakituTexture();
-    createLakituStartTexture();
-    generateLakituSquare();
+    // createLakituTexture();
+    // createLakituStartTexture();
+    // generateLakituSquare();
 
-    createCloudBigTexture();
-    generateCloudBigSquare();
+    // createCloudBigTexture();
+    // generateCloudBigSquare();
 
-    createCloudSmallTexture();
-    generateCloudSmallSquare();
+    // createCloudSmallTexture();
+    // generateCloudSmallSquare();
 
-    createCloudLakituTexture();
-    generateCloudLakituSquare();
+    // createCloudLakituTexture();
+    // generateCloudLakituSquare();
 
-    createGoombaFaceTexture();
-    generateGoombaFaceSquare();
+    // createGoombaFaceTexture();
+    // generateGoombaFaceSquare();
 
     // TODO: REMOVE
     generateIntroCubes();

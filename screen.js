@@ -11,12 +11,13 @@ var instructionScreen;
 
 
 // game boy canvas
-function displayGameBoyScreen() {
+function displayGameBoyScreen()
+{
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
     gameboyimg.src = "./Textures/gameBoySquareSmall.png";
-   ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
+    ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
 };
 
 // start screen that the player sees at the very beginning
