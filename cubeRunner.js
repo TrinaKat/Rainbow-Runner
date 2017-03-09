@@ -398,7 +398,7 @@ window.onload = function init()
                 }
                 if( !isInstructionScreen && !isStartScreen )
                     isGameOver = true;
-                if (isPaused )
+                if ( isPaused && !isGameOver )
                     removeScreen(pauseScreen);
                 document.getElementById('quitSound').play();
 
@@ -619,18 +619,21 @@ function render(timeStamp)
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').pause();
         }
         else if( isMusic && !isInvincible && !isFun )
         {
             document.getElementById('themeSong').play();
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').pause();
         }
         else if ( isMusic && !isInvincible && isFun )
         {
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').play();
             document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').pause();
         }
 
         if( !isPaused )
@@ -651,18 +654,21 @@ function render(timeStamp)
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').play();
+            document.getElementById('starSong').pause();
         }
         else if ( !isMusic )
         {
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').pause();
             document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').pause();
         }
         else if ( isMusic && isFun )
         {
             document.getElementById('themeSong').pause();
             document.getElementById('funSong').play();
             document.getElementById('rainbowRoad').pause();
+            document.getElementById('starSong').pause();
         }
     }
 
@@ -813,7 +819,7 @@ function render(timeStamp)
         gl.disable(gl.BLEND);
         gl.enable(gl.DEPTH_TEST);
 
-        if( isStartSequence && !isStartScreen )
+        if( isStartSequence && !isStartScreen && !isInstructionScreen )
         {
             lakituStartSequence();
             startSequenceTimer -= timeDiff;
