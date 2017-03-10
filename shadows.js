@@ -35,11 +35,15 @@ function createShadows(vertices, centerPoint, ontoY) {
 	return shadows;
 }
 
-function drawPlayerShadows(transformedPlayerPoints, centerPoint) {
+function drawPlayerShadows(transformedPlayerPoints, centerPoint)
+{
+	enableTexture = false;
+  gl.uniform1f(enableTextureLoc, enableTexture);
+
 	// We want the shadow to be transparent, need to fix things up
 	gl.enable(gl.BLEND);
 	gl.disable(gl.DEPTH_TEST);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 	gl.depthMask(false);
 
 	var	shadowPoints = createShadows(transformedPlayerPoints, centerPoint, 0);
