@@ -217,7 +217,7 @@ window.onload = function init()
 
     // make a 2D context for it
     ctx = textCanvas.getContext( "2d" );
-    
+
     // TODO: make the start screen
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     //gl.viewport( 0, 0, canvas.width, canvas.height);
@@ -797,15 +797,14 @@ function render(timeStamp)
         drawGoomba();
 
         // Back to Front Order
-        drawCurve();
-        drawCloudBig();
-        drawCloudSmall();
-
         // Enable Blending
         gl.enable(gl.BLEND);
         gl.disable(gl.DEPTH_TEST);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
         gl.depthMask(false);
+
+        drawCloudBig();
+        drawCloudSmall();
 
         drawCloudLakitu();
         drawLakituCurve();
@@ -815,6 +814,8 @@ function render(timeStamp)
         gl.depthMask(true);
         gl.disable(gl.BLEND);
         gl.enable(gl.DEPTH_TEST);
+
+        drawCurve();
 
         if( isStartSequence && !isStartScreen && !isInstructionScreen )
         {
