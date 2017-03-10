@@ -217,10 +217,10 @@ window.onload = function init()
 
     // make a 2D context for it
     ctx = textCanvas.getContext( "2d" );
-
+    
     // TODO: make the start screen
-
-    gl.viewport( 0, 0, canvas.width, canvas.height);
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    //gl.viewport( 0, 0, canvas.width, canvas.height);
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 
     gl.enable(gl.DEPTH_TEST);
@@ -228,6 +228,7 @@ window.onload = function init()
     // LOAD SHADERS AND INITIALIZE ATTRIBUTE BUFFERS
     program = initShaders( gl, "vertex-shader", "fragment-shader" );  // compile and link shaders, then return a pointer to the program
     gl.useProgram( program );
+
 
     // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
     generateCube();
