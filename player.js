@@ -167,6 +167,10 @@ function drawPlayerBody()
     // Disable the texture
     gl.disableVertexAttribArray(texCoordLoc);
 
+    enableTexture = false;
+    gl.uniform1f(enableTextureLoc, enableTexture);
+    enableTexture = true;
+    
     // Enable normals for lighting
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(playerNormals), gl.STATIC_DRAW );
