@@ -6,6 +6,7 @@ class MovementFSM {
 		this.framesToMax = 4;
 		this.deaccelRate = .04;
 		this.maxMoveSpeed = this.initAccelSpeed + this.framesToMax * this.accelRate;
+		this.velocityScaling = 50;
 
 		this.moveEnum = {
 			RIGHT: 1,
@@ -30,7 +31,7 @@ class MovementFSM {
 
 	get velocity() {
 		// The output that we care about
-		return this.moveDir * this.lateralSpeed;
+		return this.moveDir * this.lateralSpeed * this.velocityScaling;
 	}
 
 	resetMovement() {

@@ -727,7 +727,7 @@ function render(timeStamp)
 
     // Update lateral movement
     movementFSM.update(rightKeyDown, leftKeyDown);
-    var velocity = movementFSM.velocity;
+    var velocity = movementFSM.velocity * timeDiff;
 
     var verticalVelocity = 0;
 
