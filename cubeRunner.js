@@ -384,7 +384,7 @@ window.onload = function init()
                             displayPauseScreen();
                         }
                         else {
-                            removeScreen(pauseScreen);
+                            removePauseScreen(pauseScreen);
                         }
                     }
                 }
@@ -394,9 +394,13 @@ window.onload = function init()
                     console.log("q key");
                 }
                 if( !isInstructionScreen && !isStartScreen )
+                {
                     isGameOver = true;
-                if ( isPaused && !isGameOver )
-                    removeScreen(pauseScreen);
+                }
+                if ( isPaused )
+                {
+                    removePauseScreen(pauseScreen);
+                }
                 document.getElementById('quitSound').play();
 
                 break;

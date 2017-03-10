@@ -11,11 +11,13 @@
 
 #text, #startScreen, #endScreen, #instructionScreen, #gl-canvas
 {
+  position: absolute;
   width: 59vh;
   height: 59vh;
-  position: absolute;
+
   left: 43.5vh;
   top: 19.5vh;
+
   z-index: 10;
 }
 
@@ -26,9 +28,6 @@
 
  #pauseScreen
  {
-/*  left: 1020px;
-  top: 450px;*/
-
   position: absolute;
   width: 33vh;
   height: 14vh;
