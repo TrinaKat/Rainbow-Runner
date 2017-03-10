@@ -2,3 +2,61 @@
 	font-family: 'eightbit';
     src: url("Fonts/eightbitWonder.ttf") format('truetype');
 }
+
+.container
+{
+  position: absolute;
+
+}
+
+#text, #startScreen, #pauseScreen, #endScreen, #instructionScreen, #gl-canvas
+{
+  width: 59vh;
+  height: 59vh;
+  position: absolute;
+  left: 43.5vh;
+  top: 19.5vh;
+  z-index: 10;
+}
+
+#gl-canvas
+{
+  z-index: 0;
+}
+
+#gameboyScreen
+{
+  position: relative;
+  width: 143.70vh;
+  height: 94.4vh;
+  left: 2.62vh;
+  top: 2.62vh;
+  z-index: -10;
+
+}
+.gameboydiv{
+  position: relative;
+
+  width: 143.70vh;
+  height: 94.4vh;
+
+}
+#gameStartBtn{
+
+  position:absolute;
+  top: 61.5vh;
+  left: 28vh;
+  height: 3.93vh;
+  width: 3.93vh;
+  border-radius: 100%;
+
+}
+#gameResizeBtn{
+
+  position:absolute;
+  top: 70.5vh;
+  left: 28vh;
+  height: 3.93vh;
+  width: 3.93vh;
+  border-radius: 100%;
+}
