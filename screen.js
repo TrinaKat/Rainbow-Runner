@@ -8,7 +8,28 @@ var startScreen;
 var pauseScreen;
 var endScreen;
 var instructionScreen;
+var canvasSizeIndex =0;
+var canvasSizeArray = [1.0,1.2,1.5,0.85];
 
+function resizeCanvas(){
+    //canvasSizeIndex =3;
+  canvasSizeIndex =  (canvasSizeIndex < (canvasSizeArray.length)-1 )? canvasSizeIndex+1: 0;
+  console.log(canvasSizeIndex);
+  window.parent.document.body.style.zoom = canvasSizeArray[canvasSizeIndex];
+  /*for (var i = 0; i < size; i++)  
+  {
+  var mainCanvas = document.getElementsByTagName('canvas')[i];
+  //var mainCavctx = mainCanvas.getCntext("2d");
+  //ctx.clearRect( 0, 0, mainCavctx.canvas.width, mainCavctx.canvas.height);
+  mainCanvas.height = 1000;
+  mainCanvas.width = 1000; 
+  mainCanvas.style.height = "1000px";
+  mainCanvas.style.width = "1000px";
+   }
+  //mainCanvas.style.display = "none";
+  //alert(mainCanvas.height);
+  */
+}
 
 // game boy canvas
 function displayGameBoyScreen()

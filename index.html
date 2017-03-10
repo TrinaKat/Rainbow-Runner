@@ -130,7 +130,7 @@ Oops ... your browser doesn't support the HTML5 canvas element
 <canvas id = "instructionScreen" width="1125" height="1125"></canvas>
 <canvas id = "gameboyScreen" width="2740" height="1800"> </canvas>
 <button id = "gameStartBtn" type = "button" onclick= "startGamePlay()"> </button>
-<button id = "gameResizeBtn" type = "button"> </button>
+<button id = "gameResizeBtn" type = "button" onclick = "resizeCanvas()"> </button>
 
 </div>
 
@@ -157,6 +157,7 @@ function startGamePlay()
   }
 }
 
+
 function gameBoyDisappear(){
   //make gameboy and the button disappear
   var gameBoycanvas = document.getElementById("gameboyScreen");
@@ -171,6 +172,7 @@ function gameBoyDisappear(){
 }
 
 </script>
+
 <style>
   .container
   {
@@ -217,7 +219,7 @@ function gameBoyDisappear(){
     border-radius: 100%;
 
   }
-  #gameSelectBtn{
+  #gameResizeBtn{
 
     position:absolute;
     top: 1300px;
@@ -227,7 +229,6 @@ function gameBoyDisappear(){
     border-radius: 100%;
 
   }
-
 </style>
 
 <audio id="themeSong" controls loop hidden>
