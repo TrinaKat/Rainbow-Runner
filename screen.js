@@ -98,17 +98,18 @@ function displayInstructionScreen() {
     instructionScreen.font = "32px eightbit"
     instructionScreen.fillText(" - <LEFT> to move left", 130, 390);
     instructionScreen.fillText(" - <RIGHT> to move right", 130, 440);
+    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 490);
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Toggle Theme", 130, 570);
+    instructionScreen.fillText("Toggle Theme", 130, 620);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <m> for Mario Mode", 130, 640);
+    instructionScreen.fillText(" - <m> for Mario Mode", 130, 690);
     // TODO MORE TOGGLE SETTINGS
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Gameplay Controls", 130, 770);
+    instructionScreen.fillText("Gameplay Controls", 130, 820);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <p> to Pause ", 130, 840);
-    instructionScreen.fillText(" - <Q> to Quit", 130, 890);
-    instructionScreen.fillText(" - <i> to Go Back", 130, 940);
+    instructionScreen.fillText(" - <p> to Pause ", 130, 890);
+    instructionScreen.fillText(" - <Q> to Quit", 130, 940);
+    instructionScreen.fillText(" - <i> to Go Back", 130, 990);
 }
 
 // screen that player sees when pausing the game
