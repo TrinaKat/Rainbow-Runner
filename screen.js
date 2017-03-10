@@ -9,7 +9,7 @@ var pauseScreen;
 var endScreen;
 var instructionScreen;
 var canvasSizeIndex =0;
-var canvasSizeArray = [1.0,1.2,1.5,0.85];
+var canvasSizeArray = [1.0,1.2,1.4,0.5,0.75];
 
 function resizeCanvas(){
     //canvasSizeIndex =3;
