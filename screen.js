@@ -9,7 +9,6 @@ var pauseScreen;
 var endScreen;
 var instructionScreen;
 var canvasSizeIndex =0;
-var canvasSizeArray = [1.0,1.2,1.4,0.5,0.75];
 
 function startGamePlay()
 {
@@ -32,53 +31,14 @@ function startGamePlay()
   }
 }
 
-
-function gameBoyDisappear(){
-  //make gameboy and the button disappear
-  var gameBoycanvas = document.getElementById("gameboyScreen");
-  document.getElementById("gameStartBtn").style.display ="none";
-  document.getElementById("gameSelectBtn").style.display ="none";
-  gameBoycanvas.style.display = "none";
-
-  //enlarge actual game canvas
-  var mainCanvas = document.getElementById("gl-canvas");
-  var startScreen = document.getElementById("startScreen");
-
-}
-
-function resizeCanvas(){
-
-
-    for (var i = 0; i<6;i ++){
-
-    var mainCanvas = document.getElementsByTagName('canvas')[i];
-    mainCanvas.style.height = "95vh";
-    mainCanvas.style.width = "95vh";
-
-
+function resizeCanvas()
+{
+    for ( var i = 0; i <6 ; i++ )
+    {
+        var mainCanvas = document.getElementsByTagName('canvas')[i];
+        mainCanvas.style.height = "95vh";
+        mainCanvas.style.width = "95vh";
     }
-  //canvasSizeIndex =3;
-  //canvasSizeIndex =  (canvasSizeIndex < (canvasSizeArray.length)-1 )? canvasSizeIndex+1: 0;
-
-  //window.parent.document.body.style.zoom = canvasSizeArray[canvasSizeIndex];
- //  for (var i = 0; i < 6; i++)
- //  {
-  //var mainCanvas = document.getElementsByTagName('canvas')[i];
-  //var mainCavctx = mainCanvas.getContext("2d");
-  //ctx.clearRect( 0, 0, mainCavctx.canvas.width, mainCavctx.canvas.height);
- // mainCanvas.height = 2000;
-  //mainCanvas.width = 2000;
-
- // mainCanvas.setAttribute('width', '2000');
- // mainCanvas.setAttribute('height', '2000');
-
- // mainCanvas.style.height = "2000px";
-  //mainCanvas.style.width = "2000px";
- //mainCavctx.clearRect( 0, 0, ctx.canvas.width, ctx.canvas.height);
-  // }
-  //mainCanvas.style.display = "none";
-  //alert(mainCanvas.height);
-
 }
 
 // game boy canvas
@@ -89,7 +49,7 @@ function displayGameBoyScreen()
     var gameboyimg = new Image();
     gameboyimg.src = "./Textures/gameBoySquareSmall.png";
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
-};
+}
 
 // start screen that the player sees at the very beginning
 function displayStartScreen() {
@@ -186,12 +146,14 @@ function displayEndScreen() {
 }
 
 // remove the specified screen from the display
-function removeScreen(screen) {
+function removeScreen(screen)
+{
 	screen.clearRect(0, 0, startScreen.canvas.width, startScreen.canvas.height);
 }
 
 // remove the specified screen from the display
-function removePauseScreen(p_screen) {
+function removePauseScreen(p_screen)
+{
     p_screen.clearRect(0, 0, pauseScreen.canvas.width, startScreen.canvas.height);
 }
 
