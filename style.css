@@ -6,7 +6,9 @@
 .container
 {
   position: absolute;
-
+  top: 50%;
+  left: 50%;
+  margin: -47.2vh 0 0 -71.85vh;
 }
 
 #text, #startScreen, #endScreen, #instructionScreen, #gl-canvas
@@ -15,8 +17,8 @@
   width: 59vh;
   height: 59vh;
 
-  left: 43.5vh;
-  top: 19.5vh;
+  left: 40.88vh;
+  top: 16.88vh;
 
   z-index: 10;
 }
@@ -32,8 +34,8 @@
   width: 33vh;
   height: 14vh;
 
-  left: 56.5vh;
-  top: 26vh;
+  left: 53.88vh;
+  top: 23.38vh;
 
   z-index: 10;
  }
@@ -43,8 +45,10 @@
   position: relative;
   width: 143.70vh;
   height: 94.4vh;
-  left: 2.62vh;
-  top: 2.62vh;
+
+  /*left: 2.62vh;
+  top: 2.62vh;*/
+
   z-index: -10;
 
 }
@@ -58,8 +62,10 @@
 #gameStartBtn{
 
   position:absolute;
-  top: 61.5vh;
-  left: 28vh;
+
+  top: 58.88vh;
+  left: 25.38vh;
+
   height: 3.93vh;
   width: 3.93vh;
   border-radius: 100%;
@@ -68,8 +74,10 @@
 #gameResizeBtn{
 
   position:absolute;
-  top: 70.5vh;
-  left: 28vh;
+
+  top: 67.88vh;
+  left: 25.38vh;
+
   height: 3.93vh;
   width: 3.93vh;
   border-radius: 100%;
