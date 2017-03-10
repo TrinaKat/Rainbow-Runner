@@ -97,6 +97,10 @@ function explodeCube( timeDiff, x )
           applyQuestionTexture();
           // console.log("question cube last exploded");
         }
+        else if (hasHitBorder)
+        {
+          applyPipeTexture();
+        }
         else
         {
           applyBrickTexture();
@@ -130,6 +134,10 @@ function explodeCube( timeDiff, x )
         {
           applyQuestionTexture();
         }
+        else if (hasHitBorder)
+        {
+          applyPipeTexture();
+        }
         else
         {
           applyBrickTexture();
@@ -161,6 +169,10 @@ function explodeCube( timeDiff, x )
         if (isQuestionCubeLastExploded)
         {
           applyQuestionTexture();
+        }
+        else if (hasHitBorder)
+        {
+          applyPipeTexture();
         }
         else
         {
