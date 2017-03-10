@@ -27,9 +27,6 @@ var vertices =    // manually plan out unit cube
     vec4( +1, 0, 0, 1.0 )
 ];
 
-var sphereVertices = [];
-var sphereNormals = [];
-
 var colors =
 [
     [1.0, 1.0, 1.0, 1.0 ],  // 0 white
@@ -198,7 +195,6 @@ var score = 0;
 var highScore = 0;
 var difficulty = 5;
 
-
 var devModeOn = false;
 
 // TODO
@@ -231,7 +227,6 @@ window.onload = function init()
 
     // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
     generateCube();
-    generateSphere();
     generateCubeOutline();
     generatePath();
 
