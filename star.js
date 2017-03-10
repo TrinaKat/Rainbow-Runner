@@ -262,6 +262,11 @@ function drawSide()
   modelTransformMatrix = translate( star_x, star_y, star_z );
   modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
+  
+  // This is so the sides do not start out as showing white
+  enableTexture = false;
+  gl.uniform1f(enableTextureLoc, enableTexture);
+  enableTexture = true;
 
   gl.drawArrays( gl.TRIANGLES, 0, 60 );
 }
