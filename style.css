@@ -9,7 +9,7 @@
 
 }
 
-#text, #startScreen, #pauseScreen, #endScreen, #instructionScreen, #gl-canvas
+#text, #startScreen, #endScreen, #instructionScreen, #gl-canvas
 {
   width: 59vh;
   height: 59vh;
@@ -23,6 +23,21 @@
 {
   z-index: 0;
 }
+
+ #pauseScreen
+ {
+/*  left: 1020px;
+  top: 450px;*/
+
+  position: absolute;
+  width: 33vh;
+  height: 14vh;
+
+  left: 56.5vh;
+  top: 26vh;
+
+  z-index: 10;
+ }
 
 #gameboyScreen
 {
