@@ -84,6 +84,9 @@ function resetSequence() {
     playerXPos = 0;
     playerYPos = 0;
 
+    isInvincible = 0;
+    invincibilityTimer = maxInvincibleTime;
+
     // reset the transformation matrices
     cameraTransformMatrix = pathCameraTransformMatrix;
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
