@@ -75,7 +75,6 @@ function resetSequence() {
     // reset player properties
     playerXPos = 0;
     playerTilt = 0;  // no tilt by default
-    currAmountTranslated = 0;
     amountToMove = 0;
 
     movementFSM = new MovementFSM();
