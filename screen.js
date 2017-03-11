@@ -9,6 +9,13 @@ var pauseScreen;
 var endScreen;
 var instructionScreen;
 var canvasSizeIndex =0;
+var ifEnlargeCanvas = 0;
+var gbCanvHeight = "0vh";
+var gbCanvWidth = "0vh";
+var gbCanvLeft = "40.88vh";
+var gbCanvTop = "16.88vh";
+
+
 
 function startGamePlay()
 {
@@ -33,21 +40,76 @@ function startGamePlay()
 
 function resizeCanvas()
 {
+    ifEnlargeCanvas = !ifEnlargeCanvas;
+
+    var btnResize = document.getElementById ("gameResizeBtn");
+    var btnStart = document.getElementById ("gameStartBtn");
+    if (ifEnlargeCanvas)
+    {
+        gbCanvHeight = "78vh";
+        gbCanvWidth = "90vh";
+        gbCanvLeft = "26.88vh";
+        gbCanvTop = "5.88vh";
+
+
+        btnStart.style.top = "62.00vh";
+        btnStart.style.left =  "1.10vh";
+        btnStart.style.height = "4.93vh";
+        btnStart.style.width = "6.00vh";
+
+
+        btnResize.style.top = "72.38vh";
+        btnResize.style.left =  "1.10vh";
+        btnResize.style.height = "4.93vh";
+        btnResize.style.width = "6.00vh";
+
+
+    }
+    else {
+        gbCanvHeight = "59vh";
+        gbCanvWidth = "59vh";
+        gbCanvLeft = "40.88vh";
+        gbCanvTop = "16.88vh";
+
+        btnStart.style.top = "58.88vh";
+        btnStart.style.left =  "25.38vh";
+        btnStart.style.height = "3.93vh";
+        btnStart.style.width = "3.93vh";
+
+        btnResize.style.top = "67.88vh";
+        btnResize.style.left =  "25.38vh";
+        btnResize.style.height = "3.93vh";
+        btnResize.style.width = "3.93vh";
+        // gbBtnTop = "58.88vh";
+        // gbBtnLeft =  "25.38vh";
+        // gbBtnHeight = "3.93vh";
+        // gbBtnWidth = "3.93vh";
+    }
     for ( var i = 0; i <6 ; i++ )
     {
         var mainCanvas = document.getElementsByTagName('canvas')[i];
-        mainCanvas.style.height = "95vh";
-        mainCanvas.style.width = "95vh";
+        mainCanvas.style.height = gbCanvHeight;
+        mainCanvas.style.width = gbCanvWidth;
+        mainCanvas.style.left =  gbCanvLeft;
+        mainCanvas.style.top = gbCanvTop;
+
     }
+     
+     //var ctx = gameBoycanvas.getContext("2d");
 }
 
 // game boy canvas
 function displayGameBoyScreen()
 {
+  
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
-    gameboyimg.src = "./Textures/gameBoySquareSmall.png";
+    if (ifEnlargeCanvas){
+        gameboyimg.src = "./Textures/gameBoySquare_zoomIn.png";
+     }
+    else 
+        gameboyimg.src = "./Textures/gameBoySquareSmall.png";
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
 }
 
