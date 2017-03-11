@@ -1,31 +1,5 @@
 // Data
 
-// DATA STORAGE
-var points = [];
-var numVertices = 36;
-
-var outlinePoints = [];
-var numOutlinePoints = 24;
-
-var pathPoints = [];
-var numPathVertices = 6;
-
-var sphereVertices = [];
-var sphereNormals = [];
-
-// CUBE
-var cubeVertices =    // manually plan out unit cube
-[
-    vec4( 0.0, 0.0, 1.0, 1.0 ),
-    vec4( 0.0, 1.0, 1.0, 1.0 ),
-    vec4( 1.0, 1.0, 1.0, 1.0 ),
-    vec4( 1.0, 0.0, 1.0, 1.0 ),
-    vec4( 0.0, 0.0, 0.0, 1.0 ),
-    vec4( 0.0, 1.0, 0.0, 1.0 ),
-    vec4( 1.0, 1.0, 0.0, 1.0 ),
-    vec4( 1.0, 0.0, 0.0, 1.0 )
-];
-
 // COLORS
 var colors =
 [

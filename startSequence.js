@@ -1,4 +1,6 @@
 var sphereIndex = 0;
+var sphereVertices = [];
+var sphereNormals = [];
 
 function triangle(a, b, c)
 {

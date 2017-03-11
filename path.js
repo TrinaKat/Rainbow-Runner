@@ -1,6 +1,8 @@
 // Path
 
 var pathWidth = 40;
+var pathPoints = [];
+var numPathVertices = 6;
 
 // Generate vertices for the path
 function generatePath()
