@@ -317,14 +317,9 @@ function checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, se
   var rightCubeXPosition = leftCubeXPosition + 1;
   var frontCubeZPosition = backCubeZPosition + 1;
 
-  // console.log("player left x pos: " + playerLeftXPos);
-
   // the two intercepts for the left edge equation and the right edge equation
   var bLeft = playerBaseZPos - playerEdgeSlope * playerLeftXPos;
   var bRight = playerBaseZPos - (-1 * playerEdgeSlope) * playerRightXPos;
-
-  // console.log("bLeft: " + bLeft);
-  // console.log("bRight: " + bRight);
 
   // checking either the front face or the back face of the cube
   if (secondLineIsHorizontal) {
@@ -334,9 +329,6 @@ function checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, se
       var x1 = (secondLineValue - bLeft)/playerEdgeSlope;
       // check intersection with the right edge of the player
       var x2 = (secondLineValue - bRight)/(-1 * playerEdgeSlope);
-
-      // console.log("x1: " + x1);
-      // console.log("x2: " + x2);
 
       if ((x1 >= leftCubeXPosition && x1 <= rightCubeXPosition) || (x2 >= leftCubeXPosition && x2 <= rightCubeXPosition)) {
         return 1;
@@ -367,7 +359,6 @@ function playerCollisionDetection() {
 
   // check if the player has hit the borders
   if (playerLeftXPos <= -1* pathWidth || playerRightXPos >= pathWidth) {
-      // console.log("border collision");
       isGameOver = true;
       if( !hasHitBorder)
       {
@@ -410,7 +401,6 @@ function playerCollisionDetection() {
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j], allXPositions[j], allCubeLineZPositions[i]) ||
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 0, allXPositions[j] + 1, allXPositions[j], allCubeLineZPositions[i])) {
-            // console.log("collision");
             isExploded = 1;
             // make the cube disappear since we have collided with it
             allCubeLineXPositions[i].splice(j, 1);

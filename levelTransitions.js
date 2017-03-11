@@ -10,7 +10,7 @@ var minWidth;
 var longLength = 14;
 
 function generateIntroCubes() {
-	// initialize variables
+	// initialize variables 
 	maxWidth = 16;
 	mid1Width = 12;
 	mid2Width = 10;
@@ -37,10 +37,10 @@ function generateIntroCubes() {
 			// store the x positions for this row of cubes
 			var xPositions = [];
 			// store pairs of cubes (one for each side)
-			xPositions.push(-1 * x);
-			xPositions.push(-1 * x + 1);
 			xPositions.push(x);
 			xPositions.push(x - 1);
+			xPositions.push(-1 * x + 1);
+			xPositions.push(-1 * x);
 			// add the cube positions to the arrays
 			introCubesXPositions.push(xPositions);
 			introCubesZPositions.push(currZPosition);
@@ -62,15 +62,11 @@ function introTransition() {
         {
           // Move the cube to the correct position
           transformCube( introCubesXPositions[r][c], 0, introCubesZPositions[r] );
-
+         
           // apply scaling to the long cube to form straight segment
-          if ( introCubesXPositions[r][0] == maxWidth ||
-               introCubesXPositions[r][0] == mid1Width ||
-               introCubesXPositions[r][0] == mid2Width ||
-               introCubesXPositions[r][0] == minWidth )
-          {
-	          gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
-	   	    }
+          if (introCubesXPositions[r][0] == maxWidth || introCubesXPositions[r][0] == mid1Width || introCubesXPositions[r][0] == mid2Width || introCubesXPositions[r][0] == minWidth) {
+	        gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
+	   	  }
 
           // Draw the cubes and outlines
 	        drawOutline();
@@ -83,6 +79,20 @@ function introTransition() {
 
 	        // Set the colour for the cubes
 	        drawCube(4);
+
+	        // check if the player has collided with the cubes 
+	        // the tip of the player is between the z-positions of this line
+	        if (playerTipZPos > introCubesZPositions[r] && playerTipZPos < introCubesZPositions[r] + 1) {
+	        	// the positive distance is always stored first, so introCubesXPositions[r][0] > 0
+		        if (playerXPos > introCubesXPositions[r][0] || playerXPos < -1 * introCubesXPositions[r][0]) {
+			      isGameOver = true;
+			      if( !hasHitBorder)
+			      {
+			        isExploded = 1;
+			      }
+			      hasHitBorder = 1;
+		        }
+		    }
 	    }
 	}
 	// backmost element is past the player
