@@ -97,12 +97,18 @@ function drawGoomba()
 {
   gl.disableVertexAttribArray( texCoordLoc );
 
-  // reset the camera transform matrix as well (was changed to move the cubes and player)
-  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+  // // reset the camera transform matrix as well (was changed to move the cubes and player)
+  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
   // modelTransformMatrix = scalem( 2.0, 2.0, 1.0 );
   // modelTransformMatrix = mult( modelTransformMatrix, translate( goomba_x, 0.2, goomba_z ));
-  modelTransformMatrix = translate( goomba_x, 0.2, goomba_z );
+  // modelTransformMatrix = translate( goomba_x, 0.2, goomba_z );
+
+  // rotate the goomba
+  // var translatedModelTransformMatrix = modelTransformMatrix;
+  // modelTransformMatrix = rotateY( coinAngle );
+  // modelTransformMatrix = mult(modelTransformMatrix, scalem(1.3, 1.3, 1.0));
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( coinAngle ));
 
   drawGoombaBody();
 
@@ -118,8 +124,8 @@ function drawGoomba()
   gl.disable(gl.BLEND);
   gl.enable(gl.DEPTH_TEST);
 
-  // set the camera transform matrix to the actual translated state
-  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+  // // set the camera transform matrix to the actual translated state
+  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 }
 
 
@@ -230,8 +236,8 @@ function drawGoombaFace()
   // Change the color to light gray
   gl.uniform4fv( currentColourLoc, colors[1] );
 
-  // reset the camera transform matrix as well (was changed to move the cubes and player)
-  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+  // // reset the camera transform matrix as well (was changed to move the cubes and player)
+  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
   // Set up transformations
   modelTransformMatrix = mult( modelTransformMatrix, translate( -0.45, 0.23, 40 ));
@@ -242,8 +248,8 @@ function drawGoombaFace()
 
   gl.drawArrays( gl.TRIANGLES, 0, 6 );
 
-    // set the camera transform matrix to the actual translated state
-  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+  //   // set the camera transform matrix to the actual translated state
+  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 
    // disable the texture before we draw something else later
   enableTexture = false;

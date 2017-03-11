@@ -358,7 +358,7 @@ function render(timeStamp)
     // Draw the clouds
     if( isMarioMode )
     {
-        drawGoomba();
+        // drawGoomba();
 
         // Back to Front Order
         // Enable blending
