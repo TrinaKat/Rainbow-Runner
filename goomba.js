@@ -238,7 +238,10 @@ function drawGoombaFace()
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.9, 0.9, 0.9 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  applyGoombaFaceTexture();
+  // applyGoombaFaceTexture();
+  // TODO TEXTURE
+  applyTexture(goombaCoords);
+
 
   gl.drawArrays( gl.TRIANGLES, 0, 6 );
 

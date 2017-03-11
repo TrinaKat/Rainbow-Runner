@@ -323,10 +323,11 @@ function render(timeStamp)
 
     // Draw the path
     // Step size of 0.8 units, moves at a constant rate
+    // gl.disable(gl.DEPTH_TEST);
     drawPath(timeDiff * 0.8);
 
     // TODO REMOVE keep path from scrolling
-    drawPath(0);
+    // drawPath(0);
 
     // Determine which is the closest cube line right now
     var closestCubeLine = 1;
@@ -362,11 +363,6 @@ function render(timeStamp)
         drawGoomba();
 
         // Back to Front Order
-        // Enable blending
-        gl.enable(gl.BLEND);
-        gl.disable(gl.DEPTH_TEST);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        gl.depthMask(false);
 
         drawCloudBig();
         drawCloudSmall();
@@ -375,10 +371,6 @@ function render(timeStamp)
         drawLakituCurve();
         drawCloudFace();
         drawLakitu();
-
-        gl.depthMask(true);
-        gl.disable(gl.BLEND);
-        gl.enable(gl.DEPTH_TEST);
 
         drawCurve();
 
@@ -431,17 +423,7 @@ function render(timeStamp)
 
     if (isMarioMode)
     {
-        // Enable Blending
-        gl.enable(gl.BLEND);
-        gl.disable(gl.DEPTH_TEST);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        gl.depthMask(false);
-
         drawPlayerLogo();
-
-        gl.depthMask(true);
-        gl.disable(gl.BLEND);
-        gl.enable(gl.DEPTH_TEST);
     }
 
     // TODO MOVE THIS placing the text on the canvas

@@ -10,7 +10,7 @@ var minWidth;
 var longLength = 14;
 
 function generateIntroCubes() {
-	// initialize variables 
+	// initialize variables
 	maxWidth = 16;
 	mid1Width = 12;
 	mid2Width = 10;
@@ -62,11 +62,15 @@ function introTransition() {
         {
           // Move the cube to the correct position
           transformCube( introCubesXPositions[r][c], 0, introCubesZPositions[r] );
-         
+
           // apply scaling to the long cube to form straight segment
-          if (introCubesXPositions[r][0] == maxWidth || introCubesXPositions[r][0] == mid1Width || introCubesXPositions[r][0] == mid2Width || introCubesXPositions[r][0] == minWidth) {
-	        gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
-	   	  }
+          if (introCubesXPositions[r][0] == maxWidth ||
+              introCubesXPositions[r][0] == mid1Width ||
+              introCubesXPositions[r][0] == mid2Width ||
+              introCubesXPositions[r][0] == minWidth)
+          {
+	           gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
+	   	    }
 
           // Draw the cubes and outlines
 	        drawOutline();
@@ -74,23 +78,43 @@ function introTransition() {
           // in Mario mode
           if (isMarioMode)
           {
-          	applyPipeTexture();
+            var length = introCubesXPositions[r][0];
+            switch( length )
+            {
+              case maxWidth:
+                applyRepeatingTexture(pipeCoords_16, pipeRepeatTexture);
+                break;
+              case mid1Width:
+                applyRepeatingTexture(pipeCoords_12, pipeRepeatTexture);
+                break;
+              case mid2Width:
+                applyRepeatingTexture(pipeCoords_10, pipeRepeatTexture);
+                break;
+              case minWidth:
+                applyRepeatingTexture(pipeCoords_8, pipeRepeatTexture);
+                break;
+              default:
+                applyTexture(pipeCoords);
+                break;
+            }
           }
 
 	        // Set the colour for the cubes
 	        drawCube(4);
 
-	        // check if the player has collided with the cubes 
+	        // check if the player has collided with the cubes
 	        // the tip of the player is between the z-positions of this line
-	        if (playerTipZPos > introCubesZPositions[r] && playerTipZPos < introCubesZPositions[r] + 1) {
+	        if (playerTipZPos > introCubesZPositions[r] && playerTipZPos < introCubesZPositions[r] + 1)
+          {
 	        	// the positive distance is always stored first, so introCubesXPositions[r][0] > 0
-		        if (playerXPos > introCubesXPositions[r][0] || playerXPos < -1 * introCubesXPositions[r][0]) {
-			      isGameOver = true;
-			      if( !hasHitBorder)
-			      {
-			        isExploded = 1;
-			      }
-			      hasHitBorder = 1;
+		        if (playerXPos > introCubesXPositions[r][0] || playerXPos < -1 * introCubesXPositions[r][0])
+            {
+  			      isGameOver = true;
+  			      if( !hasHitBorder)
+  			      {
+  			        isExploded = 1;
+  			      }
+  			      hasHitBorder = 1;
 		        }
 		    }
 	    }

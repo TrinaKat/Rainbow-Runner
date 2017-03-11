@@ -155,20 +155,24 @@ function drawAndMoveAllCubes()
             {
                 if ( allCubeColours[r][c] == marioQuestionCubeColourIndex )
                 {
-                    applyQuestionTexture();
+                    // applyQuestionTexture();
+                    // TODO TEXTURE
+                    applyTexture(questionCoords);
                     drawCube(allCubeColours[r][c]);
                 }
                 else if ( allCubeColours[r][c] == starCoinCubeColorIndex )
                 {
                     drawCoinStar();
                 }
-                else if ( allCubeColours[r][c] == goombaColourIndex ) 
+                else if ( allCubeColours[r][c] == goombaColourIndex )
                 {
                     drawGoomba();
                 }
                 else
                 {
-                    applyBrickTexture();
+                    // applyBrickTexture();
+                    // TODO TEXTURE
+                    applyTexture(brickCoords);
                     drawCube(allCubeColours[r][c]);
                 }
             }

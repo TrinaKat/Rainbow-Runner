@@ -137,7 +137,7 @@ function generateCoinStar()
   {
     frontCoinPoints.push( starCoinVertices[ frontCoinVertexOrder[i] ]);
     backCoinPoints.push( starCoinVertices[ backCoinVertexOrder[i] ]);
-    coinTexCoords.push( coinTCoords[ frontCoinVertexOrder[i] ]);
+    coinCoords.push( coinTCoords[ frontCoinVertexOrder[i] ]);
     if( i % 3 == 0 )
     {
       generateCoinNormals(frontCoinVertexOrder[i], frontCoinVertexOrder[i+1], frontCoinVertexOrder[i+2], 0);
@@ -254,92 +254,13 @@ function drawCoinStar()
 
   drawCoinSide();
 
-  applyCoinTexture();
+  // applyCoinTexture();
+  // TODO TEXTURE
+  applyTexture(coinCoords);
 
   drawCoinFront();
   drawCoinBack();
 
   enableTexture = false;
-  gl.uniform1f(enableTextureLoc, enableTexture);
-}
-
-
-
-
-
-var coinTCoords =
-[
-  // Front
-
-  // Front Center
-  vec2( 0.5, 0.5 ),  // 0 Middle
-
-  // Front Edge Points
-  vec2(  0.5,     1.0 ),      // 1 Upper Middle
-  vec2(  0.14843, 0.85156 ),  // 2 Upper Left
-  vec2(  0.0,     0.5 ),      // 3 Middle Left
-  vec2(  0.14843, 0.14843 ),  // 4 Lower Left
-  vec2(  0.5,     0.0 ),      // 5 Lower Middle
-  vec2(  0.85156, 0.14843 ),  // 6 Lower Right
-  vec2(  1.0,     0.5 ),      // 7 Middle Right
-  vec2(  0.85156, 0.85156 )   // 8 Upper Right
-];
-
-var coinTexCoordBuffer;
-var coinTexCoords = [];
-var coinTexture;
-
-function createCoinTexture()
-{
-  // Create a texture
-  coinTexture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, coinTexture);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-  // Fill the texture with a 1x1 blue pixel
-  // Before we load the image so use blue image so we can start rendering immediately
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                new Uint8Array([0, 0, 255, 255]));
-
-  // Asynchronously load an image
-  var image = new Image();
-  image.src = "./Textures/Mario/marioStarCoin.png";
-  image.addEventListener('load', function() {
-      // Now that the image has loaded, make copy it to the texture.
-      // Set texture properties
-      gl.bindTexture(gl.TEXTURE_2D, coinTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-  });
-
-  // Create a buffer for texcoords
-  coinTexCoordBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, coinTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten( coinTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texCoordLoc);
-  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  gl.uniform1i(textureLoc, 0);
-}
-
-function applyCoinTexture()
-{
-  // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, coinTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(coinTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texCoordLoc);
-  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  // Bind the texture
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, coinTexture);
-  gl.uniform1i(textureLoc, 0);
-
-  // Enable the texture before we draw
-  // Tell the shader whether or not we want to enable textures
-  enableTexture = true;
   gl.uniform1f(enableTextureLoc, enableTexture);
 }

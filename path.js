@@ -66,19 +66,23 @@ function drawPath(scrollAmount)
         }
 
         if (isMarioMode)
-            applyGrassTexture();
+        {
+            applyRepeatingTexture(pathTexCoords, grassTexture);
+        }
         else
-            applyRainbowTexture();
+        {
+            applyRepeatingTexture(pathTexCoords, rainbowTexture);
+        }
     }
     else
     {
         if (isMarioMode)
         {
-            applyGrassTexture();
+            applyRepeatingTexture(pathTexCoords, grassTexture);
         }
         else
         {
-            applyFlippedRainbowTexture();
+            applyRepeatingTexture(flippedRainbowTexCoords, rainbowTexture);
         }
     }
 

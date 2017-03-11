@@ -299,7 +299,9 @@ function drawPlayerLogo()
   gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
 
-  applyPlayerLogoTexture();
+  // applyPlayerLogoTexture();
+  // TODO TEXTURE
+  applyTexture(marioLogoCoords);
 
   gl.drawArrays( gl.TRIANGLES, 0, 3 );
 

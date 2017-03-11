@@ -94,16 +94,22 @@ function explodeCube( timeDiff, x )
       {
         if (isQuestionCubeLastExploded)
         {
-          applyQuestionTexture();
+          // applyQuestionTexture();
+          // TODO TEXTURE
+          applyTexture(questionCoords);
           // console.log("question cube last exploded");
         }
         else if (hasHitBorder)
         {
-          applyPipeTexture();
+          // applyPipeTexture();
+          // TODO TEXTURE
+          applyTexture(pipeCoords);
         }
         else
         {
-          applyBrickTexture();
+          // applyBrickTexture();
+          // TODO TEXTURE
+          applyTexture(brickCoords);
           // console.log("brick cube last exploded");
         }
       }
@@ -132,15 +138,23 @@ function explodeCube( timeDiff, x )
       {
         if (isQuestionCubeLastExploded)
         {
-          applyQuestionTexture();
+          // applyQuestionTexture();
+          // TODO TEXTURE
+          applyTexture(questionCoords);
+          // console.log("question cube last exploded");
         }
         else if (hasHitBorder)
         {
-          applyPipeTexture();
+          // applyPipeTexture();
+          // TODO TEXTURE
+          applyTexture(pipeCoords);
         }
         else
         {
-          applyBrickTexture();
+          // applyBrickTexture();
+          // TODO TEXTURE
+          applyTexture(brickCoords);
+          // console.log("brick cube last exploded");
         }
       }
 
@@ -168,15 +182,23 @@ function explodeCube( timeDiff, x )
       {
         if (isQuestionCubeLastExploded)
         {
-          applyQuestionTexture();
+          // applyQuestionTexture();
+          // TODO TEXTURE
+          applyTexture(questionCoords);
+          // console.log("question cube last exploded");
         }
         else if (hasHitBorder)
         {
-          applyPipeTexture();
+          // applyPipeTexture();
+          // TODO TEXTURE
+          applyTexture(pipeCoords);
         }
         else
         {
-          applyBrickTexture();
+          // applyBrickTexture();
+          // TODO TEXTURE
+          applyTexture(brickCoords);
+          // console.log("brick cube last exploded");
         }
       }
 

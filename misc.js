@@ -73,7 +73,7 @@ function drawBorder()
 
     if (isMarioMode)
     {
-        applyPipeBorderTexture();
+        applyRepeatingTexture(pipeBorderCoords, pipeRepeatTexture);
     }
     else
     {
@@ -91,7 +91,7 @@ function drawBorder()
 
     if (isMarioMode)
     {
-        applyPipeBorderTexture();
+        applyRepeatingTexture(pipeBorderCoords, pipeRepeatTexture);
     }
     else
     {

@@ -151,7 +151,7 @@ function generateStar()
   {
     frontPoints.push( starVertices[ frontVertexOrder[i] ]);
     backPoints.push( starVertices[ backVertexOrder[i] ]);
-    starTexCoords.push( starTCoords[ frontVertexOrder[i] ]);
+    starCoords.push( starTCoords[ frontVertexOrder[i] ]);
     if( i % 3 == 0 )
     {
       generateStarNormals(frontVertexOrder[i], frontVertexOrder[i+1], frontVertexOrder[i+2], 0);
@@ -262,7 +262,7 @@ function drawSide()
   modelTransformMatrix = translate( star_x, star_y, star_z );
   modelTransformMatrix = mult( modelTransformMatrix, rotateY( angle ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
-  
+
   // This is so the sides do not start out as showing white
   enableTexture = false;
   gl.uniform1f(enableTextureLoc, enableTexture);
@@ -287,7 +287,9 @@ function drawStar()
 
   drawSide();
 
-  applyStarTexture();
+  // applyStarTexture();
+  // TODO TEXTURE
+  applyTexture(starCoords);
 
   drawFront();
   drawBack();
@@ -297,85 +299,5 @@ function drawStar()
 
   // set the camera transform matrix to the actual translated state
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
-
-}
-
-var starTCoords =
-[
-  // Front
-
-  // Points
-  vec2(  0.5,    0.957 ),      // 0 Top Middle
-  vec2(  0.0,    0.59375 ),    // 1 Upper Left
-  vec2(  0.1953, 0.0 ),        // 2 Lower Left
-  vec2(  0.8047, 0.0 ),        // 3 Lower Right
-  vec2(  1.0,    0.59375 ),    // 4 Upper Right
-
-  // Pentagon
-  vec2(  0.3359, 0.6641 ),     // 5 Upper Left
-  vec2(  0.2344, 0.34375 ),    // 6 Lower Left
-  vec2(  0.5,    0.15234 ),    // 7 Bottom Middle
-  vec2(  0.7656, 0.34375 ),    // 8 Lower Right
-  vec2(  0.6641, 0.6641 )      // 9 Upper Right
-];
-
-var starTexCoordBuffer;
-var starTexCoords = [];
-var starTexture;
-
-function createStarTexture()
-{
-  // Create a texture
-  starTexture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, starTexture);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-  // Fill the texture with a 1x1 blue pixel
-  // Before we load the image so use blue image so we can start rendering immediately
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                new Uint8Array([0, 0, 255, 255]));
-
-  // Asynchronously load an image
-  var image = new Image();
-  image.src = "./Textures/Mario/marioStarTexture.png";
-  image.addEventListener('load', function() {
-      // Now that the image has loaded, make copy it to the texture.
-      // Set texture properties
-      gl.bindTexture(gl.TEXTURE_2D, starTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-  });
-
-  // Create a buffer for texcoords
-  starTexCoordBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten( starTexCoords ), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texCoordLoc);
-  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  gl.uniform1i(textureLoc, 0);
-
-}
-
-function applyStarTexture()
-{
-  // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, starTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(starTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texCoordLoc);
-  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  // Bind the texture
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, starTexture);
-  gl.uniform1i(textureLoc, 0);
-
-  // Enable the texture before we draw
-  // Tell the shader whether or not we want to enable textures
-  enableTexture = true;
-  gl.uniform1f(enableTextureLoc, enableTexture);
 
 }

@@ -56,7 +56,7 @@ function generateEverything()
   generateStar();
   generateCoinStar();
 
-  // CLOUDS
+  // CLOUDS and texture squares
   generateCurve();
   generateLakituCurve();
   generateCloudFaceSquare();
@@ -66,34 +66,19 @@ function generateEverything()
   generateCloudLakituSquare();
   generateGoombaFaceSquare();
 
-  // CLOUD TEXTURES
-  createCloudFaceTexture();
-  createLakituTexture();
-  createLakituStartTexture();
-  createCloudBigTexture();
-  createCloudSmallTexture();
-  createCloudLakituTexture();
-  createGoombaFaceTexture();
-
   // Intro sequence with cubes
   generateIntroCubes();
 
-  // Assign rainbow road texture to the path
+  // Create textures
+  createTexture();
   createRainbowTexture();
-  createFlippedRainbowTexture();
+  createGrassTexture();
+  createPipeRepeatTexture();
 
   // Mario Textures
   populateCubeTexCoords();
   populatePipeTexCoords();
-  createBrickTexture();
-  createQuestionTexture();
-  createPipeBorderTexture();
-  createPipeTexture();
-  createDirtTexture();
-  createGrassTexture();
-  createCoinTexture();
-  createPlayerLogoTexture();
-  createStarTexture();
+  populateRepeatingPipeTexCoords();
 
   // Draw the first line of cubes
   generateNewCubeLine();
