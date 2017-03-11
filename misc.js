@@ -8,28 +8,28 @@ function playSound(soundID) {
 function generateCubeOutline()
 {
     // Generate lines for front face of the cube
-    outlinePoints.push(vertices[0]);
+    outlinePoints.push(cubeVertices[0]);
     for (var i = 1; i < 4; i++)
     {
-        outlinePoints.push(vertices[i]);
-        outlinePoints.push(vertices[i]);
+        outlinePoints.push(cubeVertices[i]);
+        outlinePoints.push(cubeVertices[i]);
     }
-    outlinePoints.push(vertices[0]);
+    outlinePoints.push(cubeVertices[0]);
 
     // Generate lines for the back face of the cube
-    outlinePoints.push(vertices[4]);
+    outlinePoints.push(cubeVertices[4]);
     for (var j = 5; j < 8; j++)
     {
-        outlinePoints.push(vertices[j]);
-        outlinePoints.push(vertices[j]);
+        outlinePoints.push(cubeVertices[j]);
+        outlinePoints.push(cubeVertices[j]);
     }
-    outlinePoints.push(vertices[4]);
+    outlinePoints.push(cubeVertices[4]);
 
     // Generate four lines to connect the top face to the bottom face
     for (var k = 0; k < 4; k++)
     {
-        outlinePoints.push(vertices[k]);
-        outlinePoints.push(vertices[k+4]);
+        outlinePoints.push(cubeVertices[k]);
+        outlinePoints.push(cubeVertices[k+4]);
     }
 }
 

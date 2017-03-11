@@ -16,14 +16,14 @@ function generateCube()
 // Called for each face of the cube
 function quad( a, b, c, d )
 {
-     var t1 = subtract(vertices[b], vertices[a]);
-     var t2 = subtract(vertices[c], vertices[b]);
+     var t1 = subtract(cubeVertices[b], cubeVertices[a]);
+     var t2 = subtract(cubeVertices[c], cubeVertices[b]);
      var normal = cross(t1, t2);
 
      var vertexOrder = [a, b, c, a, c, d];
 
      for (var i = 0; i < 6; i++) {
-        points.push(vertices[vertexOrder[i]]);
+        points.push(cubeVertices[vertexOrder[i]]);
         normalsArray.push(normal);
      }
  }

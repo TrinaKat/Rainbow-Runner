@@ -13,120 +13,22 @@ var outlinePoints = [];
 var numOutlinePoints = 24;
 
 var pathPoints = [];
-var numPathVertices = 6;  // only need 6 points to draw path since it is a rectangle (2 triangles)
-
-var vertices =    // manually plan out unit cube
-[
-    vec4( 0, 0, +1, 1.0 ),
-    vec4( 0, +1, +1, 1.0 ),
-    vec4( +1, +1, +1, 1.0 ),
-    vec4( +1, 0, +1, 1.0 ),
-    vec4( 0, 0, 0, 1.0 ),
-    vec4( 0, +1, 0, 1.0 ),
-    vec4( +1, +1, 0, 1.0 ),
-    vec4( +1, 0, 0, 1.0 )
-];
+var numPathVertices = 6;
 
 var sphereVertices = [];
 var sphereNormals = [];
 
-var colors =
-[
-    [1.0, 1.0, 1.0, 1.0 ],  // 0 white
-    [0.7, 0.7, 0.7, 1.0],   // 1 light grey
-    [0.6, 0.6, 0.6, 1.0],   // 2 light-medium grey
-    [0.5, 0.5, 0.5, 1.0],   // 3 medium grey
-    [0.4, 0.4, 0.4, 1.0],   // 4 dark grey (for cube borders)
-    [0, 0, 0, 1.0],         // 5 black (for cube outlines)
-    [1, 0.9, 0, 1.0],       // 6 yellow for the star
-    [0, 0.76, 0.76, 1.0],   // 7 cyan to indicate this is a special Mario question cube
-    [ 1.0, 0.5, 0.0, 1.0 ], // 8 orange (needed for exploding cube)
-    [ 1.0, 0.976, 0.51, 1.0 ],  // 9 light yellow (needed for exploding cube)
-    [ 0, 0.5, 0,5, 1.0 ],    // 10 teal (to flash the player in invincible mode)
-    [ 1.0, 0.0, 0.0, 1.0 ],  // 11 red
-    [ 1.0, 0.6, 0.0, 1.0 ],  // 12 orange-yellow
-    // Goompa
-    [ 135/255, 80/255, 45/255, 1.0 ],    // 13 Medium Brown
-    [ 240/255, 220/255, 180/255, 1.0 ],  // 14 Light Brown
-    [ 100/255, 60/255, 30/255, 1.0 ],    // 15 Dark Brown
-    // Start Screen
-    [ 1.0, 0.0, 0.0, 1.0 ],  // 16 red
-    [ 1.0, 1.0, 0.0, 1.0 ],  // 17 yellow
-    [ 0.0, 1.0, 0.0, 1.0 ]   // 18 green
-];
-
-var rainbowColors =
-[
-    [ 1.0, 0.0, 0.0, 1.0 ],  // red
-    [ 1.0, 0.5, 0.0, 1.0 ],  // orange
-    [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
-    [ 0.0, 1.0, 0.0, 1.0 ],  // green
-    [ 0.0, 0.0, 1.0, 1.0 ],  // blue
-    [ 0.6, 0.0, 0.6, 1.0 ],  // purple
-    [ 1.0, 0.1, 0.5, 1.0 ]   // pink
-];
-
 var currColour = 0;  // use this to index through the cube colours
 var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
+
+// BOOLEANS
 var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
 var isForBorder = 0;
-var isRainbow = 0;
 var isExploded = 0;
 var hasHitBorder = 0;
 var isGameOver = false;
 var isStartSequence = true;
 var startSequenceTimer = 5;
-
-// VARIABLES NEEDED FOR PHONG LIGHTING
-// the light is in front of the cube, which is located st z = 50
-var lightPosition = vec4(20, 20, -25, 0.0 );
-var lightAmbient = vec4(0.6, 0.6, 0.6, 1.0 );   // pink lighting
-// var lightAmbient = vec4(0.0, 0.0, 1.0, 1.0);    // dark blue lighting
-var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-
-// variables needed for the material of the cube
-var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
-var materialDiffuse = vec4( 1.0, 1.0, 1.0, 1.0);
-var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
-var materialShininess = 100.0;
-
-var ambientProduct, diffuseProduct, specularProduct;
-var viewerPos;
-var normalsArray = [];
-
-// VARIABLES NEEDED FOR TEXTURES
-var texture;
-var textureFlipped;
-var enableTexture = false;  // by default we do not use textures
-var isFlipped = false;  // so have path scrolling by default
-var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
-[
-    vec2(0, 2), //1
-    vec2(0, 0), //0
-    vec2(2, 0), //3
-    vec2(0, 2), //1
-    vec2(2, 0), //3
-    vec2(2, 2)  //2
-];
-var resetTexCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
-[
-    vec2(0, 2), //1
-    vec2(0, 0), //0
-    vec2(2, 0), //3
-    vec2(0, 2), //1
-    vec2(2, 0), //3
-    vec2(2, 2)  //2
-];
-var flippedTexCoords =  //210203
-[
-    vec2(3, 3), //2
-    vec2(0, 3), //1
-    vec2(0, 0), //0
-    vec2(3, 3), //2
-    vec2(0, 0), //0
-    vec2(3, 0)  //3
-]
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
@@ -336,229 +238,7 @@ window.onload = function init()
     generateCoinStar();
     createStarTexture();
 
-    // ADD EVENT LISTENERS
-    // for ASCII character keys
-    addEventListener("keypress", function(event) {
-        switch (event.keyCode) {
-            case 105:  // 'i' key
-                if(devModeOn) {
-                    console.log("i key");
-                }
-                if (isPaused)
-                {
-                    if (isStartScreen)
-                    {
-                        removeScreen(startScreen);
-                        displayInstructionScreen();
-
-                        isStartScreen = !isStartScreen;
-                        isInstructionScreen = !isInstructionScreen;
-                    }
-                    else if (isInstructionScreen)
-                    {
-                        removeScreen(instructionScreen);
-                        displayStartScreen();
-
-                        isStartScreen = !isStartScreen;
-                        isInstructionScreen = !isInstructionScreen;
-                    }
-                }
-                break;
-            case 109:  // 'm' key
-                if(devModeOn) {
-                    console.log("m key");
-                }
-                if (isStartScreen) {
-                    isMarioMode = !isMarioMode;
-                }
-                break;
-            case 112:  // 'p' key
-                if(devModeOn) {
-                    console.log("p key");
-                }
-                if (!isStartScreen && !isGameOver && !isInstructionScreen)
-                {
-                    if( (isMarioMode && !isStartSequence) || !isMarioMode )
-                    {
-                        isPaused = !isPaused;
-                        if (isPaused) {
-                            displayPauseScreen();
-                        }
-                        else {
-                            removePauseScreen(pauseScreen);
-                        }
-                    }
-                }
-                break;
-            case 113:  // 'q' key
-                if(devModeOn) {
-                    console.log("q key");
-                }
-                if( !isInstructionScreen && !isStartScreen )
-                {
-                    isGameOver = true;
-                }
-                if ( isPaused )
-                {
-                    removePauseScreen(pauseScreen);
-                }
-                document.getElementById('quitSound').play();
-
-                break;
-            case 119:  // 'w' key
-                if(devModeOn) {
-                    console.log("w key");
-                }
-
-                isAllWhite = !isAllWhite;
-                break;
-            case 102:  // 'f' key
-                if(devModeOn) {
-                    console.log("f key");
-                }
-                isFlipped = !isFlipped;
-                break;
-            case 116:  // 't' key TODO use when hit certain score? 100?
-                if(devModeOn) {
-                    console.log("t key");
-                }
-                document.getElementById('happySound').play();
-                break;
-            case 115:  // 's' key
-                if(devModeOn) {
-                    console.log("s key");
-                }
-                isMusic = !isMusic;
-                break;
-            case 114:  // 'r' key
-                if(devModeOn) {
-                    console.log("r key");
-                }
-                document.getElementById('frackOffSound').play();
-                // TODO
-                break;
-            case 122:   // 'z' key
-                if(devModeOn) {
-                    console.log("z key");
-                }
-                isFun = !isFun;
-                break;
-            case 49:    // '1'
-                if(devModeOn) {
-                    console.log("Difficulty 1");
-                }
-                difficulty = 5;
-                break;
-            case 50:    // '2'
-                if(devModeOn) {
-                    console.log("Difficulty 2");
-                }
-                difficulty = 7;
-                break;
-            case 51:    // '3'
-                if(devModeOn) {
-                    console.log("Difficulty 3");
-                }
-                difficulty = 10;
-                break;
-            case 120:   // x key
-                if (devModeOn) {
-                    console.log('Dev mode turned off.');
-                    devModeOn = false;
-                } else {
-                    console.log('Dev mode turned on.');
-                    devModeOn = true;
-                }
-                break;
-            default:
-                break;
-        }
-    });
-
-    // TODO: for testing purposes, remove after
-    // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
-    addEventListener("keydown", function(event) {
-        switch(event.keyCode) {
-            // TODO REMOVE only for testing
-            case 188:   // ',' key aka <
-                // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
-                currDegrees += 4;
-                if(devModeOn) {
-                    console.log("<");
-                }
-                projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
-                gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
-                break;
-            case 190:   // '.' key aka >
-                currDegrees -= 4;
-                if(devModeOn) {
-                    console.log(">");
-                }
-                projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
-                gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
-                break;
-
-            // KEEP FOR GAME NAVIGATION
-            case 32:  // space key
-                // Prevent browser default action
-                event.preventDefault();
-                // start the game
-                if (isStartScreen)
-                {
-                    // exit the start screen and go to start sequence with lakitu or unpause
-                    isStartScreen = 0;
-                    if( !isMarioMode )
-                    {
-                        isPaused = false;
-                    }
-                    removeScreen(startScreen);
-                }
-                // restart the game
-                if (isGameOver)
-                {
-                    resetSequence();
-                    isStartScreen = true;
-                    isGameOver = false;
-                }
-                break;
-            case 37:  // LEFT key
-                // Prevent browser default action
-                event.preventDefault();
-                if (!isPaused && !isGameOver)
-                  leftKeyDown = true;
-                break;
-            case 39:  // RIGHT key
-                // Prevent browser default action
-                event.preventDefault();
-                if (!isPaused && !isGameOver)
-                    rightKeyDown = true;
-                break;
-            case 38: // UP key
-                // Prevent browser default action
-                event.preventDefault();
-                if (!isPaused && !isGameOver)
-                    upKeyDown = true;
-                break;
-            default:
-                break;
-        }
-    });
-
-    addEventListener("keyup", function(event) {
-        switch(event.keyCode) {
-        case 37: // LEFT key
-            leftKeyDown = false;
-            break;
-        case 39: // RIGHT key
-            rightKeyDown = false;
-            break;
-        case 38: // UP key
-            upKeyDown = false;
-            break;
-        default:
-            break;
-        }
-    });
+    eventListeners();
 
     // draw the first line of cubes
     generateNewCubeLine();
@@ -617,34 +297,7 @@ function render(timeStamp)
     {
         setupMarioEnvironment();
 
-        if ( isInvincible )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').pause();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').play();
-        }
-        else if ( !isMusic )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').pause();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').pause();
-        }
-        else if( isMusic && !isInvincible && !isFun )
-        {
-            document.getElementById('themeSong').play();
-            document.getElementById('funSong').pause();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').pause();
-        }
-        else if ( isMusic && !isInvincible && isFun )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').play();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').pause();
-        }
+        playMarioMusic();
 
         if( !isPaused )
         {
@@ -659,27 +312,8 @@ function render(timeStamp)
     else
     {
         gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
-        if ( isMusic && !isFun )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').pause();
-            document.getElementById('rainbowRoad').play();
-            document.getElementById('starSong').pause();
-        }
-        else if ( !isMusic )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').pause();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').pause();
-        }
-        else if ( isMusic && isFun )
-        {
-            document.getElementById('themeSong').pause();
-            document.getElementById('funSong').play();
-            document.getElementById('rainbowRoad').pause();
-            document.getElementById('starSong').pause();
-        }
+
+        playRegularMusic();
     }
 
     // check if in invicibility mode
@@ -697,22 +331,7 @@ function render(timeStamp)
         }
         else if (invincibilityTimer < 0)
         {
-            document.getElementById('starSong').pause();
-            if( isMusic )
-            {
-                if( isFun )
-                {
-                    document.getElementById('funSong').play();
-                }
-                else if( isMarioMode )
-                {
-                    document.getElementById('themeSong').play();
-                }
-                else
-                {
-                    document.getElementById('rainbowRoad').play();
-                }
-            }
+            stopInvincibilityMusic();
         }
 
     }
@@ -731,9 +350,7 @@ function render(timeStamp)
         }
         if( !explodeSound && !isStarCoinLastExploded )
         {
-            document.getElementById('crashSound').currentTime = 0;
-            document.getElementById('crashSound').play();
-            explodeSound = true;
+            playCubeCrashMusic();
         }
         explodeCube( timeDiff, playerXPos );
     }

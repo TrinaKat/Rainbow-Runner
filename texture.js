@@ -1,5 +1,38 @@
 // Texture
 
+// VARIABLES NEEDED FOR TEXTURES
+var texture;
+var textureFlipped;
+var enableTexture = false;  // by default we do not use textures
+var isFlipped = false;  // so have path scrolling by default
+var texCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
+[
+    vec2(0, 2), //1
+    vec2(0, 0), //0
+    vec2(2, 0), //3
+    vec2(0, 2), //1
+    vec2(2, 0), //3
+    vec2(2, 2)  //2
+];
+var resetTexCoords =    // mapping between the texture coordinates (range from 0 to 1) and object
+[
+    vec2(0, 2), //1
+    vec2(0, 0), //0
+    vec2(2, 0), //3
+    vec2(0, 2), //1
+    vec2(2, 0), //3
+    vec2(2, 2)  //2
+];
+var flippedTexCoords =  //210203
+[
+    vec2(3, 3), //2
+    vec2(0, 3), //1
+    vec2(0, 0), //0
+    vec2(3, 3), //2
+    vec2(0, 0), //0
+    vec2(3, 0)  //3
+]
+
 // Apply texture to the rainbow road path
 function applyTexture()
 {
