@@ -1,31 +1,5 @@
 // Data
 
-// DATA STORAGE
-var points = [];
-var numVertices = 36;
-
-var outlinePoints = [];
-var numOutlinePoints = 24;
-
-var pathPoints = [];
-var numPathVertices = 6;
-
-var sphereVertices = [];
-var sphereNormals = [];
-
-// CUBE
-var cubeVertices =    // manually plan out unit cube
-[
-    vec4( 0.0, 0.0, 1.0, 1.0 ),
-    vec4( 0.0, 1.0, 1.0, 1.0 ),
-    vec4( 1.0, 1.0, 1.0, 1.0 ),
-    vec4( 1.0, 0.0, 1.0, 1.0 ),
-    vec4( 0.0, 0.0, 0.0, 1.0 ),
-    vec4( 0.0, 1.0, 0.0, 1.0 ),
-    vec4( 1.0, 1.0, 0.0, 1.0 ),
-    vec4( 1.0, 0.0, 0.0, 1.0 )
-];
-
 // COLORS
 var colors =
 [
@@ -52,7 +26,7 @@ var colors =
     [ 0.0, 1.0, 0.0, 1.0 ]   // 18 green
 ];
 
-// LIGHTS
+// LIGHTING
 
 // the light is in front of the cube, which is located st z = 50
 var lightPosition = vec4(20, 20, -25, 0.0 );
@@ -70,3 +44,57 @@ var materialShininess = 100.0;
 var ambientProduct, diffuseProduct, specularProduct;
 var viewerPos;
 var normalsArray = [];
+
+function generateEverything()
+{
+  // POPULATE ALL THE POINTS
+  generateCube();
+  generateSphere();
+  generateCubeOutline();
+  generatePath();
+  generatePlayer();
+  generateStar();
+  generateCoinStar();
+
+  // CLOUDS
+  generateCurve();
+  generateLakituCurve();
+  generateCloudFaceSquare();
+  generateLakituSquare();
+  generateCloudBigSquare();
+  generateCloudSmallSquare();
+  generateCloudLakituSquare();
+  generateGoombaFaceSquare();
+
+  // CLOUD TEXTURES
+  createCloudFaceTexture();
+  createLakituTexture();
+  createLakituStartTexture();
+  createCloudBigTexture();
+  createCloudSmallTexture();
+  createCloudLakituTexture();
+  createGoombaFaceTexture();
+
+  // Intro sequence with cubes
+  generateIntroCubes();
+
+  // Assign rainbow road texture to the path
+  createTexture("Textures/rainbow.png");
+  createFlippedTexture("Textures/rainbow.png");
+
+  // Mario Textures
+  populateCubeTexCoords();
+  populatePipeTexCoords();
+  createBrickTexture();
+  createQuestionTexture();
+  createPipeBorderTexture();
+  createPipeTexture();
+  createDirtTexture();
+  createGrassTexture();
+  createCoinTexture();
+  createPlayerLogoTexture();
+  createStarTexture();
+
+  // Draw the first line of cubes
+  generateNewCubeLine();
+}

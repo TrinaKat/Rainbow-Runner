@@ -5,19 +5,35 @@ var canvas;
 var gl;
 var program;
 
-// DATA STORAGE FOR POINTS, COLOURS, ETC.
+// Colors
+// Use this to index through the cube colours
+var currColour = 0;
+// Array of array to store the colours for every cube generated
+// (index into this the same way that you index into allCubeLineXPositions)
+var allCubeColours = [];
 
-var currColour = 0;  // use this to index through the cube colours
-var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
-
-// BOOLEANS
-var isAllWhite = 0;  // 0: cubes are different shades of white and grey; 1: cubes are all white
+// BOOLEANS for game states
+var isAllWhite = 0;
 var isForBorder = 0;
+var isPaused = 1;
 var isExploded = 0;
 var hasHitBorder = 0;
 var isGameOver = false;
 var isStartSequence = true;
 var startSequenceTimer = 5;
+
+var devModeOn = false;
+
+// SOUND
+var isMusic = false;    // TODO Make true when on autoplay
+var isFun = false;
+var explodeSound = false;
+
+// SCORE
+var ctx ;               // TODO move code to different file
+var score = 0;
+var highScore = 0;
+var difficulty = 5;
 
 // DECLARE VARIABLES FOR UNIFORM LOCATIONS
 var modelTransformMatrixLoc;
@@ -29,7 +45,7 @@ var texCoordLoc;
 var textureLoc;
 
 // INITIALIZE ALL TRANSFORMATION MATRICES
-var modelTransformMatrix = mat4();  // identity matrix
+var modelTransformMatrix = mat4();
 var projectionMatrix = mat4();
 var cameraTransformMatrix = mat4();
 var pathCameraTransformMatrix = mat4();
@@ -45,29 +61,26 @@ var vTexCoordBuffer;
 var shadowBuffer;
 var nBuffer;
 
-// INITIALIZE VARIABLES
-var currentFOV = 45;   // adjust this later for narrow or width FOV
-var currDegrees = 0;  // indicate current degree for the azimuth of the camera heading
-var cameraPositionZAxis = 50;  // camera's initial position along the z-axis
-var cameraPositionYAxis = 0;  // camera's initial position along the y-axis
-var cameraPitch = 5;  // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
+// INITIALIZE CAMERA VARIABLES
+var currentFOV = 45;
+var currDegrees = 0;            // indicate current degree for the azimuth of the camera heading
+var cameraPositionZAxis = 50;   // camera's initial position along the z-axis
+var cameraPositionYAxis = 0;    // camera's initial position along the y-axis
+var cameraPitch = 5;            // camera's pitch (want scene to be rotated down along x-axis so we can see the tops of the cubes)
 
 // VARIABLES TO MOVE THE CUBES
-var prevTime = 0;  // so we can calculate the time difference between calls to render
+var prevTime = 0;                        // Calculate the time difference between calls to render
 var stepSize = 40;
-var currAmountTranslated = 0;
 var amountToMove = 0;
-var allCubeLineXPositions = [];  // Array of arrays containing X positions for all cubes in a line
-var allCubeLineZPositions = [];  // array containing the Z position for each cube line
+var allCubeLineXPositions = [];          // Array of arrays containing X positions for all cubes in a line
+var allCubeLineZPositions = [];          // array containing the Z position for each cube line
 var numCubeLines = (2 * cameraPositionZAxis) / stepSize;   // the total number of active cube lines we have displayed at a time
-// Keep track of Z distance traveled by each line (elements correspond to those in allCubeLineXPositions)
-var cubeLineDistanceTraveled = 0;
-var isPaused = 1;  // 0: not paused so all the cubes move; 1: paused so the cubes remain stationary
+var cubeLineDistanceTraveled = 0;        // Keep track of Z distance traveled by each line (elements correspond to those in allCubeLineXPositions)
 
 // NAVIGATION
 var rotDegrees = 0;
 var translateAmount = 0;
-var playerTilt = 0;  // no tilt by default
+var playerTilt = 0;
 var amountToTilt = 5;
 
 // Stuff for navigation FSM
@@ -77,23 +90,6 @@ var upKeyDown = false;
 
 var movementFSM = new MovementFSM();
 var jumpFSM = new JumpFSM();
-
-// SOUND
-var isMusic = false;    // TODO Make true when on autoplay
-var isFun = false;
-var explodeSound = false;
-
-// SCORE & 2D CANVAS
-var ctx ;
-var score = 0;
-var highScore = 0;
-var difficulty = 5;
-
-
-var devModeOn = false;
-
-// TODO
-var isDrawBorder = 0;
 
 window.onload = function init()
 {
@@ -110,7 +106,6 @@ window.onload = function init()
     ctx = textCanvas.getContext( "2d" );
 
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    //gl.viewport( 0, 0, canvas.width, canvas.height);
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 
     gl.enable(gl.DEPTH_TEST);
@@ -118,45 +113,6 @@ window.onload = function init()
     // LOAD SHADERS AND INITIALIZE ATTRIBUTE BUFFERS
     program = initShaders( gl, "vertex-shader", "fragment-shader" );  // compile and link shaders, then return a pointer to the program
     gl.useProgram( program );
-
-
-    // POPULATE THE POINTS,OUTLINE POINTS, AND PATH POINTS ARRAY
-    generateCube();
-    generateSphere();
-    generateCubeOutline();
-    generatePath();
-
-    // PLAYER
-    generatePlayer();
-
-    // STAR
-    generateStar();
-
-    // TODO CLOUD
-    generateCurve();
-    generateLakituCurve();
-
-    createCloudFaceTexture();
-    generateCloudFaceSquare();
-
-    createLakituTexture();
-    createLakituStartTexture();
-    generateLakituSquare();
-
-    createCloudBigTexture();
-    generateCloudBigSquare();
-
-    createCloudSmallTexture();
-    generateCloudSmallSquare();
-
-    createCloudLakituTexture();
-    generateCloudLakituSquare();
-
-    createGoombaFaceTexture();
-    generateGoombaFaceSquare();
-
-    // TODO: REMOVE
-    generateIntroCubes();
 
     // CREATE BUFFERS FOR THE CUBE, OUTLINE, AND PATH
     vBuffer = gl.createBuffer();
@@ -206,30 +162,10 @@ window.onload = function init()
     enableTextureLoc = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
     textureLoc = gl.getUniformLocation(program, "u_texture");
 
-    // assign rainbow road texture to the path
-    createTexture("Textures/rainbow.png");
-    createFlippedTexture("Textures/rainbow.png");
-
-    // Mario Textures
-    populateCubeTexCoords();
-    populatePipeTexCoords();
-    createBrickTexture();
-    createQuestionTexture();
-    createPipeBorderTexture();
-    createPipeTexture();
-    createDirtTexture();
-    createGrassTexture();
-    createCoinTexture();
-    createPlayerLogoTexture();
-
-    // Coin Star
-    generateCoinStar();
-    createStarTexture();
-
     eventListeners();
 
-    // draw the first line of cubes
-    generateNewCubeLine();
+    // Populate all the points, create all the textures
+    generateEverything();
 
     // startSequence();
     render(0);
@@ -245,28 +181,34 @@ function render(timeStamp)
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     displayGameBoyScreen();
     // display the start screen
-    if (isStartScreen) {
+    if (isStartScreen)
+    {
         displayStartScreen();
     }
 
     // play the intro sequence if we are just starting the game
     if (isIntroTransition)
+    {
         introTransition();
+    }
 
     // display the game over screen
-    if (isGameOver) {
+    if (isGameOver)
+    {
         displayEndScreen();
-        // if the user crashed into a cube, it will pause but there will be no remove screen
         isPaused = true;
     }
 
     // first, get the time difference since the last call to render
-    var timeDiff = (timeStamp - prevTime)/1000;  // must divide by 1000 since measured in milliseconds
+    // must divide by 1000 since measured in milliseconds
+    var timeDiff = (timeStamp - prevTime)/1000;
 
-    if (!isPaused) {
+    if (!isPaused)
+    {
         // move the cubes forward at a constant speed
-        amountToMove = stepSize * timeDiff;  // amount to move the cubes by in order to maintain constant speed down the screen
-        prevTime = timeStamp;  // set the previous time for the next iteration equal to the current time
+        // amount to move the cubes by in order to maintain constant speed down the screen
+        amountToMove = stepSize * timeDiff;
+        prevTime = timeStamp;
         cubeLineDistanceTraveled += amountToMove;
 
         // incrementing the score if the cube is running / not paused / start sequence
@@ -275,7 +217,10 @@ function render(timeStamp)
             score += timeDiff;
         }
     }
-    else {  // if the game is paused, don't move the cubes, but make sure to keep updating thw timer
+    // if the game is paused, don't move the cubes
+    // make sure to keep updating the timer
+    else
+    {
         amountToMove = 0;
         prevTime = timeStamp;
     }
@@ -321,7 +266,6 @@ function render(timeStamp)
         {
             stopInvincibilityMusic();
         }
-
     }
 
     // Exploding cube upon collision
@@ -349,7 +293,8 @@ function render(timeStamp)
 
     var verticalVelocity = 0;
 
-    if (isMarioMode && !isPaused ) {
+    if (isMarioMode && !isPaused )
+    {
         // Update jumping
         jumpFSM.update(upKeyDown);
         var verticalVelocity = jumpFSM.verticalVelocity();
@@ -402,7 +347,8 @@ function render(timeStamp)
     var drewShadow = false;
 
     // If cube is behind player (closer to camera), draw player shadow first
-    if (allCubeLineZPositions[closestCubeLine] > playerTipPosZ && !jumpFSM.state) // If jumping, draw shadow as player will be on top
+    // If jumping, draw shadow on top as player will be on top
+    if (allCubeLineZPositions[closestCubeLine] > playerTipPosZ && !jumpFSM.state)
     {
         // Draw player shadow AFTER path because we want transparent shadows but BEFORE cubes
         drawPlayerShadowsWithDepth();
@@ -415,7 +361,7 @@ function render(timeStamp)
         drawGoomba();
 
         // Back to Front Order
-        // Enable Blending
+        // Enable blending
         gl.enable(gl.BLEND);
         gl.disable(gl.DEPTH_TEST);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -444,8 +390,7 @@ function render(timeStamp)
 
 
     // draw the cube border on both sides
-    if (isDrawBorder)
-        drawBorder();
+    drawBorder();
 
     // check to see if you have moved the current cube line far anough and you should generate a new cube line
     // 5 means that we want to have a 5 unit separation between each cube line
@@ -464,7 +409,8 @@ function render(timeStamp)
     // check to see if the player has collided with any cubes --> game over
     playerCollisionDetection();
 
-    if (devModeOn) {
+    if (devModeOn)
+    {
         isExploded = false;
         isGameOver = false;
         isPaused = false;
@@ -497,7 +443,7 @@ function render(timeStamp)
         gl.enable(gl.DEPTH_TEST);
     }
 
-    //placing the text on the canvas
+    // TODO MOVE THIS placing the text on the canvas
     ctx.font = "24px eightbit"
     ctx.fillStyle = "#ffffff";
     ctx.fillText("Score: " + Math.floor( score ), 50, 50);

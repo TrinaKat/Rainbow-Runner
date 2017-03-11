@@ -1,5 +1,8 @@
 // Border + Outline + Misc.
 
+var cubeOutlinePoints = [];
+var numCubeOutlinePoints = 24;
+
 function playSound(soundID) {
     document.getElementById(soundID).play();
 }
@@ -8,28 +11,28 @@ function playSound(soundID) {
 function generateCubeOutline()
 {
     // Generate lines for front face of the cube
-    outlinePoints.push(cubeVertices[0]);
+    cubeOutlinePoints.push(cubeVertices[0]);
     for (var i = 1; i < 4; i++)
     {
-        outlinePoints.push(cubeVertices[i]);
-        outlinePoints.push(cubeVertices[i]);
+        cubeOutlinePoints.push(cubeVertices[i]);
+        cubeOutlinePoints.push(cubeVertices[i]);
     }
-    outlinePoints.push(cubeVertices[0]);
+    cubeOutlinePoints.push(cubeVertices[0]);
 
     // Generate lines for the back face of the cube
-    outlinePoints.push(cubeVertices[4]);
+    cubeOutlinePoints.push(cubeVertices[4]);
     for (var j = 5; j < 8; j++)
     {
-        outlinePoints.push(cubeVertices[j]);
-        outlinePoints.push(cubeVertices[j]);
+        cubeOutlinePoints.push(cubeVertices[j]);
+        cubeOutlinePoints.push(cubeVertices[j]);
     }
-    outlinePoints.push(cubeVertices[4]);
+    cubeOutlinePoints.push(cubeVertices[4]);
 
     // Generate four lines to connect the top face to the bottom face
     for (var k = 0; k < 4; k++)
     {
-        outlinePoints.push(cubeVertices[k]);
-        outlinePoints.push(cubeVertices[k+4]);
+        cubeOutlinePoints.push(cubeVertices[k]);
+        cubeOutlinePoints.push(cubeVertices[k+4]);
     }
 }
 
@@ -42,7 +45,7 @@ function drawOutline()
 
     // Bind the current buffer that we want to draw (the one with the points)
     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(cubeOutlinePoints), gl.STATIC_DRAW );
     // Tell attribute how to get data out of buffer and binds current buffer to the attribute
     // vPosition will always be bound to vBuffer now
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
@@ -58,7 +61,7 @@ function drawOutline()
     else {
         gl.uniform4fv(currentColourLoc, colors[4]);  // Make the outline black
     }
-    gl.drawArrays( gl.LINES, 0, numOutlinePoints );
+    gl.drawArrays( gl.LINES, 0, numCubeOutlinePoints );
 }
 
 function drawBorder()

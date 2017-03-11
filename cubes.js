@@ -1,5 +1,21 @@
 // Cubes
 
+var cubePoints = [];
+var numCubeVertices = 36;
+
+// Unit cube vertices
+var cubeVertices =
+[
+    vec4( 0.0, 0.0, 1.0, 1.0 ),
+    vec4( 0.0, 1.0, 1.0, 1.0 ),
+    vec4( 1.0, 1.0, 1.0, 1.0 ),
+    vec4( 1.0, 0.0, 1.0, 1.0 ),
+    vec4( 0.0, 0.0, 0.0, 1.0 ),
+    vec4( 0.0, 1.0, 0.0, 1.0 ),
+    vec4( 1.0, 1.0, 0.0, 1.0 ),
+    vec4( 1.0, 0.0, 0.0, 1.0 )
+];
+
 // Generate points for the cube
 function generateCube()
 {
@@ -23,7 +39,7 @@ function quad( a, b, c, d )
      var vertexOrder = [a, b, c, a, c, d];
 
      for (var i = 0; i < 6; i++) {
-        points.push(cubeVertices[vertexOrder[i]]);
+        cubePoints.push(cubeVertices[vertexOrder[i]]);
         normalsArray.push(normal);
      }
  }
@@ -85,9 +101,9 @@ function setUpCubeDraw() {
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
 
-    // Bind the current buffer that we want to draw (the one with the points)
+    // Bind the current buffer that we want to draw (the one with the cubePoints)
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(cubePoints), gl.STATIC_DRAW );
 
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
@@ -109,7 +125,7 @@ function drawCube(colourIndex)
         gl.uniform4fv(currentColourLoc, colors[0]);  // set the cubes all white
     }
 
-    gl.drawArrays( gl.TRIANGLES, 0, numVertices );
+    gl.drawArrays( gl.TRIANGLES, 0, numCubeVertices );
 }
 
 // Draw lines of cubes and transform them

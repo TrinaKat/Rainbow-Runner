@@ -1,4 +1,6 @@
 var sphereIndex = 0;
+var sphereVertices = [];
+var sphereNormals = [];
 
 function triangle(a, b, c)
 {
@@ -75,7 +77,6 @@ function resetSequence() {
     // reset player properties
     playerXPos = 0;
     playerTilt = 0;  // no tilt by default
-    currAmountTranslated = 0;
     amountToMove = 0;
 
     movementFSM = new MovementFSM();
