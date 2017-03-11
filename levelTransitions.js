@@ -10,7 +10,7 @@ var minWidth;
 var longLength = 14;
 
 function generateIntroCubes() {
-	// initialize variables 
+	// initialize variables
 	maxWidth = 16;
 	mid1Width = 12;
 	mid2Width = 10;
@@ -62,11 +62,15 @@ function introTransition() {
         {
           // Move the cube to the correct position
           transformCube( introCubesXPositions[r][c], 0, introCubesZPositions[r] );
-         
+
           // apply scaling to the long cube to form straight segment
-          if (introCubesXPositions[r][0] == maxWidth || introCubesXPositions[r][0] == mid1Width || introCubesXPositions[r][0] == mid2Width || introCubesXPositions[r][0] == minWidth) {
-	        gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
-	   	  }
+          if ( introCubesXPositions[r][0] == maxWidth ||
+               introCubesXPositions[r][0] == mid1Width ||
+               introCubesXPositions[r][0] == mid2Width ||
+               introCubesXPositions[r][0] == minWidth )
+          {
+	          gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 1, longLength))));
+	   	    }
 
           // Draw the cubes and outlines
 	        drawOutline();

@@ -169,8 +169,7 @@ function drawPlayerBody()
 
     enableTexture = false;
     gl.uniform1f(enableTextureLoc, enableTexture);
-    enableTexture = true;
-    
+
     // Enable normals for lighting
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(playerNormals), gl.STATIC_DRAW );
@@ -264,6 +263,52 @@ function drawPlayerOutline()
 
   gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+}
+
+function drawPlayerLogo()
+{
+  // We don't need lighting on the path because it is LIT AF already
+  gl.disableVertexAttribArray(vNormal);
+
+  var playerLogoPoints = [];
+  playerLogoPoints.push(playerVertices[0]);
+  playerLogoPoints.push(playerVertices[1]);
+  playerLogoPoints.push(playerVertices[3]);
+
+  // Player Triangle
+  var playerLogoBuffer = gl.createBuffer();
+  gl.bindBuffer( gl.ARRAY_BUFFER, playerLogoBuffer );
+  gl.bufferData( gl.ARRAY_BUFFER, flatten(playerLogoPoints), gl.STATIC_DRAW );
+
+  gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+  gl.enableVertexAttribArray( vPosition );
+
+  modelTransformMatrix = translate(0, 0, cameraPositionZAxis - 10);
+
+  // tilt the player if needed
+  if (playerTilt == -1) {
+    modelTransformMatrix = mult(modelTransformMatrix, rotate(amountToTilt, vec3(0, 0, 1)));
+  }
+  else if (playerTilt == 1) {
+    modelTransformMatrix = mult(modelTransformMatrix, rotate(-1 * amountToTilt, vec3(0, 0, 1)));
+  }
+
+  gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(modelTransformMatrix));
+
+   // reset the projection matrix for the player so it doesn't move on the screen even if the cubes do
+  gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(playerProjectionMatrix));
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
+
+  applyPlayerLogoTexture();
+
+  gl.drawArrays( gl.TRIANGLES, 0, 3 );
+
+  enableTexture = false;
+  gl.uniform1f(enableTextureLoc, enableTexture);
+
+  gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
+  gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+
 }
 
 // check if the two lines intersect

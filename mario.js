@@ -9,6 +9,8 @@ var pipeBorderTexCoords = [];
 var pipeTexCoordBuffer;
 var pipeTexCoords = [];
 
+var marioLogoTexBuffer;
+
 // Mapping between the texture coordinates (range from 0 to 1) and object
 var tCoords =
 [
@@ -52,11 +54,19 @@ var pipeTopCoords =
   vec2(1.0, 0)    //3
 ];
 
+var marioLogoTexCoords =
+[
+  vec2(0.0, 0.3),
+  vec2(1.0, 0.3),
+  vec2(0.5, 0.8)
+];
+
 var brickTexture;
 var questionTexture;
 var pipeBorderTexture;
 var pipeTexture;
 var dirtTexture;
+var playerLogoTexture;
 
 function populateCubeTexCoords()
 {
@@ -328,6 +338,42 @@ function createGrassTexture()
   gl.uniform1i(textureLoc, 0);
 }
 
+function createPlayerLogoTexture()
+{
+  // Create a texture
+  playerLogoTexture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, playerLogoTexture);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+  // Fill the texture with a 1x1 blue pixel
+  // Before we load the image so use blue image so we can start rendering immediately
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+                new Uint8Array([0, 0, 255, 255]));
+
+  // Asynchronously load an image
+  var image = new Image();
+  image.src = "./Textures/Mario/whiteMarioLogo.png";
+  image.addEventListener('load', function() {
+      // Now that the image has loaded, make copy it to the texture.
+      // Set texture properties
+      gl.bindTexture(gl.TEXTURE_2D, playerLogoTexture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
+      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
+  });
+
+  // Create a buffer for texcoords
+  marioLogoTexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, marioLogoTexBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(marioLogoTexCoords), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  gl.uniform1i(textureLoc, 0);
+}
+
 
 
 // APPLY TEXTURES
@@ -440,6 +486,26 @@ function applyGrassTexture()
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, grassTexture);
+  gl.uniform1i(textureLoc, 0);
+
+  // Enable the texture before we draw
+  // Tell the shader whether or not we want to enable textures
+  enableTexture = true;
+  gl.uniform1f(enableTextureLoc, enableTexture);
+}
+
+function applyPlayerLogoTexture()
+{
+  // Bind the appropriate buffers and attributes for the texture
+  gl.bindBuffer(gl.ARRAY_BUFFER, marioLogoTexBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(marioLogoTexCoords), gl.STATIC_DRAW);
+
+  gl.enableVertexAttribArray(texCoordLoc);
+  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
+
+  // Bind the texture
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, playerLogoTexture);
   gl.uniform1i(textureLoc, 0);
 
   // Enable the texture before we draw
