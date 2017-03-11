@@ -21,6 +21,8 @@ var hasHitBorder = 0;
 var isGameOver = false;
 var isStartSequence = true;
 var startSequenceTimer = 5;
+var enableTexture = false;
+var isFlipped = false;      // so have path scrolling by default
 
 var devModeOn = false;
 
@@ -57,7 +59,6 @@ var vNormal;
 var vBuffer;
 var vOutlineBuffer;
 var vPathBuffer;
-var vTexCoordBuffer;
 var shadowBuffer;
 var nBuffer;
 

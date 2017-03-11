@@ -293,8 +293,8 @@ function createDirtTexture()
 
   // Create a buffer for texcoords
   // Already created with rainbow texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, rectangleTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pathTexCoords), gl.STATIC_DRAW);
   gl.enableVertexAttribArray(texCoordLoc);
   gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
@@ -329,8 +329,8 @@ function createGrassTexture()
 
   // Create a buffer for texcoords
   // Already created with rainbow texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, rectangleTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pathTexCoords), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(texCoordLoc);
   gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
@@ -457,8 +457,8 @@ function applyPipeTexture()
 function applyDirtTexture()
 {
   // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, rectangleTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pathTexCoords), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(texCoordLoc);
   gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
@@ -477,8 +477,8 @@ function applyDirtTexture()
 function applyGrassTexture()
 {
   // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, rectangleTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pathTexCoords), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(texCoordLoc);
   gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
@@ -517,15 +517,15 @@ function applyPlayerLogoTexture()
 function applyRainbowTexture()
 {
   // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(texCoords), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, rectangleTexCoordBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(pathTexCoords), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(texCoordLoc);
   gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
 
   // Bind the texture
   gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.bindTexture(gl.TEXTURE_2D, rainbowTexture);
   gl.uniform1i(textureLoc, 0);
 
   // Enable the texture before we draw
@@ -537,7 +537,7 @@ function applyRainbowTexture()
 function applyFlippedRainbowTexture()
 {
   // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, vTexCoordBuffer);
+  gl.bindBuffer(gl.ARRAY_BUFFER, rectangleTexCoordBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, flatten(flippedTexCoords), gl.STATIC_DRAW);
 
   gl.enableVertexAttribArray(texCoordLoc);
