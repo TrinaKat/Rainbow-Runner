@@ -1,5 +1,18 @@
 // Data
 
+// DATA STORAGE
+var points = [];
+var numVertices = 36;
+
+var outlinePoints = [];
+var numOutlinePoints = 24;
+
+var pathPoints = [];
+var numPathVertices = 6;
+
+var sphereVertices = [];
+var sphereNormals = [];
+
 // CUBE
 var cubeVertices =    // manually plan out unit cube
 [

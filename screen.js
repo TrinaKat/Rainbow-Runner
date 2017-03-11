@@ -44,71 +44,77 @@ function resizeCanvas()
 
     var btnResize = document.getElementById ("gameResizeBtn");
     var btnStart = document.getElementById ("gameStartBtn");
+    var gameBoyBackground = document.getElementById ("gameboyScreen");
+
+    // Enlarge by factor of ~1.5
+    // Calculate Left and Top by getting (New - Old)/2
     if (ifEnlargeCanvas)
     {
-        gbCanvHeight = "78vh";
-        gbCanvWidth = "90vh";
-        gbCanvLeft = "26.88vh";
-        gbCanvTop = "5.88vh";
+        gbCanvWidth = "88.5vh";
+        gbCanvHeight = "88.5vh";
+        gbCanvLeft = "26.13vh";
+        gbCanvTop = "2vh";
 
+        btnStart.style.width = "5.5vh";
+        btnStart.style.height = "5.5vh";
+        btnStart.style.left =  "1.9825vh";
+        btnStart.style.top = "65.4vh";
 
-        btnStart.style.top = "62.00vh";
-        btnStart.style.left =  "1.10vh";
-        btnStart.style.height = "4.93vh";
-        btnStart.style.width = "6.00vh";
+        btnResize.style.width = "5.5vh";
+        btnResize.style.height = "5.5vh";
+        btnResize.style.left =  "1.9825vh";
+        btnResize.style.top = "78.5vh";
 
-
-        btnResize.style.top = "72.38vh";
-        btnResize.style.left =  "1.10vh";
-        btnResize.style.height = "4.93vh";
-        btnResize.style.width = "6.00vh";
-
-
+        gameBoyBackground.style.width = "215.55vh";
+        gameBoyBackground.style.height = "141.6vh";
+        gameBoyBackground.style.left = "-35.925vh";
+        gameBoyBackground.style.top = "-23.6vh";
     }
     else {
-        gbCanvHeight = "59vh";
         gbCanvWidth = "59vh";
+        gbCanvHeight = "59vh";
         gbCanvLeft = "40.88vh";
         gbCanvTop = "16.88vh";
 
-        btnStart.style.top = "58.88vh";
-        btnStart.style.left =  "25.38vh";
-        btnStart.style.height = "3.93vh";
         btnStart.style.width = "3.93vh";
+        btnStart.style.height = "3.93vh";
+        btnStart.style.left =  "25.38vh";
+        btnStart.style.top = "58.88vh";
 
-        btnResize.style.top = "67.88vh";
-        btnResize.style.left =  "25.38vh";
-        btnResize.style.height = "3.93vh";
         btnResize.style.width = "3.93vh";
-        // gbBtnTop = "58.88vh";
-        // gbBtnLeft =  "25.38vh";
-        // gbBtnHeight = "3.93vh";
-        // gbBtnWidth = "3.93vh";
+        btnResize.style.height = "3.93vh";
+        btnResize.style.left =  "25.38vh";
+        btnResize.style.top = "67.88vh";
+
+        gameBoyBackground.style.width = "143.70vh";
+        gameBoyBackground.style.height = "94.4vh";
+        gameBoyBackground.style.left = "0vh";
+        gameBoyBackground.style.top = "0vh";
     }
-    for ( var i = 0; i <6 ; i++ )
+
+    for ( var i = 0; i < 6; i++ )
     {
         var mainCanvas = document.getElementsByTagName('canvas')[i];
         mainCanvas.style.height = gbCanvHeight;
         mainCanvas.style.width = gbCanvWidth;
         mainCanvas.style.left =  gbCanvLeft;
         mainCanvas.style.top = gbCanvTop;
-
     }
-     
+
      //var ctx = gameBoycanvas.getContext("2d");
 }
 
 // game boy canvas
 function displayGameBoyScreen()
 {
-  
+
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
     if (ifEnlargeCanvas){
         gameboyimg.src = "./Textures/gameBoySquare_zoomIn.png";
      }
-    else 
+    else
         gameboyimg.src = "./Textures/gameBoySquareSmall.png";
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
 }
@@ -137,7 +143,8 @@ function displayStartScreen() {
 }
 
 // instruction screen accessible from the start screen
-function displayInstructionScreen() {
+function displayInstructionScreen()
+{
     var instructionScreenCanvas = document.getElementById( "instructionScreen" );
     instructionScreen = instructionScreenCanvas.getContext( "2d" );
     // clear the 2D canvas that has the start screen
@@ -147,26 +154,35 @@ function displayInstructionScreen() {
     instructionScreen.fillRect(0, 0, instructionScreen.canvas.width, instructionScreen.canvas.height);
     // set the title for the start screen
     instructionScreen.font = "72px eightbit"
-    instructionScreen.fillStyle = "#ffffff";  // we want white text
-    instructionScreen.fillText("Instructions", 90, 180);
-    // set the instructions to perform next
+    instructionScreen.fillStyle = "#ffffff";
+
+    // Title to Type size 110
+    // Type to Text size 60
+    // Text to Text size 50
+    instructionScreen.fillText("Instructions", 90, 170);
+
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Navigation Controls", 130, 320);
+    instructionScreen.fillText("Theme/Design Settings", 130, 280);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <LEFT> to move left", 130, 390);
-    instructionScreen.fillText(" - <RIGHT> to move right", 130, 440);
-    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 490);
+    instructionScreen.fillText(" - <m> for Mario Mode", 130, 340);
+    instructionScreen.fillText(" - <s> to toggle Sound ", 130, 390);
+    instructionScreen.fillText(" - <f> to flip Rainbow Road,", 130, 440);
+    instructionScreen.fillText("        Regular Mode only", 130, 490);
+
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Toggle Theme", 130, 620);
+    instructionScreen.fillText("Navigation Controls", 130, 590);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <m> for Mario Mode", 130, 690);
-    // TODO MORE TOGGLE SETTINGS
+    instructionScreen.fillText(" - <LEFT> to move left", 130, 650);
+    instructionScreen.fillText(" - <RIGHT> to move right", 130, 700);
+    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 750);
+
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Gameplay Controls", 130, 820);
+    instructionScreen.fillText("Gameplay Controls", 130, 850);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <p> to Pause ", 130, 890);
-    instructionScreen.fillText(" - <Q> to Quit", 130, 940);
-    instructionScreen.fillText(" - <i> to Go Back", 130, 990);
+    instructionScreen.fillText(" - <1>  <2> or <3> to set Difficulty ", 130, 910);
+    instructionScreen.fillText(" - <p> to Pause ", 130, 960);
+    instructionScreen.fillText(" - <Q> to Quit", 130, 1010);
+    instructionScreen.fillText(" - <i> to Go Back", 130, 1060);
 }
 
 // screen that player sees when pausing the game
