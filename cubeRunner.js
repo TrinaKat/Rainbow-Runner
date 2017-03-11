@@ -109,7 +109,6 @@ window.onload = function init()
     // make a 2D context for it
     ctx = textCanvas.getContext( "2d" );
 
-    // TODO: make the start screen
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     //gl.viewport( 0, 0, canvas.width, canvas.height);
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 );

@@ -63,7 +63,7 @@ function generateNewCubeLine()
                 if (Math.random() < 0.2)
                     cubeColour = marioQuestionCubeColourIndex;
             }
-            if (randomPosition % (7 + Math.floor(Math.random() * 5)) == 0) {
+            else if (randomPosition % (7 + Math.floor(Math.random() * 5)) == 0) {
                 if (Math.random() < 0.1)
                     cubeColour = starCoinCubeColorIndex;
             }
