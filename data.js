@@ -79,8 +79,8 @@ function generateEverything()
   generateIntroCubes();
 
   // Assign rainbow road texture to the path
-  createTexture("Textures/rainbow.png");
-  createFlippedTexture("Textures/rainbow.png");
+  createRainbowTexture();
+  createFlippedRainbowTexture();
 
   // Mario Textures
   populateCubeTexCoords();

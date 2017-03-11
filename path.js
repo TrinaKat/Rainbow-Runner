@@ -50,18 +50,18 @@ function drawPath(scrollAmount)
          if (!isPaused)
          {
             // Don't grow forever
-            if( texCoords[0][1] > 60 )
+            if( pathTexCoords[0][1] > 60 )
             {
-                texCoords = [];
+                pathTexCoords = [];
                 for( var i = 0; i < 6; i++ )
                 {
-                    texCoords.push(resetTexCoords[i]);
+                    pathTexCoords.push(resetTexCoords[i]);
                 }
             }
 
             for( var v = 0; v < 6; v++ )
             {
-                texCoords[ v ] = add( texCoords[ v ], vec2( 0, scrollAmount ));
+                pathTexCoords[ v ] = add( pathTexCoords[ v ], vec2( 0, scrollAmount ));
             }
         }
 
