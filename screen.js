@@ -143,7 +143,8 @@ function displayStartScreen() {
 }
 
 // instruction screen accessible from the start screen
-function displayInstructionScreen() {
+function displayInstructionScreen()
+{
     var instructionScreenCanvas = document.getElementById( "instructionScreen" );
     instructionScreen = instructionScreenCanvas.getContext( "2d" );
     // clear the 2D canvas that has the start screen
@@ -153,26 +154,35 @@ function displayInstructionScreen() {
     instructionScreen.fillRect(0, 0, instructionScreen.canvas.width, instructionScreen.canvas.height);
     // set the title for the start screen
     instructionScreen.font = "72px eightbit"
-    instructionScreen.fillStyle = "#ffffff";  // we want white text
-    instructionScreen.fillText("Instructions", 90, 180);
-    // set the instructions to perform next
+    instructionScreen.fillStyle = "#ffffff";
+
+    // Title to Type size 110
+    // Type to Text size 60
+    // Text to Text size 50
+    instructionScreen.fillText("Instructions", 90, 170);
+
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Navigation Controls", 130, 320);
+    instructionScreen.fillText("Theme/Design Settings", 130, 280);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <LEFT> to move left", 130, 390);
-    instructionScreen.fillText(" - <RIGHT> to move right", 130, 440);
-    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 490);
+    instructionScreen.fillText(" - <m> for Mario Mode", 130, 340);
+    instructionScreen.fillText(" - <s> to toggle Sound ", 130, 390);
+    instructionScreen.fillText(" - <f> to flip Rainbow Road,", 130, 440);
+    instructionScreen.fillText("        Regular Mode only", 130, 490);
+
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Toggle Theme", 130, 620);
+    instructionScreen.fillText("Navigation Controls", 130, 590);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <m> for Mario Mode", 130, 690);
-    // TODO MORE TOGGLE SETTINGS
+    instructionScreen.fillText(" - <LEFT> to move left", 130, 650);
+    instructionScreen.fillText(" - <RIGHT> to move right", 130, 700);
+    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 750);
+
     instructionScreen.font = "42px eightbit"
-    instructionScreen.fillText("Gameplay Controls", 130, 820);
+    instructionScreen.fillText("Gameplay Controls", 130, 850);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <p> to Pause ", 130, 890);
-    instructionScreen.fillText(" - <Q> to Quit", 130, 940);
-    instructionScreen.fillText(" - <i> to Go Back", 130, 990);
+    instructionScreen.fillText(" - <1>  <2> or <3> to set Difficulty ", 130, 910);
+    instructionScreen.fillText(" - <p> to Pause ", 130, 960);
+    instructionScreen.fillText(" - <Q> to Quit", 130, 1010);
+    instructionScreen.fillText(" - <i> to Go Back", 130, 1060);
 }
 
 // screen that player sees when pausing the game
