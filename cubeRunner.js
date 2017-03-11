@@ -330,6 +330,7 @@ window.onload = function init()
     createDirtTexture();
     createGrassTexture();
     createCoinTexture();
+    createPlayerLogoTexture();
 
     // Coin Star
     generateCoinStar();
@@ -499,6 +500,8 @@ window.onload = function init()
 
             // KEEP FOR GAME NAVIGATION
             case 32:  // space key
+                // Prevent browser default action
+                event.preventDefault();
                 // start the game
                 if (isStartScreen)
                 {
@@ -519,14 +522,20 @@ window.onload = function init()
                 }
                 break;
             case 37:  // LEFT key
+                // Prevent browser default action
+                event.preventDefault();
                 if (!isPaused && !isGameOver)
                   leftKeyDown = true;
                 break;
             case 39:  // RIGHT key
+                // Prevent browser default action
+                event.preventDefault();
                 if (!isPaused && !isGameOver)
                     rightKeyDown = true;
                 break;
             case 38: // UP key
+                // Prevent browser default action
+                event.preventDefault();
                 if (!isPaused && !isGameOver)
                     upKeyDown = true;
                 break;
@@ -867,6 +876,21 @@ function render(timeStamp)
 
     // Draw player AFTER path because we want transparent shadows but BEFORE cubes
     drawPlayerBody();
+
+    if (isMarioMode)
+    {
+        // Enable Blending
+        gl.enable(gl.BLEND);
+        gl.disable(gl.DEPTH_TEST);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.depthMask(false);
+
+        drawPlayerLogo();
+
+        gl.depthMask(true);
+        gl.disable(gl.BLEND);
+        gl.enable(gl.DEPTH_TEST);
+    }
 
     //placing the text on the canvas
     ctx.font = "24px eightbit"
