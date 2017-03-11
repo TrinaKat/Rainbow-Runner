@@ -79,9 +79,16 @@ function generateNewCubeLine()
                 if (Math.random() < 0.2)
                     cubeColour = marioQuestionCubeColourIndex;
             }
+            // decide if cube will be star coin
             else if (randomPosition % (7 + Math.floor(Math.random() * 5)) == 0) {
                 if (Math.random() < 0.1)
                     cubeColour = starCoinCubeColorIndex;
+            }
+            // decide if we will replace cube with goomba
+            // but we still save the position of the goomba in the cube positions arrays so we can use the same collision detection scheme as for the cubes
+            else if (randomPosition % (10 + Math.floor(Math.random() * 5)) == 0) {
+                if (Math.random() < 0.3)
+                  cubeColour = goombaColourIndex;
             }
         }
 
@@ -140,7 +147,7 @@ function drawAndMoveAllCubes()
         // Iterate through all the cubes on a single cube line
         for ( var c = 0; c < allCubeLineXPositions[r].length; c++ )
         {
-            // Move the cube to the correct position
+            // Move the cube (or other object) to the correct position
             transformCube( allCubeLineXPositions[r][c], 0, allCubeLineZPositions[r] );
 
             // in Mario mode
@@ -154,6 +161,10 @@ function drawAndMoveAllCubes()
                 else if ( allCubeColours[r][c] == starCoinCubeColorIndex )
                 {
                     drawCoinStar();
+                }
+                else if ( allCubeColours[r][c] == goombaColourIndex ) 
+                {
+                    drawGoomba();
                 }
                 else
                 {
