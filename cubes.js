@@ -86,7 +86,7 @@ function generateNewCubeLine()
             }
             // decide if we will replace cube with goomba
             // but we still save the position of the goomba in the cube positions arrays so we can use the same collision detection scheme as for the cubes
-            else if (randomPosition % (10 + Math.floor(Math.random() * 5)) == 0) {
+            else if (randomPosition % (7 + Math.floor(Math.random() * 5)) == 0) {
                 if (Math.random() < 0.3)
                   cubeColour = goombaColourIndex;
             }

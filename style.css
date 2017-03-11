@@ -3,12 +3,22 @@
     src: url("Fonts/eightbitWonder.ttf") format('truetype');
 }
 
+.windowwrapper {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(47,54,61);
+  z-index: -20;
+
+}
+
 .container
 {
   position: absolute;
   top: 50%;
   left: 50%;
   margin: -47.2vh 0 0 -71.85vh;
+  z-index: 0;
+
 }
 
 #text, #startScreen, #endScreen, #instructionScreen, #gl-canvas

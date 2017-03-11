@@ -272,7 +272,7 @@ function render(timeStamp)
     // Exploding cube upon collision
     if( isExploded )
     {
-        if ( !isStarCoinLastExploded && ( !isInvincible || hasHitBorder ))
+        if ( !isStarCoinLastExploded && !isGoombaLastExploded && ( !isInvincible || hasHitBorder ))
         {   // if invincible, don't pause after hitting a cube
             isPaused = true;
             isGameOver = true;
@@ -281,7 +281,7 @@ function render(timeStamp)
                 highScore = Math.floor( score );
             }
         }
-        if( !explodeSound && !isStarCoinLastExploded )
+        if( !explodeSound && !isStarCoinLastExploded)
         {
             playCubeCrashMusic();
         }
@@ -360,7 +360,7 @@ function render(timeStamp)
     // Draw the clouds
     if( isMarioMode )
     {
-        drawGoomba();
+        // drawGoomba();
 
         // Back to Front Order
 

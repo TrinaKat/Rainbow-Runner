@@ -3,6 +3,7 @@
 // indicate whether the last cube to explode was a question cube or not
 var isQuestionCubeLastExploded = 0;
 var isStarCoinLastExploded = false;
+var isGoombaLastExploded = false;
 
 // Outermost Layer
 var explodePositions_x =
@@ -75,7 +76,7 @@ function explodeCube( timeDiff, x )
   }
 
   // If larger than 1.5, then stop drawing
-  if( !isStarCoinLastExploded && Math.abs( explodePositions_x[0] ) < 1.5 )
+  if( !isStarCoinLastExploded && !isGoombaLastExploded && Math.abs( explodePositions_x[0] ) < 1.5 )
   {
     // Outermost layer of larger cubes
     for( var i = 0; i < explodePositions_x.length; i++ )
@@ -261,6 +262,7 @@ function explodeCube( timeDiff, x )
     // need to reset this at the end
     isQuestionCubeLastExploded = 0;
     isStarCoinLastExploded = false;
+    isGoombaLastExploded = false;
   }
 }
 

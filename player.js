@@ -398,6 +398,12 @@ function playerCollisionDetection() {
               document.getElementById('chaCHING').play();
             }
 
+          if( allCubeColours[i][j] == goombaColourIndex )
+            {
+              isGoombaLastExploded = true;
+              // TODO goomba sound
+            }
+
           // check if any of the faces intersect
           if ( !isStarCoinLastExploded && checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i] + 1, allXPositions[j], allCubeLineZPositions[i]) ||
             checkLinesIntersect(playerBaseZPos, playerLeftXPos, playerEdgeSlope, 1, allCubeLineZPositions[i], allXPositions[j], allCubeLineZPositions[i]) ||
