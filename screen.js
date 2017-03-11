@@ -52,22 +52,22 @@ function resizeCanvas()
     {
         gbCanvWidth = "88.5vh";
         gbCanvHeight = "88.5vh";
-        gbCanvLeft = "26.13vh";
+        gbCanvLeft = "28.13vh";
         gbCanvTop = "2vh";
 
         btnStart.style.width = "5.5vh";
         btnStart.style.height = "5.5vh";
-        btnStart.style.left =  "1.9825vh";
+        btnStart.style.left =  "3.9825vh";
         btnStart.style.top = "65.4vh";
 
         btnResize.style.width = "5.5vh";
         btnResize.style.height = "5.5vh";
-        btnResize.style.left =  "1.9825vh";
+        btnResize.style.left =  "3.9825vh";
         btnResize.style.top = "78.5vh";
 
         gameBoyBackground.style.width = "215.55vh";
         gameBoyBackground.style.height = "141.6vh";
-        gameBoyBackground.style.left = "-35.925vh";
+        gameBoyBackground.style.left = "-33.925vh";
         gameBoyBackground.style.top = "-23.6vh";
     }
     else {
