@@ -6,17 +6,6 @@ var gl;
 var program;
 
 // DATA STORAGE FOR POINTS, COLOURS, ETC.
-var points = [];
-var numVertices = 36;
-
-var outlinePoints = [];
-var numOutlinePoints = 24;
-
-var pathPoints = [];
-var numPathVertices = 6;
-
-var sphereVertices = [];
-var sphereNormals = [];
 
 var currColour = 0;  // use this to index through the cube colours
 var allCubeColours = [];  // array of array to store the colours for every cube generated (index into this the same way that you index into allCubeLineXPositions)
@@ -90,7 +79,7 @@ var movementFSM = new MovementFSM();
 var jumpFSM = new JumpFSM();
 
 // SOUND
-var isMusic = true;    // Make true when on autoplay
+var isMusic = false;    // TODO Make true when on autoplay
 var isFun = false;
 var explodeSound = false;
 
