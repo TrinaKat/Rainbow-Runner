@@ -169,7 +169,7 @@ window.onload = function init()
 
     // Populate all the points, create all the textures
     generateEverything();
-    playGameBoySound();
+
     // startSequence();
     render(0);
 }
@@ -183,7 +183,7 @@ function render(timeStamp)
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     displayGameBoyScreen();
-    
+
     // display the start screen
     if (isStartScreen)
     {

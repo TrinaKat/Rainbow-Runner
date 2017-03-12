@@ -17,6 +17,7 @@ var gbCanvTop = "16.88vh";
 
 
 
+
 function startGamePlay()
 {
     document.getElementById("gameboyWhiteScreen").style.opacity = 0;
@@ -45,6 +46,7 @@ function resizeCanvas()
         screenGameBoyText.style.fontSize = "12.0vh";
         screenGameBoyText.style.left = "-80vh";
         screenGameBoyText.style.top = "28vh";
+
 
         screenPressStartText.style.fontSize = "3.0vh";
         screenPressStartText.style.top = "50vh";
