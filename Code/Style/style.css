@@ -137,7 +137,7 @@ html
   font-family: "eightbit";
   color: #444444;
   font-weight: 500;
-  font-size: 2.5vh;
+  font-size: 2.0vh;
   top: 33vh;
 
 -webkit-animation: screen-pressStart-text-text 8s;
@@ -293,7 +293,7 @@ html
 }
 #screen-nintendo-text{
     z-index: 30;
-    opacity: 1;
+    opacity: 0;
     position: relative;
     text-align: center;
     font-family: Arial, sans-serif;

@@ -35,11 +35,23 @@ function resizeCanvas()
     var btnStart = document.getElementById ("gameStartBtn");
     var gameBoyBackground = document.getElementById ("gameboyScreen");
     var whiteScreen = document.getElementById( "gameboyWhiteScreen");
-
+    var screenGameBoyText = document.getElementById("screen-gameboy-text");
+    var screenPressStartText = document.getElementById("screen-pressStart-text");
+    var screenNintendoText = document.getElementById("screen-nintendo-text");
     // Enlarge by factor of ~1.5
     // Calculate Left and Top by getting (New - Old)/2
     if (ifEnlargeCanvas)
     {
+        screenGameBoyText.style.fontSize = "12.0vh";
+        screenGameBoyText.style.left = "-80vh";
+        screenGameBoyText.style.top = "28vh";
+
+        screenPressStartText.style.fontSize = "3.0vh";
+        screenPressStartText.style.top = "50vh";
+
+        screenNintendoText.style.fontSize = "4.5vh";
+        screenNintendoText.style.top = "50vh";
+
         gbCanvWidth = "88.5vh";
         gbCanvHeight = "88.5vh";
         gbCanvLeft = "28.13vh";
@@ -66,6 +78,17 @@ function resizeCanvas()
         whiteScreen.style.top = "2vh";
     }
     else {
+
+        screenGameBoyText.style.fontSize = "7.5vh";
+        screenGameBoyText.style.left = "-93.5vh";
+        screenGameBoyText.style.top = "23vh";
+
+        screenPressStartText.style.fontSize = "2.0vh";
+        screenPressStartText.style.top = "33vh";
+
+        screenNintendoText.style.fontSize = "3.5vh";
+        screenNintendoText.style.top = "35vh";
+
         gbCanvWidth = "59vh";
         gbCanvHeight = "59vh";
         gbCanvLeft = "40.88vh";
@@ -111,10 +134,10 @@ function displayGameBoyScreen()
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
-    if (ifEnlargeCanvas){
-        gameboyimg.src = "./Materials/Images/gameBoySquare_zoomIn.png";
-     }
-    else
+    // if (ifEnlargeCanvas){
+    //     gameboyimg.src = "./Materials/Images/gameBoySquare_zoomIn.png";
+    //  }
+    // else
         gameboyimg.src = "./Materials/Images/gameBoySquareSmall.png";
 
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
