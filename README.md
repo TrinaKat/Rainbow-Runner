@@ -16,17 +16,17 @@ To start playing the game, press the START button on the bottom left side of the
 Keyboard Controls
 =================
 Theme/Design Settings  
-	* [m] to toggle Mario mode  
-	* [s] to toggle sound  
-	* [f] to flip the Rainbow Road pattern (regular mode)  
+	⋅⋅* [m] to toggle Mario mode  
+	⋅⋅* [s] to toggle sound  
+	⋅⋅* [f] to flip the Rainbow Road pattern (regular mode)  
 
 Navigation Controls  
-	* [LEFT] to move left  
-	* [RIGHT] to move right  
-	* [UP] to jump (Mario mode)  
+	⋅⋅* [LEFT] to move left  
+	⋅⋅* [RIGHT] to move right  
+	⋅⋅* [UP] to jump (Mario mode)  
 
 Gameplay Controls  
-	* [1], [2], or [3] to set the difficulty  
-	* [p] to pause  
-	* [q] to quit  
-	* [i] to toggle instructions display on start screen  
+	⋅⋅* [1], [2], or [3] to set the difficulty  
+	⋅⋅* [p] to pause  
+	⋅⋅* [q] to quit  
+	⋅⋅* [i] to toggle instructions display on start screen  
