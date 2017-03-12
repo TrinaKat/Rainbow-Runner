@@ -155,8 +155,6 @@ function drawAndMoveAllCubes()
             {
                 if ( allCubeColours[r][c] == marioQuestionCubeColourIndex )
                 {
-                    // applyQuestionTexture();
-                    // TODO TEXTURE
                     applyTexture(questionCoords);
                     drawCube(allCubeColours[r][c]);
                 }
@@ -170,8 +168,6 @@ function drawAndMoveAllCubes()
                 }
                 else
                 {
-                    // applyBrickTexture();
-                    // TODO TEXTURE
                     applyTexture(brickCoords);
                     drawCube(allCubeColours[r][c]);
                 }

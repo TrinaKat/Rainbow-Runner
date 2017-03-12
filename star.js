@@ -287,8 +287,6 @@ function drawStar()
 
   drawSide();
 
-  // applyStarTexture();
-  // TODO TEXTURE
   applyTexture(starCoords);
 
   drawFront();

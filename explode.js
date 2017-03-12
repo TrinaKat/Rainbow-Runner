@@ -95,21 +95,15 @@ function explodeCube( timeDiff, x )
       {
         if (isQuestionCubeLastExploded)
         {
-          // applyQuestionTexture();
-          // TODO TEXTURE
           applyTexture(questionCoords);
           // console.log("question cube last exploded");
         }
         else if (hasHitBorder)
         {
-          // applyPipeTexture();
-          // TODO TEXTURE
           applyTexture(pipeCoords);
         }
         else
         {
-          // applyBrickTexture();
-          // TODO TEXTURE
           applyTexture(brickCoords);
           // console.log("brick cube last exploded");
         }
@@ -139,21 +133,15 @@ function explodeCube( timeDiff, x )
       {
         if (isQuestionCubeLastExploded)
         {
-          // applyQuestionTexture();
-          // TODO TEXTURE
           applyTexture(questionCoords);
           // console.log("question cube last exploded");
         }
         else if (hasHitBorder)
         {
-          // applyPipeTexture();
-          // TODO TEXTURE
           applyTexture(pipeCoords);
         }
         else
         {
-          // applyBrickTexture();
-          // TODO TEXTURE
           applyTexture(brickCoords);
           // console.log("brick cube last exploded");
         }
@@ -183,21 +171,15 @@ function explodeCube( timeDiff, x )
       {
         if (isQuestionCubeLastExploded)
         {
-          // applyQuestionTexture();
-          // TODO TEXTURE
           applyTexture(questionCoords);
           // console.log("question cube last exploded");
         }
         else if (hasHitBorder)
         {
-          // applyPipeTexture();
-          // TODO TEXTURE
           applyTexture(pipeCoords);
         }
         else
         {
-          // applyBrickTexture();
-          // TODO TEXTURE
           applyTexture(brickCoords);
           // console.log("brick cube last exploded");
         }

@@ -254,8 +254,6 @@ function drawCoinStar()
 
   drawCoinSide();
 
-  // applyCoinTexture();
-  // TODO TEXTURE
   applyTexture(coinCoords);
 
   drawCoinFront();
