@@ -103,7 +103,7 @@
   left: 40.88vh;
   top: 16.88vh;
   z-index: 30;
-  opacity: 1;
+  opacity: 0;
   animation: gameboyWhiteScreen 8s;
 }
 
