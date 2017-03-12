@@ -11,24 +11,26 @@ function eventListeners()
               {
                   console.log("i key");
               }
-              if( isPaused )
-              {
-                  if( isStartScreen )
-                  {
-                      removeScreen(startScreen);
-                      displayInstructionScreen();
+              if (gameHasStarted) {
+                if( isPaused )
+                {
+                    if( isStartScreen )
+                    {
+                        removeScreen(startScreen);
+                        displayInstructionScreen();
 
-                      isStartScreen = !isStartScreen;
-                      isInstructionScreen = !isInstructionScreen;
-                  }
-                  else if( isInstructionScreen )
-                  {
-                      removeScreen(instructionScreen);
-                      displayStartScreen();
+                        isStartScreen = !isStartScreen;
+                        isInstructionScreen = !isInstructionScreen;
+                    }
+                    else if( isInstructionScreen )
+                    {
+                        removeScreen(instructionScreen);
+                        displayStartScreen();
 
-                      isStartScreen = !isStartScreen;
-                      isInstructionScreen = !isInstructionScreen;
-                  }
+                        isStartScreen = !isStartScreen;
+                        isInstructionScreen = !isInstructionScreen;
+                    }
+                }
               }
               break;
           case 109:  // 'm' key
@@ -36,7 +38,7 @@ function eventListeners()
               {
                   console.log("m key");
               }
-              if( isStartScreen ) {
+              if( gameHasStarted && isStartScreen ) {
                   isMarioMode = !isMarioMode;
               }
               break;
@@ -153,23 +155,25 @@ function eventListeners()
       case 32:  // space key
           // Prevent browser default action
           event.preventDefault();
-          // start the game
-          if( isStartScreen )
-          {
-              // exit the start screen and go to start sequence with lakitu or unpause
-              isStartScreen = 0;
-              if( !isMarioMode )
-              {
-                  isPaused = false;
-              }
-              removeScreen(startScreen);
-          }
-          // restart the game
-          if( isGameOver )
-          {
-              resetSequence();
-              isStartScreen = true;
-              isGameOver = false;
+          if (gameHasStarted) {
+            // start the game
+            if( isStartScreen )
+            {
+                // exit the start screen and go to start sequence with lakitu or unpause
+                isStartScreen = 0;
+                if( !isMarioMode )
+                {
+                    isPaused = false;
+                }
+                removeScreen(startScreen);
+            }
+            // restart the game
+            if( isGameOver )
+            {
+                resetSequence();
+                isStartScreen = true;
+                isGameOver = false;
+            }
           }
           break;
       case 37:  // LEFT key

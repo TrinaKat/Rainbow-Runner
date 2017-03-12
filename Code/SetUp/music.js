@@ -22,6 +22,7 @@ function playMarioMusic()
       document.getElementById('funSong').pause();
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').pause();
+      document.getElementById('dieSound').pause();
   }
   else if ( isMusic && !isInvincible && isFun && !isGameOver)
   {
@@ -29,6 +30,7 @@ function playMarioMusic()
       document.getElementById('funSong').play();
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').pause();
+      document.getElementById('dieSound').pause();
   }
 }
 

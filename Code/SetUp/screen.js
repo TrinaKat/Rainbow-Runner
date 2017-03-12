@@ -165,17 +165,17 @@ function displayInstructionScreen()
     instructionScreen.font = "42px eightbit"
     instructionScreen.fillText("Theme/Design Settings", 130, 280);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <m> for Mario Mode", 130, 340);
+    instructionScreen.fillText(" - <m> to toggle Mario Mode", 130, 340);
     instructionScreen.fillText(" - <s> to toggle Sound ", 130, 390);
     instructionScreen.fillText(" - <f> to flip Rainbow Road,", 130, 440);
-    instructionScreen.fillText("        Regular Mode only", 130, 490);
+    instructionScreen.fillText("        ( Regular Mode )", 130, 490);
 
     instructionScreen.font = "42px eightbit"
     instructionScreen.fillText("Navigation Controls", 130, 590);
     instructionScreen.font = "32px eightbit"
     instructionScreen.fillText(" - <LEFT> to move left", 130, 650);
     instructionScreen.fillText(" - <RIGHT> to move right", 130, 700);
-    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 750);
+    instructionScreen.fillText(" - <UP> to jump ( Mario Mode )", 130, 750);
 
     instructionScreen.font = "42px eightbit"
     instructionScreen.fillText("Gameplay Controls", 130, 850);
