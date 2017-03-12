@@ -5,15 +5,17 @@
 /*before the gamestart, white scrren animation*/
 
 
-
+html
+{
+  background-color: rgb(47,54,61);
+}
+/*
 .windowwrapper {
   height: 100vh;
   width: 100vw;
   background-color: rgb(47,54,61);
   z-index: -20;
-  overflow: hidden;
-
-}
+}*/
 
 .container
 {
