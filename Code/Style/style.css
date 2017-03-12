@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'eightbit';
-    src: url("../../Materials/Fonts/eightbitWonder.ttf") format('truetype');
+    src: url("Fonts/eightbitWonder.ttf") format('truetype');
 }
 /*before the gamestart, white scrren animation*/
 
@@ -127,11 +127,14 @@
 }
 
 #screen-gameboy-text{
+
+    width: 145vh;
     z-index: 30;
     position: relative;
     font-family: 'Asap', sans-serif;
     font-size: 7.5vh;
     top: 23vh;
+    left: -43.5vh;
     font-weight: 800;
     font-style: italic;
     letter-spacing: -2px;
@@ -142,14 +145,14 @@
     transform: skew(-5deg);
     overflow: hidden;
     white-space: nowrap;
-    z-index: 16;
+
     color: #3232fc;
     background: -webkit-linear-gradient(0deg, #3232fc 40%, #85e367 40%, #85e367 45%, #ff52e8 45%, #ff52e8 50%, #ff0151 50%, #ff0151 55%, #f9e52e 55%, #f9e52e 60%, #ffffff 60%);
-    background-position: 31.89vh;
+    background-position: 6.89vh;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-animation: screen-gameboy-text 10s ;
-    /*animation: screen-gameboy-text 10s infinite linear;*/
+    -webkit-animation: screen-gameboy-text 8s ;
+    animation: screen-gameboy-text 10s infinite linear;
 }
 
 @-webkit-keyframes screen-gameboy-text {
@@ -191,15 +194,15 @@
     color: #3232fc;
   }
   78% {
-    background-position: 26.03vh;
+    background-position: -16.03vh;
   }
   87% {
     opacity: 1;
-    background-position: 26.03vh;
+    background-position: 6.03vh;
   }
   92% {
-    opacity: 0;
-    background-position: 26.03vh;
+    opacity: 1;
+    background-position: 6.03vh;
   }
 }
 @keyframes screen-gameboy-text {
