@@ -133,10 +133,11 @@ void main() {
   <canvas id = "instructionScreen" width="1125" height="1125"></canvas>
   <div class = "gameboydiv">
     <canvas id = "gameboyScreen" width="2740" height="1800"> </canvas>
-    <div id = "gameboyWhiteScreen">  
-     <div id = "screen-gameboy-text">GAME BOY</div> 
+    <div id = "gameboyWhiteScreen">
+    <div id = "screen-gameboy-text">GAME BOY</div>
+    <div id = "screen-pressStart-text">Press START to begin</div>
     <div id = "screen-nintendo-text">nintendo</div>
-   
+
     </div>
 
     <button id = "gameStartBtn" type = "button" onclick= "startGamePlay()"> </button>
@@ -149,27 +150,12 @@ void main() {
   Your browser does not support the audio element.
 </audio>
 
-<audio id="happySound" controls hidden>
-  <source src="./Materials/Sound/woohoo.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
-<audio id="quitSound" controls hidden>
-  <source src="./Materials/Sound/giveup.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
-<audio id="frackOffSound" controls hidden>
-  <source src="./Materials/Sound/goaway.wav" type="audio/wav">
-  Your browser does not support the audio element.
-</audio>
-
 <audio id="crashSound" controls hidden>
   <source src="./Materials/Sound/crash.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
-<audio id="funSong" controls hidden>
+<audio id="funSong" controls loop hidden>
   <source src="./Materials/Sound/funSong.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -184,7 +170,7 @@ void main() {
   Your browser does not support the audio element.
 </audio>
 
-<audio id="rainbowRoad" controls autoplay hidden>
+<audio id="rainbowRoad" controls loop hidden>
   <source src="./Materials/Sound/rainbowRoad.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -199,5 +185,9 @@ void main() {
   Your browser does not support the audio element.
 </audio>
 
+<audio id="dieSound" controls hidden>
+  <source src="./Materials/Sound/dies.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
 </html>

@@ -13,7 +13,5 @@ function setupMarioEnvironment()
 {
 // make the background for the world sky blue
 gl.clearColor( 0.0, 0.746, 1.0, 1.0 );
-
-// TODO: assign the mario ground texture to the path (ground.png)
 }
 

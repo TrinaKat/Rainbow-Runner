@@ -99,7 +99,6 @@ function playerCollisionDetection() {
           if( allCubeColours[i][j] == goombaColourIndex )
             {
               isGoombaLastExploded = true;
-              // TODO goomba sound
             }
 
           // check if any of the faces intersect

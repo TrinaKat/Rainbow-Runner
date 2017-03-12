@@ -66,6 +66,7 @@ function resetSequence() {
     isExploded = 0;
     hasHitBorder = 0;
     isGameOver = false;
+    gameOverSoundHasPlayed = false;
     score = 0;
     // Reset clouds
     lakitu_x = 2;

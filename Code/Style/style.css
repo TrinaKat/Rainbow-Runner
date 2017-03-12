@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'eightbit';
-    src: url("Fonts/eightbitWonder.ttf") format('truetype');
+    src: url("../../Materials/Fonts/eightbitWonder.ttf") format('truetype');
 }
 /*before the gamestart, white scrren animation*/
 
@@ -126,6 +126,42 @@
 
 }
 
+#screen-pressStart-text{
+  z-index: 30;
+  opacity: 1;
+  position: relative;
+  text-align: center;
+  font-family: "eightbit";
+  color: #444444;
+  font-weight: 500;
+  font-size: 2.5vh;
+  top: 33vh;
+
+-webkit-animation: screen-pressStart-text-text 8s;
+  animation: screen-pressStart-text 8s;
+}
+
+@keyframes screen-pressStart-text {
+  0% {
+    opacity: 0;
+  }
+  65% {
+    opacity: 0;
+  }
+  68% {
+    color: #999999;
+    opacity: 1;
+  }
+  75% {
+    color: #777777;
+    opacity: 0;
+  }
+  80% {
+    color: #555555;
+    opacity: 1;
+  }
+}
+
 #screen-gameboy-text{
 
     width: 245vh;
@@ -151,8 +187,8 @@
     background-position: 76.03vh;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-animation: screen-gameboy-text 8s ;
-    animation: screen-gameboy-text 8s;
+    -webkit-animation: screen-gameboy-text 4s ;
+    animation: screen-gameboy-text 4s;
 }
 
 @-webkit-keyframes screen-gameboy-text {
@@ -161,7 +197,7 @@
     background-position: -56.5vh;
     opacity: 0;
   }
-  
+
   54% {
     color: #f9e52e;
     background-position: -56.5vh;
@@ -209,7 +245,7 @@
     background-position: -56.5vh;
     opacity: 0;
   }
-  
+
   54% {
     color: #f9e52e;
     background-position: -56.5vh;
@@ -257,12 +293,13 @@
     opacity: 1;
     position: relative;
     text-align: center;
-    font-family: Arial Black, sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 700;
     font-size: 3.5vh;
+    color: #777777;
     top: 35vh;
-  -webkit-animation: screen-nintendo-text 8s;
-  animation: screen-nintendo-text 8s;
+  -webkit-animation: screen-nintendo-text 4s;
+  animation: screen-nintendo-text s;
 }
 
 @keyframes screen-nintendo-text {

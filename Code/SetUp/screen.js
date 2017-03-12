@@ -1,8 +1,8 @@
 // Start, Pause, and Game Over Screens
 
-var isStartScreen = 1;  // game starts with start screen; TODO
-var isPauseScreen = 0;  // screen that displays when you pause; TOOD
-var isEndScreen = 0;  // screen that displays for game over or when you quit from the pause screen; TODO
+var isStartScreen = 1;  // game starts with start screen
+var isPauseScreen = 0;  // screen that displays when you pause
+var isEndScreen = 0;  // screen that displays for game over or when you quit from the pause screen
 var isInstructionScreen = 0;  // screen that displays to show the instructions
 var startScreen;
 var pauseScreen;
@@ -20,23 +20,11 @@ var gbCanvTop = "16.88vh";
 function startGamePlay()
 {
     document.getElementById("gameboyWhiteScreen").style.opacity = 0;
-  if (!isStartScreen)
-  {
-      // exit the start screen and go to start sequence with lakitu or unpause
-      isStartScreen = 1;
-      if( !isMarioMode )
-      {
-          isPaused = false;
-      }
-      removeScreen(startScreen);
-  }
-  // restart the game
-  if (isGameOver)
-  {
-      resetSequence();
-      isStartScreen = true;
-      isGameOver = false;
-  }
+    if( !gameHasStarted )
+    {
+        gameHasStarted = true;
+        isMusic = true;
+    }
 }
 
 function resizeCanvas()

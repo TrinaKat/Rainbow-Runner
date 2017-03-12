@@ -22,12 +22,14 @@ var isGameOver = false;
 var isStartSequence = true;
 var startSequenceTimer = 4.3;
 var enableTexture = false;
-var isFlipped = false;      // so have path scrolling by default
+var isFlipped = false;
+var gameOverSoundHasPlayed = false;
+var gameHasStarted = false;
 
 var devModeOn = false;
 
 // SOUND
-var isMusic = false;    // TODO Make true when on autoplay
+var isMusic = false;    // Make true when on autoplay
 var isFun = false;
 var explodeSound = false;
 
@@ -198,6 +200,11 @@ function render(timeStamp)
     {
         displayEndScreen();
         isPaused = true;
+        if( !gameOverSoundHasPlayed )
+        {
+            document.getElementById('dieSound').play();
+            gameOverSoundHasPlayed = true;
+        }
     }
 
     // first, get the time difference since the last call to render
@@ -205,9 +212,9 @@ function render(timeStamp)
     var timeDiff = (timeStamp - prevTime)/1000;
 
     if( isMarioMode )
-        {
-            goombaJumpTime += timeDiff;
-        }
+    {
+        goombaJumpTime += timeDiff;
+    }
 
     if (!isPaused)
     {
@@ -266,7 +273,6 @@ function render(timeStamp)
         {
             invincibilityTimer -= timeDiff;  // count down until return back to regular Mario mode
         }
-        // Give them a little leeway after flashing ends TODO make sure this is best time
         if( invincibilityTimer < -0.8 )
         {
             isInvincible = 0;
@@ -335,7 +341,7 @@ function render(timeStamp)
     // gl.disable(gl.DEPTH_TEST);
     drawPath(timeDiff * 0.4);
 
-    // TODO REMOVE keep path from scrolling
+    // To keep path from scrolling
     // drawPath(0);
 
     // Determine which is the closest cube line right now

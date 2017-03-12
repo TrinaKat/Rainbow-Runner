@@ -91,27 +91,12 @@ function eventListeners()
               }
               isFlipped = !isFlipped;
               break;
-          case 116:  // 't' key TODO use when hit certain score? 100?
-              if( devModeOn )
-              {
-                  console.log("t key");
-              }
-              document.getElementById('happySound').play();
-              break;
           case 115:  // 's' key
               if( devModeOn )
               {
                   console.log("s key");
               }
               isMusic = !isMusic;
-              break;
-          case 114:  // 'r' key
-              if( devModeOn )
-              {
-                  console.log("r key");
-              }
-              document.getElementById('frackOffSound').play();
-              // TODO
               break;
           case 122:   // 'z' key
               if( devModeOn )
@@ -150,7 +135,8 @@ function eventListeners()
               else
               {
                   console.log('Dev mode turned on.');
-                  devModeOn = true;
+                  // devModeOn = true;
+                  // Disabled for actual game
               }
               break;
           default:
@@ -158,34 +144,12 @@ function eventListeners()
       }
   });
 
-  // TODO: for testing purposes, remove after
   // for UP, DOWN, LEFT, RIGHT keys (no ASCII code since they are physical keys)
   addEventListener("keydown", function(event)
   {
     switch(event.keyCode)
     {
-      // TODO REMOVE only for testing
-      case 188:   // ',' key aka <
-          // currDegrees has opposite sign of rotation degree because we are facing in opposite direction to rotation
-          currDegrees += 4;
-          if( devModeOn )
-          {
-              console.log("<");
-          }
-          projectionMatrix = mult(projectionMatrix, rotate(-4, vec3(0, 1, 0)));
-          gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
-          break;
-      case 190:   // '.' key aka >
-          currDegrees -= 4;
-          if( devModeOn )
-          {
-              console.log(">");
-          }
-          projectionMatrix = mult(projectionMatrix, rotate(4, vec3(0, 1, 0)));
-          gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
-          break;
-
-      // KEEP FOR GAME NAVIGATION
+      //  GAME NAVIGATION
       case 32:  // space key
           // Prevent browser default action
           event.preventDefault();
