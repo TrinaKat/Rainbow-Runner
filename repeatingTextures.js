@@ -63,82 +63,82 @@ var numPipeRepeats = [ 100, 16, 12, 10, 8 ];
 
 var pipeBorderSideCoords =
 [
-  vec2(0.0, 0.5 * 0.25), //0
-  vec2(0.0, 1.0 * 0.25), //1
-  vec2(numPipeRepeats[0], 1.0 * 0.25), //2
-  vec2(numPipeRepeats[0], 0.5 * 0.25)  //3
+  vec2(0.0, 0.25), //0
+  vec2(0.0, 0.5), //1
+  vec2(numPipeRepeats[0], 0.5), //2
+  vec2(numPipeRepeats[0], 0.25)  //3
 ];
 
 var pipeBorderTopCoords =
 [
-  vec2(0.0, 0.0 * 0.25), //0
-  vec2(0.0, 0.5 * 0.25), //1
-  vec2(numPipeRepeats[0], 0.5 * 0.25), //2
-  vec2(numPipeRepeats[0], 0 * 0.25)  //3
+  vec2(0.0, 0.0), //0
+  vec2(0.0, 0.25), //1
+  vec2(numPipeRepeats[0], 0.25), //2
+  vec2(numPipeRepeats[0], 0)  //3
 ];
 
 var pipeSideCoords_16 =
 [
-  vec2(0.0, 0.5 * 0.25), //0
-  vec2(0.0, 1.0 * 0.25), //1
-  vec2(numPipeRepeats[1], 1.0 * 0.25), //2
-  vec2(numPipeRepeats[1], 0.5 * 0.25)  //3
+  vec2(0.0, 0.25), //0
+  vec2(0.0, 0.5), //1
+  vec2(numPipeRepeats[1], 0.5), //2
+  vec2(numPipeRepeats[1], 0.25)  //3
 ];
 
 var pipeTopCoords_16 =
 [
-  vec2(0.0, 0.0 * 0.25), //0
-  vec2(0.0, 0.5 * 0.25), //1
-  vec2(numPipeRepeats[1], 0.5 * 0.25), //2
-  vec2(numPipeRepeats[1], 0 * 0.25)  //3
+  vec2(0.0, 0.0), //0
+  vec2(0.0, 0.25), //1
+  vec2(numPipeRepeats[1], 0.25), //2
+  vec2(numPipeRepeats[1], 0)  //3
 ];
 
 var pipeSideCoords_12 =
 [
-  vec2(0.0, 0.5 * 0.25), //0
-  vec2(0.0, 1.0 * 0.25), //1
-  vec2(numPipeRepeats[2], 1.0 * 0.25), //2
-  vec2(numPipeRepeats[2], 0.5 * 0.25)  //3
+  vec2(0.0, 0.25), //0
+  vec2(0.0, 0.5), //1
+  vec2(numPipeRepeats[2], 0.5), //2
+  vec2(numPipeRepeats[2], 0.25)  //3
 ];
 
 var pipeTopCoords_12 =
 [
-  vec2(0.0, 0.0 * 0.25), //0
-  vec2(0.0, 0.5 * 0.25), //1
-  vec2(numPipeRepeats[2], 0.5 * 0.25), //2
-  vec2(numPipeRepeats[2], 0 * 0.25)  //3
+  vec2(0.0, 0.0), //0
+  vec2(0.0, 0.25), //1
+  vec2(numPipeRepeats[2], 0.25), //2
+  vec2(numPipeRepeats[2], 0)  //3
 ];
 
 var pipeSideCoords_10 =
 [
-  vec2(0.0, 0.5 * 0.25), //0
-  vec2(0.0, 1.0 * 0.25), //1
-  vec2(numPipeRepeats[3], 1.0 * 0.25), //2
-  vec2(numPipeRepeats[3], 0.5 * 0.25)  //3
+  vec2(0.0, 0.25), //0
+  vec2(0.0, 0.5), //1
+  vec2(numPipeRepeats[3], 0.5), //2
+  vec2(numPipeRepeats[3], 0.25)  //3
 ];
 
 var pipeTopCoords_10 =
 [
-  vec2(0.0, 0.0 * 0.25), //0
-  vec2(0.0, 0.5 * 0.25), //1
-  vec2(numPipeRepeats[3], 0.5 * 0.25), //2
-  vec2(numPipeRepeats[3], 0 * 0.25)  //3
+  vec2(0.0, 0.0), //0
+  vec2(0.0, 0.25), //1
+  vec2(numPipeRepeats[3], 0.25), //2
+  vec2(numPipeRepeats[3], 0)  //3
 ];
 
 var pipeSideCoords_8 =
 [
-  vec2(0.0, 0.5 * 0.25), //0
-  vec2(0.0, 1.0 * 0.25), //1
-  vec2(numPipeRepeats[4], 1.0 * 0.25), //2
-  vec2(numPipeRepeats[4], 0.5 * 0.25)  //3
+  vec2(0.0, 0.25), //0
+  vec2(0.0, 0.5), //1
+  vec2(numPipeRepeats[4], 0.5), //2
+  vec2(numPipeRepeats[4], 0.25)  //3
 ];
 
 var pipeTopCoords_8 =
 [
-  vec2(0.0, 0.0 * 0.25), //0
-  vec2(0.0, 0.5 * 0.25), //1
-  vec2(numPipeRepeats[4], 0.5 * 0.25), //2
-  vec2(numPipeRepeats[4], 0 * 0.25)  //3
+  vec2(0.0, 0.0), //0
+  vec2(0.0, 0.25), //1
+  vec2(numPipeRepeats[4], 0.25), //2
+  vec2(numPipeRepeats[4], 0)  //3
 ];
 
 var pipeBorderCoords = [];

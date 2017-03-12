@@ -184,65 +184,6 @@ function drawGoomba()
 
 // GOOMBA TEXTURE
 
-var goombaFaceTexture;
-var goombaFaceTexBuffer;
-
-function createGoombaFaceTexture()
-{
-  // Create a texture
-  goombaFaceTexture = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, goombaFaceTexture);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-  // Fill the texture with a 1x1 blue pixel
-  // Before we load the image so use blue image so we can start rendering immediately
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                new Uint8Array([0, 0, 255, 255]));
-
-  // Asynchronously load an image
-  var image = new Image();
-  image.src = "./Textures/Mario/goombaTexture.png";
-  image.addEventListener('load', function() {
-      // Now that the image has loaded, make copy it to the texture.
-      // Set texture properties
-      gl.bindTexture(gl.TEXTURE_2D, goombaFaceTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-  });
-
-  // Create a buffer for texcoords
-  goombaFaceTexBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, goombaFaceTexBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-  gl.enableVertexAttribArray(texCoordLoc);
-  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  gl.uniform1i(textureLoc, 0);
-}
-
-function applyGoombaFaceTexture()
-{
-  // Bind the appropriate buffers and attributes for the texture
-  gl.bindBuffer(gl.ARRAY_BUFFER, goombaFaceTexBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(squareTexCoords), gl.STATIC_DRAW);
-
-  gl.enableVertexAttribArray(texCoordLoc);
-  gl.vertexAttribPointer(texCoordLoc, 2, gl.FLOAT, false, 0, 0);
-
-  // Bind the texture
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, goombaFaceTexture);
-  gl.uniform1i(textureLoc, 0);
-
-  // Enable the texture before we draw
-  // Tell the shader whether or not we want to enable textures
-  enableTexture = true;
-  gl.uniform1f(enableTextureLoc, enableTexture);
-}
-
 var goombaFacePoints = [];
 var goombaFaceBuffer;
 
@@ -288,9 +229,6 @@ function drawGoombaFace()
   // Change the color to light gray
   gl.uniform4fv( currentColourLoc, colors[1] );
 
-  // // reset the camera transform matrix as well (was changed to move the cubes and player)
-  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
-
   // Set up transformations
   // modelTransformMatrix = mult( modelTransformMatrix, translate( -0.45, 0.23, 40 ));
 
@@ -301,11 +239,7 @@ function drawGoombaFace()
 
   applyTexture(goombaCoords);
 
-
   gl.drawArrays( gl.TRIANGLES, 0, 6 );
-
-  //   // set the camera transform matrix to the actual translated state
-  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 
    // disable the texture before we draw something else later
   enableTexture = false;
