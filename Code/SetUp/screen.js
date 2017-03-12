@@ -183,7 +183,7 @@ function displayInstructionScreen()
     instructionScreen.fillText(" - <1>  <2> or <3> to set Difficulty ", 130, 910);
     instructionScreen.fillText(" - <p> to Pause ", 130, 960);
     instructionScreen.fillText(" - <Q> to Quit", 130, 1010);
-    instructionScreen.fillText(" - <i> to Go Back", 130, 1060);
+    instructionScreen.fillText(" - <i> to exit instructions", 130, 1060);
 }
 
 // screen that player sees when pausing the game
