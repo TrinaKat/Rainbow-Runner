@@ -19,10 +19,11 @@ var gbCanvTop = "16.88vh";
 
 function startGamePlay()
 {
-  if (isStartScreen)
+    document.getElementById("gameboyWhiteScreen").style.opacity = 0;
+  if (!isStartScreen)
   {
       // exit the start screen and go to start sequence with lakitu or unpause
-      isStartScreen = 0;
+      isStartScreen = 1;
       if( !isMarioMode )
       {
           isPaused = false;
@@ -115,7 +116,7 @@ function displayGameBoyScreen()
         gameboyimg.src = "./Textures/gameBoySquare_zoomIn.png";
      }
     else
-        gameboyimg.src = "./Textures/gameBoySquareSmall.png";
+        gameboyimg.src = "./Textures/gameBoySquarer.jpg";
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
 }
 
