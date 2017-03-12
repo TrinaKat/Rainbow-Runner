@@ -96,6 +96,41 @@ html
   width: 3.93vh;
   border-radius: 100%;
 }
+#opening-screen-black{
+  display: inline-block;
+  background-color: black;
+  position: absolute;
+  width: 59.5vh;
+  height: 59.5vh;
+  left: 40.88vh;
+  top: 16.88vh;
+  z-index: 35;
+  opacity: 0;
+  animation: openingScreenBlack 2s;
+  -webkit-animation: openingScreenBlack 2s;  
+}
+
+@keyframes openingScreenBlack {
+  0% {
+    opacity: 1;
+  }
+
+  92% {
+    opacity: 1;
+  }
+
+}
+
+@-webkit-keyframes openingScreenBlack {
+  0% {
+    opacity: 1;
+  }
+ 
+  92% {
+    opacity: 1;
+  }
+
+}
 
 #gameboyWhiteScreen{
   display: inline-block;
@@ -108,6 +143,7 @@ html
   z-index: 30;
   opacity: 1;
   animation: gameboyWhiteScreen 8s;
+   -webkit-animation: gameboyWhiteScreen 8s
 }
 
 @keyframes gameboyWhiteScreen {
@@ -126,6 +162,16 @@ html
   92% {
     opacity: 1;
   }
+
+}
+
+@-webkit-keyframes gameboyWhiteScreen {
+0% {
+    opacity: 1;
+  }
+95%{
+  opacity: 1;
+}
 
 }
 
