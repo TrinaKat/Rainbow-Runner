@@ -278,7 +278,8 @@ function applyTexture(textureCoords)
   if( textureCoords == lakituCoords ||
       textureCoords == lakituStartCoords ||
       textureCoords == cloudFaceCoords ||
-      textureCoords == cloudLakituCoords)
+      textureCoords == cloudLakituCoords ||
+      textureCoords == marioLogoCoords)
   {
     gl.depthMask(false);
   }
