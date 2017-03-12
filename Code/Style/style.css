@@ -1,0 +1,286 @@
+@font-face {
+	font-family: 'eightbit';
+    src: url("../../Materials/Fonts/eightbitWonder.ttf") format('truetype');
+}
+/*before the gamestart, white scrren animation*/
+
+
+
+.windowwrapper {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(47,54,61);
+  z-index: -20;
+
+}
+
+.container
+{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -47.2vh 0 0 -71.85vh;
+  z-index: 0;
+
+}
+
+#text, #startScreen, #endScreen, #instructionScreen, #gl-canvas
+{
+  position: absolute;
+  width: 59vh;
+  height: 59vh;
+
+  left: 40.88vh;
+  top: 16.88vh;
+
+  z-index: 10;
+}
+
+#gl-canvas
+{
+  z-index: 0;
+}
+
+ #pauseScreen
+ {
+  position: absolute;
+  width: 33vh;
+  height: 14vh;
+
+  left: 53.88vh;
+  top: 23.38vh;
+
+  z-index: 10;
+ }
+
+#gameboyScreen
+{
+  position: relative;
+  width: 143.70vh;
+  height: 94.4vh;
+
+  /*left: 2.62vh;
+  top: 2.62vh;*/
+
+  z-index: -10;
+
+}
+.gameboydiv{
+  position: relative;
+
+  width: 143.70vh;
+  height: 94.4vh;
+
+}
+#gameStartBtn{
+
+  position:absolute;
+
+  top: 58.88vh;
+  left: 25.38vh;
+
+  height: 3.93vh;
+  width: 3.93vh;
+  border-radius: 100%;
+
+}
+#gameResizeBtn{
+
+  position:absolute;
+  top: 67.88vh;
+  left: 25.38vh;
+  height: 3.93vh;
+  width: 3.93vh;
+  border-radius: 100%;
+}
+
+#gameboyWhiteScreen{
+  display: inline-block;
+  background-color: white;
+  position: absolute;
+  width: 59vh;
+  height: 59vh;
+  left: 40.88vh;
+  top: 16.88vh;
+  z-index: 30;
+  opacity: 1;
+  animation: gameboyWhiteScreen 8s;
+}
+
+@keyframes gameboyWhiteScreen {
+  0% {
+    opacity: 1;
+  }
+  56% {
+    opacity: 1;
+  }
+  57% {
+    opacity: 1;
+  }
+  87% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+
+}
+
+#screen-gameboy-text{
+    z-index: 30;
+    position: relative;
+    font-family: 'Asap', sans-serif;
+    font-size: 7.5vh;
+    top: 23vh;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -2px;
+    color: #3232fc;
+    text-align: center;
+
+    -webkit-transform: skew(-5deg);
+    transform: skew(-5deg);
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 16;
+    color: #3232fc;
+    background: -webkit-linear-gradient(0deg, #3232fc 40%, #85e367 40%, #85e367 45%, #ff52e8 45%, #ff52e8 50%, #ff0151 50%, #ff0151 55%, #f9e52e 55%, #f9e52e 60%, #ffffff 60%);
+    background-position: 31.89vh;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: screen-gameboy-text 10s ;
+    /*animation: screen-gameboy-text 10s infinite linear;*/
+}
+
+@-webkit-keyframes screen-gameboy-text {
+  0% {
+    color: #f9e52e;
+    background-position: -26.03vh;
+    opacity: 0;
+  }
+  63.9% {
+    opacity: 0;
+  }
+  64% {
+    color: #f9e52e;
+    background-position: -26.03vh;
+    opacity: 1;
+  }
+  66.5% {
+    color: #f9e52e;
+  }
+  67% {
+    color: #ff0151;
+  }
+  69.5% {
+    color: #ff0151;
+  }
+  70% {
+    color: #ff52e8;
+  }
+  72.5% {
+    color: #ff52e8;
+  }
+  73% {
+    color: #85e367;
+  }
+  75.5% {
+    color: #85e367;
+  }
+  76% {
+    color: #3232fc;
+  }
+  78% {
+    background-position: 26.03vh;
+  }
+  87% {
+    opacity: 1;
+    background-position: 26.03vh;
+  }
+  92% {
+    opacity: 0;
+    background-position: 26.03vh;
+  }
+}
+@keyframes screen-gameboy-text {
+  0% {
+    color: #f9e52e;
+    background-position: -26.03px;
+    opacity: 0;
+  }
+  63.9% {
+    opacity: 0;
+  }
+  64% {
+    color: #f9e52e;
+    background-position: -26.03px;
+    opacity: 1;
+  }
+  66.5% {
+    color: #f9e52e;
+  }
+  67% {
+    color: #ff0151;
+  }
+  69.5% {
+    color: #ff0151;
+  }
+  70% {
+    color: #ff52e8;
+  }
+  72.5% {
+    color: #ff52e8;
+  }
+  73% {
+    color: #85e367;
+  }
+  75.5% {
+    color: #85e367;
+  }
+  76% {
+    color: #3232fc;
+  }
+  78% {
+    background-position: 26.03px;
+  }
+  87% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0;
+  }
+}
+#screen-nintendo-text{
+    z-index: 30;
+    opacity: 1;
+    position: relative;
+    text-align: center;
+    font-family: Arial Black, sans-serif;
+    font-weight: 700;
+    font-size: 3.5vh;
+    top: 35vh;
+  -webkit-animation: screen-nintendo-text 8s;
+  animation: screen-nintendo-text 8s;
+}
+
+@keyframes screen-nintendo-text {
+  0% {
+    opacity: 0;
+  }
+  56% {
+    opacity: 0;
+  }
+  57% {
+    opacity: 1;
+  }
+  87% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0;
+  }
+}
+
+
+
+
