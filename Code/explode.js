@@ -81,11 +81,13 @@ function explodeCube( timeDiff, x )
     // Outermost layer of larger cubes
     for( var i = 0; i < explodePositions_x.length; i++ )
     {
-      // Calculate translation position due to angle
-      var angle = explodeAngle[i];
-      explodePositions_x[i] = explodePositions_x[i] + 2.0 * timeDiff * Math.cos( radians( angle ));
-      explodePositions_y[i] = explodePositions_y[i] + 2.0 * timeDiff * Math.sin( radians( angle ));
-
+      if( !isPaused || isGameOver )
+      {
+        // Calculate translation position due to angle
+        var angle = explodeAngle[i];
+        explodePositions_x[i] = explodePositions_x[i] + 2.0 * timeDiff * Math.cos( radians( angle ));
+        explodePositions_y[i] = explodePositions_y[i] + 2.0 * timeDiff * Math.sin( radians( angle ));
+      }
       // Move the cube to the correct position
       transformExplodeCube( explodePositions_x[i] + x, explodePositions_y[i], explodePositions_z[i], 0.2 );
 
@@ -120,11 +122,13 @@ function explodeCube( timeDiff, x )
     // Middle layer of medium cubes
     for( var it = 0; it < explodePositions2_x.length; it++ )
     {
-      // Calculate translation position due to angle
-      var angle2 = explodeAngle2[it];
-      explodePositions2_x[it] = explodePositions2_x[it] + 1.3 * timeDiff * Math.cos( radians( angle2 ));
-      explodePositions2_y[it] = explodePositions2_y[it] + 1.3 * timeDiff * Math.sin( radians( angle2 ));
-
+      if( !isPaused || isGameOver )
+      {
+        // Calculate translation position due to angle
+        var angle2 = explodeAngle2[it];
+        explodePositions2_x[it] = explodePositions2_x[it] + 1.3 * timeDiff * Math.cos( radians( angle2 ));
+        explodePositions2_y[it] = explodePositions2_y[it] + 1.3 * timeDiff * Math.sin( radians( angle2 ));
+      }
       // Move the cube to the correct position
       transformExplodeCube( explodePositions2_x[it] + x, explodePositions2_y[it], explodePositions2_z[it], 0.14 );
 
@@ -158,10 +162,13 @@ function explodeCube( timeDiff, x )
     // Innermost layer of small cubes
     for( var iter = 0; iter < explodePositions3_x.length; iter++ )
     {
-      // Calculate translation position due to angle
-      var angle3 = explodeAngle3[iter];
-      explodePositions3_x[iter] = explodePositions3_x[iter] + 0.6 * timeDiff * Math.cos( radians( angle3 ));
-      explodePositions3_y[iter] = explodePositions3_y[iter] + 0.6 * timeDiff * Math.sin( radians( angle3 ));
+      if( !isPaused || isGameOver )
+      {
+        // Calculate translation position due to angle
+        var angle3 = explodeAngle3[iter];
+        explodePositions3_x[iter] = explodePositions3_x[iter] + 0.6 * timeDiff * Math.cos( radians( angle3 ));
+        explodePositions3_y[iter] = explodePositions3_y[iter] + 0.6 * timeDiff * Math.sin( radians( angle3 ));
+      }
 
       // Move the cube to the correct position
       transformExplodeCube( explodePositions3_x[iter] + x, explodePositions3_y[iter], explodePositions3_z[iter], 0.08 );
