@@ -34,6 +34,7 @@ function resizeCanvas()
     var btnResize = document.getElementById ("gameResizeBtn");
     var btnStart = document.getElementById ("gameStartBtn");
     var gameBoyBackground = document.getElementById ("gameboyScreen");
+    var whiteScreen = document.getElementById( "gameboyWhiteScreen");
 
     // Enlarge by factor of ~1.5
     // Calculate Left and Top by getting (New - Old)/2
@@ -58,6 +59,11 @@ function resizeCanvas()
         gameBoyBackground.style.height = "141.6vh";
         gameBoyBackground.style.left = "-33.925vh";
         gameBoyBackground.style.top = "-23.6vh";
+
+        whiteScreen.style.width = "88.5vh";
+        whiteScreen.style.height = "88.5vh";
+        whiteScreen.style.left = "28.13vh";
+        whiteScreen.style.top = "2vh";
     }
     else {
         gbCanvWidth = "59vh";
@@ -79,6 +85,11 @@ function resizeCanvas()
         gameBoyBackground.style.height = "94.4vh";
         gameBoyBackground.style.left = "0vh";
         gameBoyBackground.style.top = "0vh";
+
+        whiteScreen.style.width = "59vh";
+        whiteScreen.style.height = "59vh";
+        whiteScreen.style.left = "40.88vh";
+        whiteScreen.style.top = "16.88vh";
     }
 
     for ( var i = 0; i < 6; i++ )

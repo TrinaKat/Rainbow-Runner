@@ -11,6 +11,7 @@
   width: 100vw;
   background-color: rgb(47,54,61);
   z-index: -20;
+  overflow: hidden;
 
 }
 
