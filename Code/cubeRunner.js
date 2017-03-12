@@ -169,20 +169,21 @@ window.onload = function init()
 
     // Populate all the points, create all the textures
     generateEverything();
-
+    playGameBoySound();
     // startSequence();
     render(0);
 }
 
 // called repeatedly to render and draw our scene
 function render(timeStamp)
-{
+{   
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // Clear the 2D canvas that has the text
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     displayGameBoyScreen();
+    
     // display the start screen
     if (isStartScreen)
     {

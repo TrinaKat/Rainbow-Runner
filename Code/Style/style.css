@@ -140,18 +140,19 @@ html
   font-size: 2.0vh;
   top: 33vh;
 
--webkit-animation: screen-pressStart-text-text 8s;
-  animation: screen-pressStart-text 8s;
+-webkit-animation: screen-pressStart-text 8s;
+animation-delay: 5s;
+animation: screen-pressStart-text 8s;
 }
 
 @keyframes screen-pressStart-text {
   0% {
     opacity: 0;
   }
-  65% {
+  60% {
     opacity: 0;
   }
-  68% {
+  70% {
     color: #999999;
     opacity: 1;
   }
@@ -190,8 +191,8 @@ html
     background-position: 76.03vh;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-animation: screen-gameboy-text 4s ;
-    animation: screen-gameboy-text 4s;
+    -webkit-animation: screen-gameboy-text 5s ;
+    animation: screen-gameboy-text 5s;
 }
 
 @-webkit-keyframes screen-gameboy-text {
@@ -201,7 +202,7 @@ html
     opacity: 0;
   }
 
-  54% {
+  50% {
     color: #f9e52e;
     background-position: -56.5vh;
     opacity: 1;
@@ -285,7 +286,7 @@ html
     opacity: 1;
 
   }
-  92% {
+  95% {
     opacity: 0;
 
   }

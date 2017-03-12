@@ -1,5 +1,14 @@
 // Music
 
+function playGameBoySound()
+
+{
+  // var gameBoyStartSound =  document.getElementById('gameBoyStartSound')
+  // setTimeout( gameBoyStartSound.play(), 5000);
+  // gameBoyStartSound.play();
+
+  //document.getElementById('gameBoyStartSound').pause();
+}
 function playMarioMusic()
 {
   if ( isInvincible )
