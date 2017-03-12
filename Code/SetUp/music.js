@@ -9,26 +9,28 @@ function playMarioMusic()
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').play();
   }
-  else if ( !isMusic )
+  else if ( !isMusic || isGameOver )
   {
       document.getElementById('themeSong').pause();
       document.getElementById('funSong').pause();
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').pause();
   }
-  else if( isMusic && !isInvincible && !isFun )
+  else if( isMusic && !isInvincible && !isFun && !isGameOver)
   {
       document.getElementById('themeSong').play();
       document.getElementById('funSong').pause();
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').pause();
+      document.getElementById('dieSound').pause();
   }
-  else if ( isMusic && !isInvincible && isFun )
+  else if ( isMusic && !isInvincible && isFun && !isGameOver)
   {
       document.getElementById('themeSong').pause();
       document.getElementById('funSong').play();
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').pause();
+      document.getElementById('dieSound').pause();
   }
 }
 

@@ -11,13 +11,12 @@ function eventListeners()
               {
                   console.log("i key");
               }
-              if( isPaused )
+              if( isPaused && gameHasStarted )
               {
                   if( isStartScreen )
                   {
                       removeScreen(startScreen);
                       displayInstructionScreen();
-
                       isStartScreen = !isStartScreen;
                       isInstructionScreen = !isInstructionScreen;
                   }
@@ -36,7 +35,7 @@ function eventListeners()
               {
                   console.log("m key");
               }
-              if( isStartScreen ) {
+              if( isStartScreen && gameHasStarted ) {
                   isMarioMode = !isMarioMode;
               }
               break;
@@ -96,7 +95,10 @@ function eventListeners()
               {
                   console.log("s key");
               }
-              isMusic = !isMusic;
+              if( gameHasStarted )
+              {
+                isMusic = !isMusic;
+              }
               break;
           case 122:   // 'z' key
               if( devModeOn )
@@ -154,7 +156,7 @@ function eventListeners()
           // Prevent browser default action
           event.preventDefault();
           // start the game
-          if( isStartScreen )
+          if( isStartScreen && gameHasStarted )
           {
               // exit the start screen and go to start sequence with lakitu or unpause
               isStartScreen = 0;

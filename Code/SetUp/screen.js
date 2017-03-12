@@ -134,11 +134,8 @@ function displayGameBoyScreen()
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
-    // if (ifEnlargeCanvas){
-    //     gameboyimg.src = "./Materials/Images/gameBoySquare_zoomIn.png";
-    //  }
-    // else
-        gameboyimg.src = "./Materials/Images/gameBoySquareSmall.png";
+    gameboyimg.src = "./Materials/Images/gameBoySquareSmall.png";
+
 
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
 }
@@ -188,17 +185,17 @@ function displayInstructionScreen()
     instructionScreen.font = "42px eightbit"
     instructionScreen.fillText("Theme/Design Settings", 130, 280);
     instructionScreen.font = "32px eightbit"
-    instructionScreen.fillText(" - <m> for Mario Mode", 130, 340);
+    instructionScreen.fillText(" - <m> to toggle Mario Mode", 130, 340);
     instructionScreen.fillText(" - <s> to toggle Sound ", 130, 390);
     instructionScreen.fillText(" - <f> to flip Rainbow Road,", 130, 440);
-    instructionScreen.fillText("        Regular Mode only", 130, 490);
+    instructionScreen.fillText("        ( Regular Mode )", 130, 490);
 
     instructionScreen.font = "42px eightbit"
     instructionScreen.fillText("Navigation Controls", 130, 590);
     instructionScreen.font = "32px eightbit"
     instructionScreen.fillText(" - <LEFT> to move left", 130, 650);
     instructionScreen.fillText(" - <RIGHT> to move right", 130, 700);
-    instructionScreen.fillText(" - <UP> to jump, Mario Mode only", 130, 750);
+    instructionScreen.fillText(" - <UP> to jump ( Mario Mode )", 130, 750);
 
     instructionScreen.font = "42px eightbit"
     instructionScreen.fillText("Gameplay Controls", 130, 850);
@@ -206,7 +203,7 @@ function displayInstructionScreen()
     instructionScreen.fillText(" - <1>  <2> or <3> to set Difficulty ", 130, 910);
     instructionScreen.fillText(" - <p> to Pause ", 130, 960);
     instructionScreen.fillText(" - <Q> to Quit", 130, 1010);
-    instructionScreen.fillText(" - <i> to Go Back", 130, 1060);
+    instructionScreen.fillText(" - <i> to exit instructions", 130, 1060);
 }
 
 // screen that player sees when pausing the game
