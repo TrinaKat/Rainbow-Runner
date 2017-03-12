@@ -128,13 +128,13 @@
 
 #screen-gameboy-text{
 
-    width: 145vh;
+    width: 245vh;
     z-index: 30;
     position: relative;
     font-family: 'Asap', sans-serif;
     font-size: 7.5vh;
     top: 23vh;
-    left: -43.5vh;
+    left: -93.5vh;
     font-weight: 800;
     font-style: italic;
     letter-spacing: -2px;
@@ -148,25 +148,23 @@
 
     color: #3232fc;
     background: -webkit-linear-gradient(0deg, #3232fc 40%, #85e367 40%, #85e367 45%, #ff52e8 45%, #ff52e8 50%, #ff0151 50%, #ff0151 55%, #f9e52e 55%, #f9e52e 60%, #ffffff 60%);
-    background-position: 6.89vh;
+    background-position: 76.03vh;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-animation: screen-gameboy-text 8s ;
-    animation: screen-gameboy-text 10s infinite linear;
+    animation: screen-gameboy-text 8s;
 }
 
 @-webkit-keyframes screen-gameboy-text {
   0% {
     color: #f9e52e;
-    background-position: -26.03vh;
+    background-position: -56.5vh;
     opacity: 0;
   }
-  63.9% {
-    opacity: 0;
-  }
-  64% {
+  
+  54% {
     color: #f9e52e;
-    background-position: -26.03vh;
+    background-position: -56.5vh;
     opacity: 1;
   }
   66.5% {
@@ -194,29 +192,27 @@
     color: #3232fc;
   }
   78% {
-    background-position: -16.03vh;
+    background-position: 76.03vh;
   }
   87% {
     opacity: 1;
-    background-position: 6.03vh;
+
   }
   92% {
-    opacity: 1;
-    background-position: 6.03vh;
+    opacity: 0;
+
   }
 }
 @keyframes screen-gameboy-text {
-  0% {
+   0% {
     color: #f9e52e;
-    background-position: -26.03px;
+    background-position: -56.5vh;
     opacity: 0;
   }
-  63.9% {
-    opacity: 0;
-  }
-  64% {
+  
+  54% {
     color: #f9e52e;
-    background-position: -26.03px;
+    background-position: -56.5vh;
     opacity: 1;
   }
   66.5% {
@@ -244,14 +240,17 @@
     color: #3232fc;
   }
   78% {
-    background-position: 26.03px;
+    background-position: 76.03vh;
   }
   87% {
     opacity: 1;
+
   }
   92% {
     opacity: 0;
+
   }
+
 }
 #screen-nintendo-text{
     z-index: 30;
@@ -270,8 +269,8 @@
   0% {
     opacity: 0;
   }
-  56% {
-    opacity: 0;
+  50% {
+    opacity: 1;
   }
   57% {
     opacity: 1;
