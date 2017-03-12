@@ -1,4 +1,4 @@
-# Rainbow Runner
+# *Rainbow Runner*
 ###### by Karen Li, Katrina Wijaya, Emily Chen, Robert Zalog, and Mai Saleh
 https://ucla-wi17-cs174a.github.io/project-group05/
 
