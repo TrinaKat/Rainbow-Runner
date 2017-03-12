@@ -30,3 +30,9 @@ All other gameplay controls are through the keyboard.
   * [p] to pause  
   * [q] to quit  
   * [i] to toggle instructions display on start screen  
+
+## Advanced Topics
+Since our group had five members, we implemented three advanced topics:
+  1. Collision Detection with all objects and the player
+  2. Shadow under the player 
+  3. Curves for the cloud outlines
