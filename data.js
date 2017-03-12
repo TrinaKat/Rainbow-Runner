@@ -71,9 +71,11 @@ function generateEverything()
 
   // Create textures
   createTexture();
-  createRainbowTexture();
-  createGrassTexture();
-  createPipeRepeatTexture();
+  createRepeatTexture();
+  createScrollTexture();
+  // createRainbowTexture();
+  // createGrassTexture();
+  // createPipeRepeatTexture();
 
   // Mario Textures
   populateCubeTexCoords();

@@ -82,16 +82,16 @@ function introTransition() {
             switch( length )
             {
               case maxWidth:
-                applyRepeatingTexture(pipeCoords_16, pipeRepeatTexture);
+                applyRepeatingTexture(pipeCoords_16, textureRepeats);
                 break;
               case mid1Width:
-                applyRepeatingTexture(pipeCoords_12, pipeRepeatTexture);
+                applyRepeatingTexture(pipeCoords_12, textureRepeats);
                 break;
               case mid2Width:
-                applyRepeatingTexture(pipeCoords_10, pipeRepeatTexture);
+                applyRepeatingTexture(pipeCoords_10, textureRepeats);
                 break;
               case minWidth:
-                applyRepeatingTexture(pipeCoords_8, pipeRepeatTexture);
+                applyRepeatingTexture(pipeCoords_8, textureRepeats);
                 break;
               default:
                 applyTexture(pipeCoords);

@@ -50,39 +50,58 @@ function drawPath(scrollAmount)
          if (!isPaused)
          {
             // Don't grow forever
-            if( pathTexCoords[0][1] > 60 )
+            if( isMarioMode )
             {
-                pathTexCoords = [];
-                for( var i = 0; i < 6; i++ )
+                if( rainbowCoords[0][1] > 60 )
                 {
-                    pathTexCoords.push(resetTexCoords[i]);
+                    rainbowCoords = [];
+                    for( var i = 0; i < 6; i++ )
+                    {
+                        rainbowCoords.push(rainbowResetCoords[i]);
+                    }
+                }
+
+                for( var v = 0; v < 6; v++ )
+                {
+                    rainbowCoords[ v ] = add( rainbowCoords[ v ], vec2( 0, scrollAmount ));
                 }
             }
-
-            for( var v = 0; v < 6; v++ )
+            else
             {
-                pathTexCoords[ v ] = add( pathTexCoords[ v ], vec2( 0, scrollAmount ));
+                if( grassCoords[0][1] > 60 )
+                {
+                    grassCoords = [];
+                    for( var i = 0; i < 6; i++ )
+                    {
+                        grassCoords.push(grassResetCoords[i]);
+                    }
+                }
+
+                for( var v = 0; v < 6; v++ )
+                {
+                    grassCoords[ v ] = add( grassCoords[ v ], vec2( 0, scrollAmount ));
+                }
             }
         }
 
         if (isMarioMode)
         {
-            applyRepeatingTexture(pathTexCoords, grassTexture);
+            applyScrollingTexture(grassCoords);
         }
         else
         {
-            applyRepeatingTexture(pathTexCoords, rainbowTexture);
+            applyScrollingTexture(rainbowCoords);
         }
     }
     else
     {
         if (isMarioMode)
         {
-            applyRepeatingTexture(pathTexCoords, grassTexture);
+            applyScrollingTexture(grassCoords);
         }
         else
         {
-            applyRepeatingTexture(flippedRainbowTexCoords, rainbowTexture);
+            applyRepeatingTexture(flippedRainbowCoords);
         }
     }
 
