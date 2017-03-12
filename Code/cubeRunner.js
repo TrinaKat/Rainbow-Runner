@@ -20,7 +20,7 @@ var isExploded = 0;
 var hasHitBorder = 0;
 var isGameOver = false;
 var isStartSequence = true;
-var startSequenceTimer = 5;
+var startSequenceTimer = 4.3;
 var enableTexture = false;
 var isFlipped = false;      // so have path scrolling by default
 

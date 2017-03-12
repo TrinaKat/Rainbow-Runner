@@ -121,7 +121,7 @@ function lakituStartSequence()
     else if (startSequenceTimer < 0 )
     {
         numLit = 0;
-        startSequenceTimer = 5;
+        startSequenceTimer = 4.3;
         isStartSequence = false;
         isPaused = false;
         startSoundHasPlayed = 2;

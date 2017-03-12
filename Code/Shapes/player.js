@@ -283,7 +283,7 @@ function drawPlayerLogo()
   gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
   gl.enableVertexAttribArray( vPosition );
 
-  modelTransformMatrix = translate(0, 0, cameraPositionZAxis - 10);
+  modelTransformMatrix = translate(0, 0, cameraPositionZAxis - 9.99);
 
   // tilt the player if needed
   if (playerTilt == -1) {
@@ -308,5 +308,7 @@ function drawPlayerLogo()
 
   gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix));
   gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
+
+  gl.depthMask(true);
 
 }
