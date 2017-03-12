@@ -324,7 +324,7 @@ function render(timeStamp)
     // Draw the path
     // Step size of 0.8 units, moves at a constant rate
     // gl.disable(gl.DEPTH_TEST);
-    drawPath(timeDiff * 0.8);
+    drawPath(timeDiff * 0.4);
 
     // TODO REMOVE keep path from scrolling
     // drawPath(0);

@@ -227,7 +227,7 @@ function eventListeners()
       case 38: // UP key
           // Prevent browser default action
           event.preventDefault();
-          if( !isPaused && !isGameOver )
+          if( !isPaused && !isGameOver && !isIntroTransition )
           {
               upKeyDown = true;
           }

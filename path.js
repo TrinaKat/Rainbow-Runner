@@ -50,7 +50,7 @@ function drawPath(scrollAmount)
          if (!isPaused)
          {
             // Don't grow forever
-            if( isMarioMode )
+            if( !isMarioMode )
             {
                 if( rainbowCoords[0][1] > 60 )
                 {
