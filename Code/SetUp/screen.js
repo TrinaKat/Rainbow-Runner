@@ -111,11 +111,7 @@ function displayGameBoyScreen()
     var gameBoycanvas = document.getElementById("gameboyScreen");
     var ctx = gameBoycanvas.getContext("2d");
     var gameboyimg = new Image();
-    if (ifEnlargeCanvas){
-        gameboyimg.src = "./Materials/Images/gameBoySquare_zoomIn.png";
-     }
-    else
-        gameboyimg.src = "./Materials/Images/gameBoySquareSmall.png";
+    gameboyimg.src = "./Materials/Images/gameBoySquareSmall.png";
 
     ctx.drawImage(gameboyimg, 0, 0, 2688,1740);
 }
