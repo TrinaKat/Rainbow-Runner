@@ -30,3 +30,6 @@ All other gameplay controls are through the keyboard.
   * [p] to pause  
   * [q] to quit  
   * [i] to toggle instructions display on start screen  
+
+## Advanced Topics
+Since our group had five members, we implemented three advanced topics: Collision Detection, Shadows, and Curves.
