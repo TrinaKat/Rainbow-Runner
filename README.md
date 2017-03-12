@@ -5,9 +5,9 @@ https://ucla-wi17-cs174a.github.io/project-group05/
 
 Overview
 =========
-A vertically scrolling game inspired by Cube Runner, Mario Kart's Rainbow Road, and the Super Mario franchise. 
-
-The player must dodge cubes while navigating through a Rainbow Road or Super Mario themed world. The Super Mario themed world also includes additional features such as Goombas that the player must dodge, question mark cubes that unlock temporary invincibility, and star coins that the player can collect for extra points.
+A vertically scrolling game inspired by Cube Runner, Mario Kart's Rainbow Road, and the Super Mario franchise.  
+The player must dodge cubes while navigating through a Rainbow Road or Super Mario themed world.  
+The Super Mario themed world also includes additional features such as Goombas that the player must dodge, question mark cubes that unlock temporary invincibility, and star coins that the player can collect for extra points.
 
 How To Play
 ===========
