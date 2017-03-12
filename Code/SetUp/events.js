@@ -17,7 +17,6 @@ function eventListeners()
                   {
                       removeScreen(startScreen);
                       displayInstructionScreen();
-
                       isStartScreen = !isStartScreen;
                       isInstructionScreen = !isInstructionScreen;
                   }
