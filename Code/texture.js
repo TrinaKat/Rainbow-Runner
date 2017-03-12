@@ -21,7 +21,7 @@ function createTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/textures.png";
+  image.src = "./Materials/Images/textures.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties

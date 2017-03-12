@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<link rel="icon" href="./Textures/ChainChomp.ico" type="image/x-icon">
+<link rel="icon" href="./Materials/Images/ChainChomp.ico" type="image/x-icon">
 
 <!-- Vertex shader which provides the clipspace coordinates -->
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -90,37 +90,36 @@ void main() {
 }
 </script>
 
-<link href='style.css' rel='stylesheet' type='text/css'>
+<link href='./Code/Style/style.css' rel='stylesheet' type='text/css'>
 
-<script type="text/javascript" src="Common/webgl-utils.js"></script>
-<script type="text/javascript" src="Common/initShaders.js"></script>
-<script type="text/javascript" src="Common/MV.js"></script>
+<script type="text/javascript" src="./Common/webgl-utils.js"></script>
+<script type="text/javascript" src="./Common/initShaders.js"></script>
+<script type="text/javascript" src="./Common/MV.js"></script>
 
-<script type="text/javascript" src="data.js"></script>
-<script type="text/javascript" src="events.js"></script>
-<script type="text/javascript" src="music.js"></script>
-<script type="text/javascript" src="movementFSM.js"></script>
-<script type="text/javascript" src="cubes.js"></script>
-<script type="text/javascript" src="collisions.js"></script>
-<script type="text/javascript" src="player.js"></script>
-<script type="text/javascript" src="shadows.js"></script>
-<script type="text/javascript" src="star.js"></script>
-<script type="text/javascript" src="path.js"></script>
-<script type="text/javascript" src="curves.js"></script>
-<script type="text/javascript" src="explode.js"></script>
-<script type="text/javascript" src="texture.js"></script>
-<script type="text/javascript" src="repeatingTextures.js"></script>
-<script type="text/javascript" src="misc.js"></script>
-<script type="text/javascript" src="starCoin.js"></script>
-<script type="text/javascript" src="goomba.js"></script>
-<script type="text/javascript" src="mario.js"></script>
-<script type="text/javascript" src="moreMario.js"></script>
-<script type="text/javascript" src="marioMode.js"></script>
-<script type="text/javascript" src="screen.js"></script>
-<script type="text/javascript" src="startSequence.js"></script>
-<script type="text/javascript" src="levelTransitions.js"></script>
+<script type="text/javascript" src="./Code/SetUp/data.js"></script>
+<script type="text/javascript" src="./Code/SetUp/events.js"></script>
+<script type="text/javascript" src="./Code/SetUp/music.js"></script>
+<script type="text/javascript" src="./Code/movementFSM.js"></script>
+<script type="text/javascript" src="./Code/Shapes/cubes.js"></script>
+<script type="text/javascript" src="./Code/collisions.js"></script>
+<script type="text/javascript" src="./Code/Shapes/player.js"></script>
+<script type="text/javascript" src="./Code/Shapes/shadows.js"></script>
+<script type="text/javascript" src="./Code/Shapes/star.js"></script>
+<script type="text/javascript" src="./Code/Shapes/path.js"></script>
+<script type="text/javascript" src="./Code/Shapes/curves.js"></script>
+<script type="text/javascript" src="./Code/explode.js"></script>
+<script type="text/javascript" src="./Code/texture.js"></script>
+<script type="text/javascript" src="./Code/repeatingTextures.js"></script>
+<script type="text/javascript" src="./Code/misc.js"></script>
+<script type="text/javascript" src="./Code/Shapes/starCoin.js"></script>
+<script type="text/javascript" src="./Code/Shapes/goomba.js"></script>
+<script type="text/javascript" src="./Code/SetUp/marioMode.js"></script>
+<script type="text/javascript" src="./Code/SetUp/screen.js"></script>
+<script type="text/javascript" src="./Code/startSequence.js"></script>
+<script type="text/javascript" src="./Code/levelTransitions.js"></script>
 
-<script type="text/javascript" src="cubeRunner.js"></script>
+<script type="text/javascript" src="./Code/cubeRunner.js"></script>
+
 <div class = "windowwrapper">
 <div class="container">
   <canvas id="gl-canvas" width="1125" height="1125">
@@ -140,57 +139,57 @@ void main() {
 </div>
 </div>
 <audio id="themeSong" controls loop hidden>
-  <source src="Sound/mario8BitSong.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/mario8BitSong.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="happySound" controls hidden>
-  <source src="Sound/woohoo.wav" type="audio/wav">
+  <source src="./Materials/Sound/woohoo.wav" type="audio/wav">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="quitSound" controls hidden>
-  <source src="Sound/giveup.wav" type="audio/wav">
+  <source src="./Materials/Sound/giveup.wav" type="audio/wav">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="frackOffSound" controls hidden>
-  <source src="Sound/goaway.wav" type="audio/wav">
+  <source src="./Materials/Sound/goaway.wav" type="audio/wav">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="crashSound" controls hidden>
-  <source src="Sound/crash.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/crash.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="funSong" controls hidden>
-  <source src="Sound/funSong.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/funSong.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="starSong" controls hidden>
-  <source src="Sound/starSong.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/starSong.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="chaCHING" controls hidden>
-  <source src="Sound/chaCHING.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/chaCHING.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="rainbowRoad" controls autoplay hidden>
-  <source src="Sound/rainbowRoad.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/rainbowRoad.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="jump" controls hidden>
-  <source src="Sound/jump.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/jump.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="startSound" controls hidden>
-  <source src="Sound/startSound.mp3" type="audio/mpeg">
+  <source src="./Materials/Sound/startSound.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 

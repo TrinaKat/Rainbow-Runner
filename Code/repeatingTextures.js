@@ -186,7 +186,7 @@ function createRepeatTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/textureRepeats.png";
+  image.src = "./Materials/Images/textureRepeats.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties
@@ -218,7 +218,7 @@ function createScrollTexture()
 
   // Asynchronously load an image
   var image = new Image();
-  image.src = "./Textures/textureScrolls.png";
+  image.src = "./Materials/Images/textureScrolls.png";
   image.addEventListener('load', function() {
       // Now that the image has loaded, make copy it to the texture.
       // Set texture properties
@@ -232,38 +232,6 @@ function createScrollTexture()
 
   // Create a buffer for texcoords
   scrollingTexCoordBuffer = gl.createBuffer();
-
-  gl.uniform1i(textureLoc, 0);
-}
-
-function createRepeatTexture()
-{
-  // Create a texture
-  textureRepeats = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, textureRepeats);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-  // Fill the texture with a 1x1 blue pixel
-  // Before we load the image so use blue image so we can start rendering immediately
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-                new Uint8Array([0, 0, 255, 255]));
-
-  // Asynchronously load an image
-  var image = new Image();
-  image.src = "./Textures/textureRepeats.png";
-  image.addEventListener('load', function() {
-      // Now that the image has loaded, make copy it to the texture.
-      // Set texture properties
-      gl.bindTexture(gl.TEXTURE_2D, textureRepeats);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST );
-      gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
-  });
-
-  // Create a buffer for texcoords
-  repeatingTexCoordBuffer = gl.createBuffer();
 
   gl.uniform1i(textureLoc, 0);
 }

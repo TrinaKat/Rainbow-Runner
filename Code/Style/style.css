@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'eightbit';
-    src: url("Fonts/eightbitWonder.ttf") format('truetype');
+    src: url("../../Materials/Fonts/eightbitWonder.ttf") format('truetype');
 }
 
 .windowwrapper {

@@ -13,7 +13,10 @@ var swapFeet = 1;  // Swap every second, based on timeDiff in cubeRunner.js
 var goombaAngle = 0;
 var goombaJumpUp = true;  // need to be 0 so the goomba starts with jumping up
 
-// function generateGoombaNormals(a, b, c, part) {}
+var isClockwise = true;
+var goombaJumpTime = 0;
+var goombaJumpStage = 0;
+var goombaJumpHeights = [ 0, 0.1, 0.15, 0.2, 0.25, 0.3 ];
 
 function drawGoombaBody()
 {
@@ -104,11 +107,6 @@ function drawGoombaBody()
 
   modelTransformMatrix = goombaModelTransformMatrix;
 }
-
-var isClockwise = true;
-var goombaJumpTime = 0;
-var goombaJumpStage = 0;
-var goombaJumpHeights = [ 0, 0.01, 0.03, 0.06, 0.08, 0.12 ];
 
 function drawGoomba()
 {
