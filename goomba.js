@@ -11,7 +11,7 @@ var swapFeet = 1;  // Swap every second, based on timeDiff in cubeRunner.js
 
 // variables needed to rotate goomba
 var goombaAngle = 0;
-var goombaJumpDirection = 0;  // need to be 0 so the goomba starts with jumping up
+var goombaJumpUp = true;  // need to be 0 so the goomba starts with jumping up
 
 // function generateGoombaNormals(a, b, c, part) {}
 
@@ -25,6 +25,7 @@ function drawGoombaBody()
   modelTransformMatrix = goombaModelTransformMatrix;
   // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.7, 40 ));
   modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.7, 0 ));
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.4, 0.4, 0.4 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
@@ -34,6 +35,7 @@ function drawGoombaBody()
   modelTransformMatrix = goombaModelTransformMatrix;
   // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.45, 40 ));
   modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.45, 0 ));
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.55, 0.3, 0.55 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
@@ -46,6 +48,7 @@ function drawGoombaBody()
   modelTransformMatrix = goombaModelTransformMatrix;
   // modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.2, 40 ));
   modelTransformMatrix = mult( modelTransformMatrix, translate( 0, 0.2, 0 ));
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.25, 0.25, 0.25 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
@@ -59,6 +62,7 @@ function drawGoombaBody()
   modelTransformMatrix = goombaModelTransformMatrix;
   // modelTransformMatrix = mult( modelTransformMatrix, translate( -0.23, 0, 40.1 ));
   modelTransformMatrix = mult( modelTransformMatrix, translate( -0.23, 0, 0.1 ));
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
 
   if (stepLeft)
   {
@@ -81,6 +85,7 @@ function drawGoombaBody()
   modelTransformMatrix = goombaModelTransformMatrix;
   // modelTransformMatrix = mult( modelTransformMatrix, translate( 0.23, 0, 40.1 ));
   modelTransformMatrix = mult( modelTransformMatrix, translate( 0.23, 0, 0.1 ));
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
 
   if (!stepLeft)
   {
@@ -100,6 +105,11 @@ function drawGoombaBody()
   modelTransformMatrix = goombaModelTransformMatrix;
 }
 
+var isClockwise = true;
+var goombaJumpTime = 0;
+var goombaJumpStage = 0;
+var goombaJumpHeights = [ 0, 0.01, 0.03, 0.06, 0.08, 0.12 ];
+
 function drawGoomba()
 {
   gl.disableVertexAttribArray( texCoordLoc );
@@ -107,36 +117,53 @@ function drawGoomba()
   // rotate the goombas and make them jump
   if( !isPaused )
   {
-    // Increment rotation of star
-    goombaAngle += 2;//0.2;
-    // Keep angle from growing forever
-    goombaAngle = goombaAngle % 360;
+    if( goombaAngle > 45 )
+    {
+      isClockwise = false;
+    }
+    else if (goombaAngle < -45 )
+    {
+      isClockwise = true;
+    }
 
-    // need to move goomba up twice and down twice
-    if (goombaAngle % 64 == 0)
-      goombaJumpDirection = !goombaJumpDirection;
+    if( isClockwise )
+    {
+      goombaAngle += 0.3;
+    }
+    else
+    {
+      goombaAngle -= 0.3;
+    }
+
+    if( goombaJumpTime >= 0.1 )
+    {
+      if( goombaJumpUp )
+      {
+        goombaJumpStage++;
+      }
+      else
+      {
+        goombaJumpStage--;
+      }
+      goombaJumpTime = 0;
+    }
+
+    // For some reason it kept going into negatives so I made this more foolproof
+    if( goombaJumpStage <= 0 )
+    {
+      goombaJumpStage = 0;
+      goombaJumpUp = true;
+    }
+    else if( goombaJumpStage >= 5 )
+    {
+      goombaJumpStage = 5;
+      goombaJumpUp = false;
+    }
   }
 
-  // // reset the camera transform matrix as well (was changed to move the cubes and player)
-  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(pathCameraTransformMatrix));
-
-  // modelTransformMatrix = scalem( 2.0, 2.0, 1.0 );
-  // modelTransformMatrix = mult( modelTransformMatrix, translate( goomba_x, 0.2, goomba_z ));
-  // modelTransformMatrix = translate( goomba_x, 0.2, goomba_z );
-
-  // rotate the goomba
-  // var translatedModelTransformMatrix = modelTransformMatrix;
-  // modelTransformMatrix = rotateY( goombaAngle );
-  // modelTransformMatrix = mult(modelTransformMatrix, scalem(1.3, 1.3, 1.0));
-  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
-  if (goombaJumpDirection) {
-    // make the goomba jump up
-    modelTransformMatrix = mult(modelTransformMatrix, translate( 0, 0.08, 0 ));
-  }
-  else {
-    // make the goomba jump
-    modelTransformMatrix = mult(modelTransformMatrix, translate( 0, -0.08, 0 ));
-  }
+  modelTransformMatrix = mult(modelTransformMatrix, scalem(1.2, 1.2, 1.0));
+  modelTransformMatrix = mult(modelTransformMatrix, translate(0.0, 0.3, 0.0));
+  modelTransformMatrix = mult(modelTransformMatrix, translate( 0, goombaJumpHeights[goombaJumpStage], 0 ));
 
   drawGoombaBody();
 
@@ -151,9 +178,6 @@ function drawGoomba()
   gl.depthMask(true);
   gl.disable(gl.BLEND);
   gl.enable(gl.DEPTH_TEST);
-
-  // // set the camera transform matrix to the actual translated state
-  // gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
 }
 
 
@@ -269,12 +293,12 @@ function drawGoombaFace()
 
   // Set up transformations
   // modelTransformMatrix = mult( modelTransformMatrix, translate( -0.45, 0.23, 40 ));
-  modelTransformMatrix = mult( modelTransformMatrix, translate( -0.45, 0.23, 0 ));
+
+  modelTransformMatrix = mult(modelTransformMatrix, rotateY( goombaAngle ));
+  modelTransformMatrix = mult( modelTransformMatrix, translate( -0.45, 0.23, 0.3 ));
   modelTransformMatrix = mult( modelTransformMatrix, scalem( 0.9, 0.9, 0.9 ));
   gl.uniformMatrix4fv( modelTransformMatrixLoc, false, flatten( modelTransformMatrix ));
 
-  // applyGoombaFaceTexture();
-  // TODO TEXTURE
   applyTexture(goombaCoords);
 
 

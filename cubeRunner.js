@@ -204,6 +204,11 @@ function render(timeStamp)
     // must divide by 1000 since measured in milliseconds
     var timeDiff = (timeStamp - prevTime)/1000;
 
+    if( isMarioMode )
+        {
+            goombaJumpTime += timeDiff;
+        }
+
     if (!isPaused)
     {
         // move the cubes forward at a constant speed
@@ -217,6 +222,10 @@ function render(timeStamp)
         {
             score += timeDiff;
         }
+        // if( isMarioMode )
+        // {
+        //     goombaJumpTime += timeDiff;
+        // }
     }
     // if the game is paused, don't move the cubes
     // make sure to keep updating the timer
