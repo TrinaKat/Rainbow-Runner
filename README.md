@@ -18,7 +18,9 @@ All other gameplay controls are through the keyboard.
   * [m] to toggle Mario mode  
   * [s] to toggle sound  
   * [f] to flip the Rainbow Road pattern (regular mode)  
+  * [w] to toggle between all white cubes or white and grey cubes
   * [z] to toggle secret setting ;) (hint: enable sound first)
+
 
 #### Navigation Controls  
   * [LEFT] to move left  
