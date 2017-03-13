@@ -10,7 +10,7 @@ The Super Mario themed world also includes additional features such as Goombas t
 
 ## How To Play
 To start playing the game, press the START button on the bottom left side of the Gameboy.  
-The size of the display can be resized anytime during gameplay (after the starting screen) using the RESIZE button on the bottom left side.  
+The size of the display can be resized anytime during gameplay using the RESIZE button on the bottom left side.  
 All other gameplay controls are through the keyboard.
 
 ## Keyboard Controls
