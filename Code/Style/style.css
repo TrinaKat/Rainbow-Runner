@@ -96,6 +96,44 @@ html
   width: 3.93vh;
   border-radius: 100%;
 }
+#opening-screen-white{
+  display: inline-block;
+  background-color: white;
+  position: absolute;
+  width: 59.5vh;
+  height: 59.5vh;
+  left: 40.88vh;
+  top: 16.88vh;
+  z-index: 40;
+  opacity: 0;
+  animation: openingScreenWhite 2s;
+  -webkit-animation: openingScreenWhite 2s;  
+}
+
+@keyframes openingScreenWhite {
+  0% {
+    opacity: 1;
+    top:46.63vh;
+    height: 0vh;
+  }
+  56% {
+    opacity: 1;
+
+  }
+  57% {
+    opacity: 1;
+    
+  }
+  87% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    height: 59.5vh;
+  }
+
+}
+
 #opening-screen-black{
   display: inline-block;
   background-color: black;
@@ -109,6 +147,7 @@ html
   animation: openingScreenBlack 2s;
   -webkit-animation: openingScreenBlack 2s;  
 }
+
 
 @keyframes openingScreenBlack {
   0% {
@@ -136,8 +175,8 @@ html
   display: inline-block;
   background-color: white;
   position: absolute;
-  width: 59vh;
-  height: 59vh;
+  width: 59.5vh;
+  height: 59.5vh;
   left: 40.88vh;
   top: 16.88vh;
   z-index: 30;
