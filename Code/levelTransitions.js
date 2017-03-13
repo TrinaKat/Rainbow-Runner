@@ -114,6 +114,10 @@ function introTransition() {
   			      {
   			        isExploded = 1;
   			      }
+              if( !explodeSound )
+              {
+                playCubeCrashMusic();
+              }
   			      hasHitBorder = 1;
 		        }
 		    }

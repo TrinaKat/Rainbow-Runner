@@ -60,6 +60,10 @@ function playerCollisionDetection() {
       {
         isExploded = 1;
       }
+      if( !explodeSound )
+      {
+        playCubeCrashMusic();
+      }
       hasHitBorder = 1;
   }
 
@@ -110,6 +114,10 @@ function playerCollisionDetection() {
             isExploded = 1;
             // make the cube disappear since we have collided with it
             allCubeLineXPositions[i].splice(j, 1);
+            if( !explodeSound )
+            {
+              playCubeCrashMusic();
+            }
 
             // check to see if you collided with an question mark cube
             if (allCubeColours[i][j] == marioQuestionCubeColourIndex)

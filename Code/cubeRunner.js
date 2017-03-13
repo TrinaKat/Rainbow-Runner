@@ -176,7 +176,7 @@ window.onload = function init()
 
 // called repeatedly to render and draw our scene
 function render(timeStamp)
-{   
+{
     // clear colour buffer and depth buffer
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -212,7 +212,7 @@ function render(timeStamp)
     // first, get the time difference since the last call to render
     // must divide by 1000 since measured in milliseconds
     var timeDiff = (timeStamp - prevTime)/1000;
-    
+
     if( isMarioMode )
     {
         goombaJumpTime += timeDiff;
@@ -300,8 +300,8 @@ function render(timeStamp)
         }
         if( !explodeSound && !isStarCoinLastExploded)
         {
-            console.log("you crashed and a sound is being played");
-            playCubeCrashMusic();
+            // console.log("you crashed and a sound is being played");
+            // playCubeCrashMusic();
         }
         explodeCube( timeDiff, playerXPos );
     }
