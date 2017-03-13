@@ -169,7 +169,7 @@ window.onload = function init()
 
     // Populate all the points, create all the textures
     generateEverything();
-
+    playGameBoyMusic();
     // startSequence();
     render(0);
 }
