@@ -209,6 +209,11 @@ function render(timeStamp)
         }
     }
 
+
+    // first, get the time difference since the last call to render
+    // must divide by 1000 since measured in milliseconds
+    var timeDiff = (timeStamp - prevTime)/1000;
+    
     // Exploding cube upon collision
     if( isExploded )
     {
@@ -228,10 +233,7 @@ function render(timeStamp)
         }
         explodeCube( timeDiff, playerXPos );
     }
-    // first, get the time difference since the last call to render
-    // must divide by 1000 since measured in milliseconds
-    var timeDiff = (timeStamp - prevTime)/1000;
-
+    
     if( isMarioMode )
     {
         goombaJumpTime += timeDiff;
