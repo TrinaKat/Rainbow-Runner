@@ -209,6 +209,25 @@ function render(timeStamp)
         }
     }
 
+    // Exploding cube upon collision
+    if( isExploded )
+    {
+        if ( !isStarCoinLastExploded && !isGoombaLastExploded && ( !isInvincible || hasHitBorder ))
+        {   // if invincible, don't pause after hitting a cube
+            isPaused = true;
+            isGameOver = true;
+            if( Math.floor( score ) > highScore )
+            {
+                highScore = Math.floor( score );
+            }
+        }
+        if( !explodeSound && !isStarCoinLastExploded)
+        {
+            console.log("you crashed and a sound is being played");
+            playCubeCrashMusic();
+        }
+        explodeCube( timeDiff, playerXPos );
+    }
     // first, get the time difference since the last call to render
     // must divide by 1000 since measured in milliseconds
     var timeDiff = (timeStamp - prevTime)/1000;
@@ -286,24 +305,7 @@ function render(timeStamp)
         }
     }
 
-    // Exploding cube upon collision
-    if( isExploded )
-    {
-        if ( !isStarCoinLastExploded && !isGoombaLastExploded && ( !isInvincible || hasHitBorder ))
-        {   // if invincible, don't pause after hitting a cube
-            isPaused = true;
-            isGameOver = true;
-            if( Math.floor( score ) > highScore )
-            {
-                highScore = Math.floor( score );
-            }
-        }
-        if( !explodeSound && !isStarCoinLastExploded)
-        {
-            playCubeCrashMusic();
-        }
-        explodeCube( timeDiff, playerXPos );
-    }
+
 
     // Update lateral movement
     movementFSM.update(rightKeyDown, leftKeyDown);
@@ -318,7 +320,9 @@ function render(timeStamp)
         var verticalVelocity = jumpFSM.verticalVelocity();
     }
 
-    cameraTransformMatrix = mult(inverse(translate(velocity, verticalVelocity, 0)), cameraTransformMatrix);
+    if (!isGameOver) {
+        cameraTransformMatrix = mult(inverse(translate(velocity, verticalVelocity, 0)), cameraTransformMatrix);
+    }
     gl.uniformMatrix4fv(cameraTransformMatrixLoc, false, flatten(cameraTransformMatrix));
     playerXPos += velocity;
     playerYPos += verticalVelocity;
