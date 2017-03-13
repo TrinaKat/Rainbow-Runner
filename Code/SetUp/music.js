@@ -2,10 +2,11 @@
 var gameBoyStartFinish =0;
 var gameReadyToStart = 0;
 // onloadeddata= "var gameBoyStartSound = this; setTimeout(function() { gameBoyStartSound.play(); }, 2000)"
-function playGameBoyMusic(){
-var gameBoyStartSound = document.getElementById('gameBoyStartSound'); 
-setTimeout(function() { gameBoyStartSound.play();  gameBoyStartFinish=1;}, 2000);
-setTimeout(function(){gameReadyToStart = 1},5500);
+function playGameBoyMusic()
+{
+  var gameBoyStartSound = document.getElementById('gameBoyStartSound');
+  setTimeout(function() { gameBoyStartSound.play();  gameBoyStartFinish=1;}, 2000);
+  setTimeout(function(){gameReadyToStart = 1},5500);
 }
 function playMarioMusic()
 {

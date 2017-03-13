@@ -18,11 +18,17 @@ var gbCanvTop = "16.88vh";
 function startGamePlay()
 {
     document.getElementById("gameboyWhiteScreen").style.opacity = 0;
-    if( gameReadyToStart && (!gameHasStarted))
+    if( !gameHasStarted)
     {
         gameHasStarted = true;
-        setTimeout(function(){isMusic = true;},1500);
-        
+        if( gameReadyToStart )
+        {
+            isMusic = true;
+        }
+        else
+        {
+            setTimeout(function(){isMusic = true;},1500);
+        }
     }
 }
 
@@ -281,7 +287,7 @@ function displayPauseScreen() {
         pauseScreen.fillText("<p> to Resume", 120, 210);
         pauseScreen.fillText("<Q> to Quit", 180, 260);
     }
-    
+
 }
 
 // screen that player sees when exiting from pause mode or quitting the game
