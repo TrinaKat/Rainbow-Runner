@@ -262,11 +262,11 @@ function displayPauseScreen() {
 
         pauseScreen.font = "84px eightbit"
         pauseScreen.fillStyle = "#ffffff";  // we want white text
-        pauseScreen.fillText("Paused", 65, 110);
+        pauseScreen.fillText("Paused", 60, 110);
         // set the instructions to perform next
         pauseScreen.font = "32px eightbit"
-        pauseScreen.fillText("<p> to Resume", 120, 190);
-        pauseScreen.fillText("<Q> to Quit", 180, 240);
+        pauseScreen.fillText("<p> to Resume", 110, 190);
+        pauseScreen.fillText("<Q> to Quit", 160, 240);
     }
     else{
         pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
