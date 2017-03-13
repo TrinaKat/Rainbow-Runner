@@ -5,7 +5,7 @@ var gameReadyToStart = 0;
 function playGameBoyMusic(){
 var gameBoyStartSound = document.getElementById('gameBoyStartSound'); 
 setTimeout(function() { gameBoyStartSound.play();  gameBoyStartFinish=1;}, 2000);
-setTimeout(function(){gameReadyToStart = 1},4500);
+setTimeout(function(){gameReadyToStart = 1},5500);
 }
 function playMarioMusic()
 {
@@ -15,6 +15,8 @@ function playMarioMusic()
       document.getElementById('funSong').pause();
       document.getElementById('rainbowRoad').pause();
       document.getElementById('starSong').play();
+      if (isGameOver)
+        {document.getElementById('starSong').pause();}
   }
   else if ( !isMusic || isGameOver )
   {

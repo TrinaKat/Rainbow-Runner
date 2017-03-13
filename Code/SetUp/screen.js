@@ -304,6 +304,6 @@ function removeScreen(screen)
 // remove the specified screen from the display
 function removePauseScreen(p_screen)
 {
-    p_screen.clearRect(0, 0, pauseScreen.canvas.width, startScreen.canvas.height);
+    p_screen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
 }
 
