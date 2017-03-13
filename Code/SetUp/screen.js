@@ -42,12 +42,18 @@ function resizeCanvas()
     var screenPressStartText = document.getElementById("screen-pressStart-text");
     var screenNintendoText = document.getElementById("screen-nintendo-text");
     var screenOpeningBlack = document.getElementById("opening-screen-black");
-
+    var pauseScreenCanvas = document.getElementById( "pauseScreen" );
 
     // Enlarge by factor of ~1.5
     // Calculate Left and Top by getting (New - Old)/2
     if (ifEnlargeCanvas)
     {
+
+        pauseScreenCanvas.style.width = "63vh";
+        pauseScreenCanvas.style.height = "25vh";
+        pauseScreenCanvas.style.left = "40.88vh";
+        pauseScreenCanvas.style.top = "16.88vh";
+
         screenGameBoyText.style.fontSize = "12.0vh";
         screenGameBoyText.style.left = "-80vh";
         screenGameBoyText.style.top = "28vh";
@@ -89,6 +95,10 @@ function resizeCanvas()
         whiteScreen.style.top = "2vh";
     }
     else {
+        pauseScreenCanvas.style.width = "33vh";
+        pauseScreenCanvas.style.height = "14vh";
+        pauseScreenCanvas.style.left = "53.88vh";
+        pauseScreenCanvas.style.top = "23.38vh";
 
         screenGameBoyText.style.fontSize = "7.5vh";
         screenGameBoyText.style.left = "-93.5vh";
@@ -131,7 +141,7 @@ function resizeCanvas()
         screenOpeningBlack.style.top = "16.88vh";
     }
 
-    for ( var i = 0; i < 6; i++ )
+    for ( var i = 0; i < 5; i++ )
     {
         var mainCanvas = document.getElementsByTagName('canvas')[i];
         mainCanvas.style.height = gbCanvHeight;
@@ -239,40 +249,44 @@ function displayPauseScreen() {
     pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
 
-    pauseScreen.font = "124px eightbit"
+    pauseScreen.font = "84px eightbit"
     pauseScreen.fillStyle = "#ffffff";  // we want white text
-    pauseScreen.fillText("Paused", 230, 430);
+    pauseScreen.fillText("Paused", 90, 130);
     // set the instructions to perform next
-    pauseScreen.font = "42px eightbit"
-    pauseScreen.fillText("<p> to Resume", 300, 610);
-    pauseScreen.fillText("<Q> to Quit", 300, 730);
+    pauseScreen.font = "32px eightbit"
+    pauseScreen.fillText("<p> to Resume", 130, 210);
+    pauseScreen.fillText("<Q> to Quit", 190, 260);
 
-    // if (ifEnlargeCanvas){
-    // pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
-    // pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    // pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+    if (ifEnlargeCanvas){
 
-    // pauseScreen.font = "34px eightbit"
-    // pauseScreen.fillStyle = "#ffffff";  // we want white text
-    // pauseScreen.fillText("Paused", 100, 130);
-    // // set the instructions to perform next
-    // pauseScreen.font = "22px eightbit"
-    // pauseScreen.fillText("<p> to Resume", 130, 210);
-    // pauseScreen.fillText("<Q> to Quit", 190, 260);
-    // }
-    // else{
-    // pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
-    // pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    // pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
 
-    // pauseScreen.font = "34px eightbit"
-    // pauseScreen.fillStyle = "#ffffff";  // we want white text
-    // pauseScreen.fillText("Paused", 90, 130);
-    // // set the instructions to perform next
-    // pauseScreen.font = "22px eightbit"
-    // pauseScreen.fillText("<p> to Resume", 130, 210);
-    // pauseScreen.fillText("<Q> to Quit", 190, 260);
-    // }
+
+    pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+    pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+
+    pauseScreen.font = "54px eightbit"
+    pauseScreen.fillStyle = "#ffffff";  // we want white text
+    pauseScreen.fillText("Paused", 100, 130);
+    // set the instructions to perform next
+    pauseScreen.font = "32px eightbit"
+    pauseScreen.fillText("<p> to Resume", 130, 210);
+    pauseScreen.fillText("<Q> to Quit", 190, 260);
+    }
+    else{
+    
+    pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+    pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+
+    pauseScreen.font = "84px eightbit"
+    pauseScreen.fillStyle = "#ffffff";  // we want white text
+    pauseScreen.fillText("Paused", 90, 130);
+    // set the instructions to perform next
+    pauseScreen.font = "32px eightbit"
+    pauseScreen.fillText("<p> to Resume", 130, 210);
+    pauseScreen.fillText("<Q> to Quit", 190, 260);
+    }
     
 }
 
