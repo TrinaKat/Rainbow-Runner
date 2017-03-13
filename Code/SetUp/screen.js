@@ -39,6 +39,8 @@ function resizeCanvas()
     var screenGameBoyText = document.getElementById("screen-gameboy-text");
     var screenPressStartText = document.getElementById("screen-pressStart-text");
     var screenNintendoText = document.getElementById("screen-nintendo-text");
+    var screenOpeningBlack = document.getElementById("opening-screen-black");
+
     // Enlarge by factor of ~1.5
     // Calculate Left and Top by getting (New - Old)/2
     if (ifEnlargeCanvas)
@@ -47,6 +49,11 @@ function resizeCanvas()
         screenGameBoyText.style.left = "-80vh";
         screenGameBoyText.style.top = "28vh";
 
+        
+        screenOpeningBlack.style.width = "88.5vh";
+        screenOpeningBlack.style.height = "88.5vh";
+        screenOpeningBlack.style.left = "28.13vh";
+        screenOpeningBlack.style.top = "2vh";
 
         screenPressStartText.style.fontSize = "3.0vh";
         screenPressStartText.style.top = "50vh";
@@ -115,6 +122,11 @@ function resizeCanvas()
         whiteScreen.style.height = "59vh";
         whiteScreen.style.left = "40.88vh";
         whiteScreen.style.top = "16.88vh";
+
+        screenOpeningBlack.style.width = "59vh";
+        screenOpeningBlack.style.height = "59vh";
+        screenOpeningBlack.style.left = "40.88vh";
+        screenOpeningBlack.style.top = "16.88vh";
     }
 
     for ( var i = 0; i < 6; i++ )
