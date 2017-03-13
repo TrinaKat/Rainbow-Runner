@@ -203,6 +203,7 @@ function render(timeStamp)
         isPaused = true;
         if( !gameOverSoundHasPlayed && isMarioMode )
         {
+            document.getElementById('dieSound').currentTime = 0;
             document.getElementById('dieSound').play();
             gameOverSoundHasPlayed = true;
         }
