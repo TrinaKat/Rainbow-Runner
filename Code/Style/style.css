@@ -27,7 +27,7 @@ html
 
 }
 
-#text, #startScreen, #endScreen, #instructionScreen, #gl-canvas
+#text, #startScreen, #endScreen, #instructionScreen, #gl-canvas, #pauseScreen
 {
   position: absolute;
   width: 59vh;
@@ -44,17 +44,17 @@ html
   z-index: 0;
 }
 
- #pauseScreen
+ /*#pauseScreen
  {
   position: absolute;
-  width: 33vh;
-  height: 14vh;
+  width: 59vh;
+  height: 59vh;
 
-  left: 53.88vh;
-  top: 23.38vh;
+  left: 40.88vh;
+  top: 16.88vh;
 
   z-index: 10;
- }
+ }*/
 
 #gameboyScreen
 {

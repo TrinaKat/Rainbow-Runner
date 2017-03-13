@@ -183,6 +183,7 @@ function displayStartScreen() {
 function displayInstructionScreen()
 {
     var instructionScreenCanvas = document.getElementById( "instructionScreen" );
+
     instructionScreen = instructionScreenCanvas.getContext( "2d" );
     // clear the 2D canvas that has the start screen
     instructionScreen.clearRect(0, 0, instructionScreen.canvas.width, instructionScreen.canvas.height);
@@ -190,6 +191,8 @@ function displayInstructionScreen()
     instructionScreen.fillStyle = 'rgba(0, 0, 0, 0.84)';
     instructionScreen.fillRect(0, 0, instructionScreen.canvas.width, instructionScreen.canvas.height);
     // set the title for the start screen
+
+
     instructionScreen.font = "72px eightbit"
     instructionScreen.fillStyle = "#ffffff";
 
@@ -229,16 +232,48 @@ function displayPauseScreen() {
 	// clear the 2D canvas that has the start screen
     pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
     // set the pause screen to clear
+    //pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    //pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+    // set the title for the start screen
+    pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
     pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
     pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
-    // set the title for the start screen
-    pauseScreen.font = "84px eightbit"
+
+    pauseScreen.font = "124px eightbit"
     pauseScreen.fillStyle = "#ffffff";  // we want white text
-    pauseScreen.fillText("Paused", 90, 130);
+    pauseScreen.fillText("Paused", 250, 330);
     // set the instructions to perform next
-    pauseScreen.font = "32px eightbit"
-    pauseScreen.fillText("<p> to Resume", 130, 210);
-    pauseScreen.fillText("<Q> to Quit", 190, 260);
+    pauseScreen.font = "42px eightbit"
+    pauseScreen.fillText("<p> to Resume", 300, 510);
+    pauseScreen.fillText("<Q> to Quit", 300, 630);
+
+    // if (ifEnlargeCanvas){
+    // pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+    // pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    // pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+
+    // pauseScreen.font = "34px eightbit"
+    // pauseScreen.fillStyle = "#ffffff";  // we want white text
+    // pauseScreen.fillText("Paused", 100, 130);
+    // // set the instructions to perform next
+    // pauseScreen.font = "22px eightbit"
+    // pauseScreen.fillText("<p> to Resume", 130, 210);
+    // pauseScreen.fillText("<Q> to Quit", 190, 260);
+    // }
+    // else{
+    // pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+    // pauseScreen.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    // pauseScreen.fillRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
+
+    // pauseScreen.font = "34px eightbit"
+    // pauseScreen.fillStyle = "#ffffff";  // we want white text
+    // pauseScreen.fillText("Paused", 90, 130);
+    // // set the instructions to perform next
+    // pauseScreen.font = "22px eightbit"
+    // pauseScreen.fillText("<p> to Resume", 130, 210);
+    // pauseScreen.fillText("<Q> to Quit", 190, 260);
+    // }
+    
 }
 
 // screen that player sees when exiting from pause mode or quitting the game
