@@ -21,7 +21,7 @@ var gbCanvTop = "16.88vh";
 function startGamePlay()
 {
     document.getElementById("gameboyWhiteScreen").style.opacity = 0;
-    if( !gameHasStarted )
+    if( gameReadyToStart && (!gameHasStarted))
     {
         gameHasStarted = true;
         isMusic = true;
@@ -241,11 +241,11 @@ function displayPauseScreen() {
 
     pauseScreen.font = "124px eightbit"
     pauseScreen.fillStyle = "#ffffff";  // we want white text
-    pauseScreen.fillText("Paused", 250, 330);
+    pauseScreen.fillText("Paused", 230, 430);
     // set the instructions to perform next
     pauseScreen.font = "42px eightbit"
-    pauseScreen.fillText("<p> to Resume", 300, 510);
-    pauseScreen.fillText("<Q> to Quit", 300, 630);
+    pauseScreen.fillText("<p> to Resume", 300, 610);
+    pauseScreen.fillText("<Q> to Quit", 300, 730);
 
     // if (ifEnlargeCanvas){
     // pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
