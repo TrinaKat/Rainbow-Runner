@@ -47,9 +47,9 @@ function resizeCanvas()
     if (ifEnlargeCanvas)
     {
 
-        pauseScreenCanvas.style.width = "58vh";
+        pauseScreenCanvas.style.width = "54vh";
         pauseScreenCanvas.style.height = "25vh";
-        pauseScreenCanvas.style.left = "40.88vh";
+        pauseScreenCanvas.style.left = "45.88vh";
         pauseScreenCanvas.style.top = "11.88vh";
 
         screenGameBoyText.style.fontSize = "12.0vh";
@@ -262,11 +262,11 @@ function displayPauseScreen() {
 
         pauseScreen.font = "84px eightbit"
         pauseScreen.fillStyle = "#ffffff";  // we want white text
-        pauseScreen.fillText("Paused", 75, 110);
+        pauseScreen.fillText("Paused", 65, 110);
         // set the instructions to perform next
         pauseScreen.font = "32px eightbit"
-        pauseScreen.fillText("<p> to Resume", 130, 190);
-        pauseScreen.fillText("<Q> to Quit", 190, 240);
+        pauseScreen.fillText("<p> to Resume", 120, 190);
+        pauseScreen.fillText("<Q> to Quit", 180, 240);
     }
     else{
         pauseScreen.clearRect(0, 0, pauseScreen.canvas.width, pauseScreen.canvas.height);
@@ -275,11 +275,11 @@ function displayPauseScreen() {
 
         pauseScreen.font = "84px eightbit"
         pauseScreen.fillStyle = "#ffffff";  // we want white text
-        pauseScreen.fillText("Paused", 70, 130);
+        pauseScreen.fillText("Paused", 60, 130);
         // set the instructions to perform next
         pauseScreen.font = "32px eightbit"
-        pauseScreen.fillText("<p> to Resume", 130, 210);
-        pauseScreen.fillText("<Q> to Quit", 190, 260);
+        pauseScreen.fillText("<p> to Resume", 120, 210);
+        pauseScreen.fillText("<Q> to Quit", 180, 260);
     }
     
 }
