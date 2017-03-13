@@ -24,7 +24,8 @@ function startGamePlay()
     if( gameReadyToStart && (!gameHasStarted))
     {
         gameHasStarted = true;
-        isMusic = true;
+        setTimeout(function(){isMusic = true;},1500);
+        
     }
 }
 
