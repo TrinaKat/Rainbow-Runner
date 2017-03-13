@@ -204,10 +204,10 @@ function explodeCube( timeDiff, x )
   else
   {
     isExploded = false;
-    explodeSound = false;
     if( !isGameOver )
     {
       score += 5;
+      explodeSound = false;
     }
 
     explodePositions_x =
