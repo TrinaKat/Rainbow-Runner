@@ -278,48 +278,48 @@ function drawPiranha()
   applyTexture(pipeCoords);
   drawCube(4);
 
-  if (!isPaused)
+  // if (!isPaused)
+  // {
+  if (headAngle == 30 )
   {
-    if (headAngle == 30 )
+    turnLeft = false;
+  }
+  else if (headAngle == -30 )
+  {
+    turnLeft = true;
+  }
+  if (turnLeft)
+  {
+    headAngle += 0.5;
+  }
+  else
+  {
+    headAngle -= 0.5;
+  }
+
+  if (moveLip)
+  {
+    if (upperLipCounter == lipHeights.length - 1 )
     {
-      turnLeft = false;
+      lipCountUp = false;
     }
-    else if (headAngle == -30 )
+    else if (upperLipCounter == 0 )
     {
-      turnLeft = true;
+      lipCountUp = true;
     }
-    if (turnLeft)
+    if (lipCountUp)
     {
-      headAngle += 0.5;
+      upperLipCounter++;
+      lowerLipCounter--;
     }
     else
     {
-      headAngle -= 0.5;
+      upperLipCounter--;
+      lowerLipCounter++;
     }
-
-    if (moveLip)
-    {
-      if (upperLipCounter == lipHeights.length - 1 )
-      {
-        lipCountUp = false;
-      }
-      else if (upperLipCounter == 0 )
-      {
-        lipCountUp = true;
-      }
-      if (lipCountUp)
-      {
-        upperLipCounter++;
-        lowerLipCounter--;
-      }
-      else
-      {
-        upperLipCounter--;
-        lowerLipCounter++;
-      }
-    }
-    moveLip = !moveLip;
   }
+  moveLip = !moveLip;
+  // }
   
 }
 

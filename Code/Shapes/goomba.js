@@ -113,51 +113,51 @@ function drawGoomba()
   gl.disableVertexAttribArray( texCoordLoc );
 
   // rotate the goombas and make them jump
-  if( !isPaused )
+  // if( !isPaused )
+  // {
+  if( goombaAngle > 45 )
   {
-    if( goombaAngle > 45 )
-    {
-      isClockwise = false;
-    }
-    else if (goombaAngle < -45 )
-    {
-      isClockwise = true;
-    }
+    isClockwise = false;
+  }
+  else if (goombaAngle < -45 )
+  {
+    isClockwise = true;
+  }
 
-    if( isClockwise )
+  if( isClockwise )
+  {
+    goombaAngle += 0.3;
+  }
+  else
+  {
+    goombaAngle -= 0.3;
+  }
+
+  if( goombaJumpTime >= 0.1 )
+  {
+    if( goombaJumpUp )
     {
-      goombaAngle += 0.3;
+      goombaJumpStage++;
     }
     else
     {
-      goombaAngle -= 0.3;
+      goombaJumpStage--;
     }
-
-    if( goombaJumpTime >= 0.1 )
-    {
-      if( goombaJumpUp )
-      {
-        goombaJumpStage++;
-      }
-      else
-      {
-        goombaJumpStage--;
-      }
-      goombaJumpTime = 0;
-    }
-
-    // For some reason it kept going into negatives so I made this more foolproof
-    if( goombaJumpStage <= 0 )
-    {
-      goombaJumpStage = 0;
-      goombaJumpUp = true;
-    }
-    else if( goombaJumpStage >= 5 )
-    {
-      goombaJumpStage = 5;
-      goombaJumpUp = false;
-    }
+    goombaJumpTime = 0;
   }
+
+  // For some reason it kept going into negatives so I made this more foolproof
+  if( goombaJumpStage <= 0 )
+  {
+    goombaJumpStage = 0;
+    goombaJumpUp = true;
+  }
+  else if( goombaJumpStage >= 5 )
+  {
+    goombaJumpStage = 5;
+    goombaJumpUp = false;
+  }
+  // }
 
   modelTransformMatrix = mult(modelTransformMatrix, scalem(1.2, 1.2, 1.0));
   modelTransformMatrix = mult(modelTransformMatrix, translate(0.0, 0.3, 0.0));
