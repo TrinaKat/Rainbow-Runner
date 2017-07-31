@@ -90,6 +90,12 @@ function generateNewCubeLine()
                 if (Math.random() < 0.3)
                   cubeColour = goombaColourIndex;
             }
+            // decide if we will replace cube with piranha
+            // but we still save the position of the piranha in the cube positions arrays so we can use the same collision detection scheme as for the cubes
+            else if (randomPosition % (7 + Math.floor(Math.random() * 5)) == 0) {
+                if (Math.random() < 0.3)
+                  cubeColour = piranhaColourIndex;
+            }
         }
 
         colours.push(cubeColour);
@@ -165,6 +171,10 @@ function drawAndMoveAllCubes()
                 else if ( allCubeColours[r][c] == goombaColourIndex )
                 {
                     drawGoomba();
+                }
+                else if ( allCubeColours[r][c] == piranhaColourIndex )
+                {
+                    drawPiranha();
                 }
                 else
                 {

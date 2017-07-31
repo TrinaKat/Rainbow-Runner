@@ -100,7 +100,8 @@ function playerCollisionDetection() {
               document.getElementById('chaCHING').play();
             }
 
-          if( allCubeColours[i][j] == goombaColourIndex )
+          // SHouldn't have exploding bricks animation
+          if( allCubeColours[i][j] == goombaColourIndex || allCubeColours[i][j] == piranhaColourIndex)
             {
               isGoombaLastExploded = true;
             }

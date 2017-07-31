@@ -48,6 +48,7 @@ var normalsArray = [];
 function generateEverything()
 {
   // POPULATE ALL THE POINTS
+  generatePiranhaTooth();
   generateCube();
   generateSphere();
   generateCubeOutline();
