@@ -88,7 +88,10 @@ function eventListeners()
               {
                   console.log("f key");
               }
-              isFlipped = !isFlipped;
+              if( !isMarioMode )
+              {
+                isFlipped = !isFlipped;
+              }
               break;
           case 115:  // 's' key
               if( devModeOn )
