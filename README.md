@@ -1,7 +1,6 @@
 # **Rainbow Runner**
-###### by Karen Li, Katrina Wijaya, Emily Chen, Robert Zalog, and Mai Saleh
-https://ucla-wi17-cs174a.github.io/project-group05/
-
+Check out the game [here](https://trinakat.github.io/Rainbow-Runner/)!
+##### Forked from a [group project](https://github.com/ucla-wi17-cs174a/project-group05/)
 
 ## Overview
 A vertically scrolling game inspired by Cube Runner, Mario Kart's Rainbow Road, and the Super Mario franchise.  
@@ -33,8 +32,9 @@ All other gameplay controls are through the keyboard.
   * [q] to quit
   * [i] to toggle instructions display on start screen
 
-## Advanced Topics
-Since our group had five members, we implemented three advanced topics:
+#### Some Notable Features
   1. Collision Detection with all objects and the player
   2. Shadow under the player
   3. Curves for the cloud outlines
+  4. All the texture mapping
+  5. Complex shapes (Star, Coin, Goombas, Piranhas)
